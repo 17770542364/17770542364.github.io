@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Bubbles</title>
+  <title>Bubble</title>
   
-  <subtitle>泡影的编程博客</subtitle>
+  <subtitle>Bubble&#39;s Blog</subtitle>
   <link href="https://17770542364.github.io/atom.xml" rel="self"/>
   
   <link href="https://17770542364.github.io/"/>
-  <updated>2022-07-05T08:14:42.577Z</updated>
+  <updated>2022-07-05T09:27:18.056Z</updated>
   <id>https://17770542364.github.io/</id>
   
   <author>
@@ -21,22 +21,26 @@
     <link href="https://17770542364.github.io/2022/07/05/di-yi-pian-wen-zhang/"/>
     <id>https://17770542364.github.io/2022/07/05/di-yi-pian-wen-zhang/</id>
     <published>2022-07-05T02:39:05.000Z</published>
-    <updated>2022-07-05T08:14:42.577Z</updated>
+    <updated>2022-07-05T09:27:18.056Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;今天调试了半天，终于把自己的博客网站配置好了。&lt;br&gt;今后我会陆续把之前写的一些笔记整理归纳好发布在这里。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;今天调试了半天，终于把自己的Hexo博客网站配置好了。&lt;br&gt;今后我会陆续把之前写的一些笔记整理归纳好发布在这里。&lt;/p&gt;
 </summary>
         
       
     
     
     
+    <category term="随笔" scheme="https://17770542364.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
-    <category term="随想" scheme="https://17770542364.github.io/tags/%E9%9A%8F%E6%83%B3/"/>
+    
+    <category term="Hexo" scheme="https://17770542364.github.io/tags/Hexo/"/>
+    
+    <category term="Git" scheme="https://17770542364.github.io/tags/Git/"/>
     
   </entry>
   
