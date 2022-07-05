@@ -81,6 +81,33 @@
     </entry>
     
     
+    
+    <entry>
+      <title>第一次创建自己的博客</title>
+      <link href="/2022/07/05/di-yi-ci-chuang-jian-zi-ji-de-bo-ke/"/>
+      <url>/2022/07/05/di-yi-ci-chuang-jian-zi-ji-de-bo-ke/</url>
+      
+        <content type="html"><![CDATA[<hr><p>​        今天使用Hexo在GitHub上搭建了自己的博客，忙活了大半天，各种下插件，调参数，弄完之后自我感觉效果还可以，虽然大部分是直接用的大佬的模板。</p><p>​        后面我会陆续将之前做的一些笔记归纳上传到这个博客中，并记录自己在学习和生活中遇到的困难和得到的收获。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 随笔 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Blog </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
