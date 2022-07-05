@@ -6,7 +6,7 @@
   <link href="https://17770542364.github.io/atom.xml" rel="self"/>
   
   <link href="https://17770542364.github.io/"/>
-  <updated>2022-07-05T11:16:32.938Z</updated>
+  <updated>2022-07-05T11:49:07.453Z</updated>
   <id>https://17770542364.github.io/</id>
   
   <author>
@@ -17,11 +17,65 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>WebRTC客户端(一) WebRTC架构</title>
+    <link href="https://17770542364.github.io/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/"/>
+    <id>https://17770542364.github.io/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/</id>
+    <published>2022-07-05T11:47:47.000Z</published>
+    <updated>2022-07-05T11:49:07.453Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;WebRTC整体架构&quot;&gt;&lt;a href=&quot;#WebRTC整体架构&quot; class=&quot;headerlink&quot; title=&quot;WebRTC整体架构&quot;&gt;&lt;/a&gt;WebRTC整体架构&lt;/h2&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    
+    <category term="WebRTC" scheme="https://17770542364.github.io/tags/WebRTC/"/>
+    
+    <category term="流媒体" scheme="https://17770542364.github.io/tags/%E6%B5%81%E5%AA%92%E4%BD%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>异步IO事件处理</title>
+    <link href="https://17770542364.github.io/2022/07/05/yi-bu-io-shi-jian-chu-li/"/>
+    <id>https://17770542364.github.io/2022/07/05/yi-bu-io-shi-jian-chu-li/</id>
+    <published>2022-07-05T11:44:34.000Z</published>
+    <updated>2022-07-05T11:46:35.495Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一、通过fork的方式实现高性能网络服务器&quot;&gt;&lt;a href=&quot;#一、通过fork的方式实现高性能网络服务器&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    
+    <category term="流媒体" scheme="https://17770542364.github.io/tags/%E6%B5%81%E5%AA%92%E4%BD%93/"/>
+    
+    <category term="服务器" scheme="https://17770542364.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>直播平台技术原理</title>
     <link href="https://17770542364.github.io/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/"/>
     <id>https://17770542364.github.io/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/</id>
-    <published>2022-07-05T11:15:19.000Z</published>
-    <updated>2022-07-05T11:16:32.938Z</updated>
+    <published>2022-07-05T11:38:29.000Z</published>
+    <updated>2022-07-05T11:46:55.733Z</updated>
     
     
       
@@ -34,8 +88,10 @@
     
     
     
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
     
-    <category term="音视频" scheme="https://17770542364.github.io/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    <category term="流媒体" scheme="https://17770542364.github.io/tags/%E6%B5%81%E5%AA%92%E4%BD%93/"/>
     
   </entry>
   

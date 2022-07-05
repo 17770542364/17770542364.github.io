@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="标签, Bubble">
+    <meta name="keywords" content="分类: 音视频, Bubble">
     <meta name="description" content="一个简单的个人博客，记录自己学习中遇到的困难和收获">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -30,7 +30,7 @@
 
     
 
-    <title>标签 | Bubble</title>
+    <title>分类: 音视频 | Bubble</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -349,73 +349,219 @@
 
     
 
-<div id="tags" class="container chip-container">
+<div id="category-cloud" class="container chip-container">
     <div class="card">
         <div class="card-content">
             <div class="tag-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
+                <i class="fas fa-bookmark"></i>&nbsp;&nbsp;文章分类
             </div>
             <div class="tag-chips">
                 
                 
-                <a href="/tags/WebRTC/" title="WebRTC: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="WebRTC" style="background-color: #F9EBEA;">WebRTC
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
                 
-                
-                <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/" title="流媒体: 3">
+                <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" title="音视频: 3">
                     <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="流媒体" style="background-color: #F5EEF8;">流媒体
+                             chip-active "
+                            style="background-color: #F9EBEA;">音视频
                         <span class="tag-length">3</span>
                     </span>
                 </a>
                 
-                
-                <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="服务器: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="服务器" style="background-color: #D5F5E3;">服务器
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
                 
             </div>
         </div>
     </div>
 </div>
 
-    
-    <link rel="stylesheet" type="text/css" href="/libs/jqcloud/jqcloud.css">
-<style type="text/css">
-    #tag-wordcloud {
-        width: 100%;
-        height: 300px;
-    }
-</style>
-
-<div class="container" data-aos="fade-up">
-    <div class="card">
-        <div id="tag-wordcloud" class="card-content"></div>
-    </div>
-</div>
-
-<script type="text/javascript" src="/libs/jqcloud/jqcloud-1.0.4.min.js"></script>
-<script type="text/javascript">
-    
-
-    $('#tag-wordcloud').jQCloud([{"text":"WebRTC","weight":1,"link":"/tags/WebRTC/"},{"text":"流媒体","weight":3,"link":"/tags/流媒体/"},{"text":"服务器","weight":1,"link":"/tags/服务器/"}], {
-        autoResize: true
-    });
-</script>
 
     
 
+    <article id="articles" class="container articles">
+        <div class="row tags-posts">
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="WebRTC客户端(一) WebRTC架构">
+                            
+                            <span class="card-title">WebRTC客户端(一) WebRTC架构</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                WebRTC整体架构
+
+
+
+WebRTC目录结构
+
+
+
+
+
+WebRTC Modules目录
+
+
+
+
+
+WebRTC运行机制轨与流
+Track 轨     各个轨之间保持平行
+MediaStream 流 每个流里面包括了多条轨
+
+WebRT
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-05
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" class="post-category">
+                                    音视频
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/WebRTC/">
+                            <span class="chip bg-color">WebRTC</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/">
+                            <span class="chip bg-color">流媒体</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2022/07/05/yi-bu-io-shi-jian-chu-li/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="异步IO事件处理">
+                            
+                            <span class="card-title">异步IO事件处理</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                一、通过fork的方式实现高性能网络服务器
+每收到一个连接就创建一个子进程
+父进程负责接收连接
+通过fork创建子进程
+
+#include &lt;iostream&gt;
+
+#include &lt;unistd.h&gt;
+#inclu
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-05
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" class="post-category">
+                                    音视频
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/">
+                            <span class="chip bg-color">流媒体</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                            <span class="chip bg-color">服务器</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="直播平台技术原理">
+                            
+                            <span class="card-title">直播平台技术原理</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                直播平台技术原理直播相关基础知识图片原始采样数据–RGBRGB格式：每一个数据单元表示RGB三原色，用各原色其所占位数来表示
+RGB888(24位色)
+RGB565(16位色)
+为什么RGB565要多留一位给绿色G？
+人眼大约有1.2亿个视
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-05
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" class="post-category">
+                                    音视频
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/">
+                            <span class="chip bg-color">流媒体</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </article>
 </main>
+
+
 
 
     <footer class="page-footer bg-color">
