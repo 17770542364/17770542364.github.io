@@ -6,7 +6,7 @@
   <link href="https://17770542364.github.io/atom.xml" rel="self"/>
   
   <link href="https://17770542364.github.io/"/>
-  <updated>2022-07-05T09:27:18.056Z</updated>
+  <updated>2022-07-05T11:16:32.938Z</updated>
   <id>https://17770542364.github.io/</id>
   
   <author>
@@ -17,51 +17,25 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>第一篇文章</title>
-    <link href="https://17770542364.github.io/2022/07/05/di-yi-pian-wen-zhang/"/>
-    <id>https://17770542364.github.io/2022/07/05/di-yi-pian-wen-zhang/</id>
-    <published>2022-07-05T02:39:05.000Z</published>
-    <updated>2022-07-05T09:27:18.056Z</updated>
+    <title>直播平台技术原理</title>
+    <link href="https://17770542364.github.io/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/"/>
+    <id>https://17770542364.github.io/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/</id>
+    <published>2022-07-05T11:15:19.000Z</published>
+    <updated>2022-07-05T11:16:32.938Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;今天调试了半天，终于把自己的Hexo博客网站配置好了。&lt;br&gt;今后我会陆续把之前写的一些笔记整理归纳好发布在这里。&lt;/p&gt;
-</summary>
+    <summary type="html">&lt;h1 id=&quot;直播平台技术原理&quot;&gt;&lt;a href=&quot;#直播平台技术原理&quot; class=&quot;headerlink&quot; title=&quot;直播平台技术原理&quot;&gt;&lt;/a&gt;直播平台技术原理&lt;/h1&gt;&lt;h2 id=&quot;直播相关基础知识&quot;&gt;&lt;a href=&quot;#直播相关基础知识&quot;</summary>
         
       
     
     
     
-    <category term="随笔" scheme="https://17770542364.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
-    
-    <category term="Hexo" scheme="https://17770542364.github.io/tags/Hexo/"/>
-    
-    <category term="Git" scheme="https://17770542364.github.io/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://17770542364.github.io/2022/07/05/hello-world/"/>
-    <id>https://17770542364.github.io/2022/07/05/hello-world/</id>
-    <published>2022-07-05T02:21:39.292Z</published>
-    <updated>2022-07-05T02:19:13.019Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
-        
-      
-    
-    
-    
+    <category term="音视频" scheme="https://17770542364.github.io/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
     
   </entry>
   
