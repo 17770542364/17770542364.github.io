@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>泡影</title>
+  
+  <subtitle>Bubble&#39;s Blog</subtitle>
+  <link href="https://17770542364.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://17770542364.github.io/"/>
+  <updated>2022-07-11T09:16:14.604Z</updated>
+  <id>https://17770542364.github.io/</id>
+  
+  <author>
+    <name>Jitong Zeng</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>实习记录(1)</title>
+    <link href="https://17770542364.github.io/2022/07/11/shi-xi-ji-lu-1/"/>
+    <id>https://17770542364.github.io/2022/07/11/shi-xi-ji-lu-1/</id>
+    <published>2022-07-11T09:16:14.000Z</published>
+    <updated>2022-07-11T09:16:14.604Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://17770542364.github.io/2022/07/11/hello-world/"/>
+    <id>https://17770542364.github.io/2022/07/11/hello-world/</id>
+    <published>2022-07-11T09:04:18.760Z</published>
+    <updated>2022-07-11T09:04:18.760Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>WebRTC客户端(一) WebRTC架构</title>
+    <link href="https://17770542364.github.io/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/"/>
+    <id>https://17770542364.github.io/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/</id>
+    <published>2022-07-05T11:47:47.000Z</published>
+    <updated>2022-07-05T12:02:04.304Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;WebRTC整体架构&quot;&gt;&lt;a href=&quot;#WebRTC整体架构&quot; class=&quot;headerlink&quot; title=&quot;WebRTC整体架构&quot;&gt;&lt;/a&gt;WebRTC整体架构&lt;/h2&gt;&lt;p&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    
+    <category term="WebRTC" scheme="https://17770542364.github.io/tags/WebRTC/"/>
+    
+    <category term="音视频" scheme="https://17770542364.github.io/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>异步IO事件处理</title>
+    <link href="https://17770542364.github.io/2022/07/05/yi-bu-io-shi-jian-chu-li/"/>
+    <id>https://17770542364.github.io/2022/07/05/yi-bu-io-shi-jian-chu-li/</id>
+    <published>2022-07-05T11:44:34.000Z</published>
+    <updated>2022-07-05T12:01:54.952Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一、通过fork的方式实现高性能网络服务器&quot;&gt;&lt;a href=&quot;#一、通过fork的方式实现高性能网络服务器&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    <category term="服务器" scheme="https://17770542364.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>直播平台技术原理</title>
+    <link href="https://17770542364.github.io/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/"/>
+    <id>https://17770542364.github.io/2022/07/05/zhi-bo-ping-tai-ji-zhu-yuan-li/</id>
+    <published>2022-07-05T11:38:29.000Z</published>
+    <updated>2022-07-05T12:01:58.837Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;直播平台技术原理&quot;&gt;&lt;a href=&quot;#直播平台技术原理&quot; class=&quot;headerlink&quot; title=&quot;直播平台技术原理&quot;&gt;&lt;/a&gt;直播平台技术原理&lt;/h1&gt;&lt;h2 id=&quot;直播相关基础知识&quot;&gt;&lt;a href=&quot;#直播相关基础知识&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第一次创建自己的博客</title>
+    <link href="https://17770542364.github.io/2022/07/05/di-yi-ci-chuang-jian-zi-ji-de-bo-ke/"/>
+    <id>https://17770542364.github.io/2022/07/05/di-yi-ci-chuang-jian-zi-ji-de-bo-ke/</id>
+    <published>2022-07-05T01:25:00.000Z</published>
+    <updated>2022-07-05T11:58:44.426Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;hr&gt;
+&lt;p&gt;​		今天使用Hexo在GitHub上搭建了自己的博客，忙活了大半天，各种下插件，调参数，弄完之后自我感觉效果还可以，虽然大部分是直接用的大佬的模板。&lt;/p&gt;
+&lt;p&gt;​		后面我会陆续将之前做的一些笔记归纳上传到这个博客中，并记录自己在学习和生活中遇到的困难和得到</summary>
+        
+      
+    
+    
+    
+    <category term="随笔" scheme="https://17770542364.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+    <category term="Hexo" scheme="https://17770542364.github.io/tags/Hexo/"/>
+    
+    <category term="Blog" scheme="https://17770542364.github.io/tags/Blog/"/>
+    
+  </entry>
+  
+</feed>
