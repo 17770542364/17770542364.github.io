@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="第一次创建自己的博客, 泡影">
-    <meta name="description" content="这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要">
+    <meta name="description" content="关于写博客的一些事项">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -377,14 +377,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-05
+                    2022-07-12
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    105
+                    296
                 </div>
                 
 
@@ -422,6 +422,24 @@
                 <hr>
 <p>​		今天使用Hexo在GitHub上搭建了自己的博客，忙活了大半天，各种下插件，调参数，弄完之后自我感觉效果还可以，虽然大部分是直接用的大佬的模板。</p>
 <p>​		后面我会陆续将之前做的一些笔记归纳上传到这个博客中，并记录自己在学习和生活中遇到的困难和得到的收获。</p>
+<p>hexo常用操作：</p>
+<ul>
+<li><p>hexo new post “article title”</p>
+<p>创建新文章</p>
+</li>
+<li><p>hexo s等价于 hexo server </p>
+<p>#Hexo 会监视文件变动并自动更新，除修改站点配置文件外,无须重启服务器,直接刷新网页即可生效。</p>
+</li>
+<li><p>hexo g 等价于 hexo generate </p>
+<p>生成静态网页 (执行 $ hexo g 后会在站点根目录下生成public&gt;文件夹, hexo会将”&lt;font /blog/source/“ 下面的.md后缀的文件编译为.html后缀的文件,存放在”/blog/public/ “ 路径下)</p>
+</li>
+<li><p>hexo d 等价于 hexo deploy </p>
+<p>#将本地数据部署到远端服务器(如github)</p>
+</li>
+<li><p>hexo clean </p>
+<p>#清除缓存 ,网页正常情况下可以忽略此条命令,执行该指令后,会删掉站点根目录下的public文件夹</p>
+</li>
+</ul>
 
                 
             </div>
@@ -631,7 +649,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+                            关于写博客的一些事项
                         
                     </div>
                     <div class="publish-info">

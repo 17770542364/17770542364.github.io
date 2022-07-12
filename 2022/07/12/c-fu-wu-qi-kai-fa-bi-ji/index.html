@@ -1,0 +1,2972 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="C++服务器开发笔记, 泡影">
+    <meta name="description" content="第四章 网络编程重难点解析4.1 学网络编程应该掌握的socket函数
+
+
+函数名称
+简单说明
+
+
+
+socket
+创造某种类型的套接字
+
+
+bind
+将一个socket绑定到一个IP与端口的二元组上
+
+
+listen
+将一个socket变">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+    
+
+    <title>C++服务器开发笔记 | 泡影</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="泡影" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">泡影</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">泡影</div>
+        <div class="logo-desc">
+            
+            一个简单的个人博客，记录自己学习中遇到的困难和收获
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/17770542364/17770542364.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/17770542364/17770542364.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">C++服务器开发笔记</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                                <span class="chip bg-color">服务器</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+                                <span class="chip bg-color">网络编程</span>
+                            </a>
+                        
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C++</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/C/" class="post-category">
+                                C++
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-07-12
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-07-12
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    15.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    63 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="第四章-网络编程重难点解析"><a href="#第四章-网络编程重难点解析" class="headerlink" title="第四章 网络编程重难点解析"></a>第四章 网络编程重难点解析</h2><h3 id="4-1-学网络编程应该掌握的socket函数"><a href="#4-1-学网络编程应该掌握的socket函数" class="headerlink" title="4.1 学网络编程应该掌握的socket函数"></a>4.1 学网络编程应该掌握的socket函数</h3><table>
+<thead>
+<tr>
+<th>函数名称</th>
+<th>简单说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>socket</td>
+<td>创造某种类型的套接字</td>
+</tr>
+<tr>
+<td>bind</td>
+<td>将一个socket绑定到一个IP与端口的二元组上</td>
+</tr>
+<tr>
+<td>listen</td>
+<td>将一个socket变为监听状态</td>
+</tr>
+<tr>
+<td>connect</td>
+<td>试图建立一个TCP连接，一般用于客户端</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>尝试接收一个连接，一般用于服务端</td>
+</tr>
+<tr>
+<td>send</td>
+<td>通过一个socket发送数据</td>
+</tr>
+<tr>
+<td>recv</td>
+<td>通过一个socket接受数据</td>
+</tr>
+<tr>
+<td>select</td>
+<td>判断一组socket上的读写和异常事件</td>
+</tr>
+<tr>
+<td>gethostbyname</td>
+<td>通过域名获取机器地址</td>
+</tr>
+<tr>
+<td>close</td>
+<td>关闭一个套接字，回收该socket对应的资源。windows中对应的是closesocket</td>
+</tr>
+<tr>
+<td>shutdown</td>
+<td>关闭socket收发通道</td>
+</tr>
+<tr>
+<td>setsockopt</td>
+<td>设置一个套接字选项</td>
+</tr>
+<tr>
+<td>getsockopt</td>
+<td>获取一个套接字选项</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-TCP网络通信的基本流程"><a href="#4-2-TCP网络通信的基本流程" class="headerlink" title="4.2 TCP网络通信的基本流程"></a>4.2 TCP网络通信的基本流程</h3><p>对于服务器：</p>
+<ol>
+<li>调用socket函数创建socket（监听socket）。</li>
+<li>调用bind函数将socket绑定到某个IP和端口的二元组上</li>
+<li>调用listen函数开启监听</li>
+<li>当有客户端请求连接上来时，调用accept函数接收连接，产生一个新的socket（客户端socket）。</li>
+<li>基于新产生的socket调用send或recv函数，开始与客户端进行数据交流。</li>
+<li>通信结束后，调用close函数关闭监听socket。</li>
+</ol>
+<p>对于客户端：</p>
+<ol>
+<li>调用socket函数创建客户端socket。</li>
+<li>调用connect函数尝试连接服务器。</li>
+<li>连接成功后调用send或recv函数，开始与服务器进行数据交流。</li>
+<li>通信结束后，调用close函数关闭监听socket。</li>
+</ol>
+<h3 id="4-3-bind函数"><a href="#4-3-bind函数" class="headerlink" title="4.3 bind函数"></a>4.3 bind函数</h3><h4 id="对bind函数如何选择绑定地址"><a href="#对bind函数如何选择绑定地址" class="headerlink" title="对bind函数如何选择绑定地址"></a>对bind函数如何选择绑定地址</h4><p>INADDR_ANY：如果应用程序不关心bind绑定的IP，则可以使用INADDR_ANY，底层的（协议栈）服务会自动选择一个合适的IP地址，这样在多个网卡机器上选择IP地址会变得简单。</p>
+<h4 id="bind函数的端口号问题"><a href="#bind函数的端口号问题" class="headerlink" title="bind函数的端口号问题"></a>bind函数的端口号问题</h4><p>如果将bind函数中的端口号设置为0，操作系统会随机为程序分配一个可用的监听端口。</p>
+<p>客户端程序中的socket也可以调用bind函数来绑定一个端口号。</p>
+<h3 id="4-4-select函数的用法和原理"><a href="#4-4-select函数的用法和原理" class="headerlink" title="4.4 select函数的用法和原理"></a>4.4 select函数的用法和原理</h3><p>select函数用于检测在一组socket中是否有事件就绪。事件就绪一般分为以下三类：</p>
+<p>1）读事件就绪</p>
+<p>2）写事件就绪</p>
+<p>3）异常事件就绪</p>
+<p>函数签名如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">int select(int nfds, fd_set *readfds,
+			fd_set *writefds, fd_set *exceptfds,
+			struct timeval *timeout);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>参数说明：</p>
+<p>1）nfds：Linux上的socket也叫作fd，将这个参数的值设置为所有需要使用select函数检测事件的fd中的最大值加1</p>
+<p>2）readfds：需要监听可读事件的fd集合</p>
+<p>3）writefds：需要监听可写事件的fd集合</p>
+<p>4）exceptfds：需要监听异常事件的fd集合</p>
+<p>5）timeout：超时时间，在这个参数设定的时间内检测这些fd的事件，超过这个时间后，select函数将立即返回。</p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ol>
+<li>select函数在调用前后可能会修改readfds、writefds和exceptfds这三个集合中的内容，所以如果想在下次调用select函数时复用这些fd_set变量，就要在下次调用前使用FD_ZERO将fd_set清零，然后调用FD_SET将需要检测事件的fd重新添加到fd_set中。</li>
+<li>select函数也会修改timeval结构体的值，如果想要复用这个变量，则必须给timeval变量重新设置值。</li>
+<li>select函数的timeval结构体的tv_set和tv_usec如果都被设置为0，即检测事件的总时间被设置为0，则其行为是select检测相关集合中的fd，如果没有需要的事件，则立即返回。</li>
+<li>如果将select函数的timeval参数设为NULL，则select函数会一直阻塞下去，直到需要的事件触发。</li>
+<li>在Linux中，select函数的第一个参数必须被设置为需要检测事件所有fd中的最大值加1。</li>
+</ol>
+<h4 id="select函数的缺点"><a href="#select函数的缺点" class="headerlink" title="select函数的缺点"></a>select函数的缺点</h4><ol>
+<li>每次调用select函数时，都需要把fd集合从用户态复制到内核态，这个开销在fd较多时会很大，同时每次调用select函数都需要在内核中遍历传递进来的所有fd，这个开销在fd较多时也很大。</li>
+<li>单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024.可以通过先修改宏定义然后重新编译内核来调整这一限制，但是这样非常麻烦且效率低下。</li>
+<li>select函数在每次调用之前都要对传入的参数进行重新设定，这样做比较麻烦。</li>
+<li>在Linux上，select函数的实现原理是其底层使用了poll函数。</li>
+</ol>
+<p>在windows中，select函数结束后，不会修改其参数timeval的值，并且select函数的第一个参数传入任意值都可以。为了兼容跨平台代码，一般保持与Linux代码一致。</p>
+<h3 id="4-5-socket函数的阻塞模式和非阻塞模式"><a href="#4-5-socket函数的阻塞模式和非阻塞模式" class="headerlink" title="4.5 socket函数的阻塞模式和非阻塞模式"></a>4.5 socket函数的阻塞模式和非阻塞模式</h3><p>无论是windows还是linux，默认创建的socket都是阻塞模式的。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// Linux上设置非阻塞模式的方法
+int oldSocketFlag = fcntl(sockfd, F_GETFL, 0);
+int newSocketFlag = oldSocketFlag | O_NONBLOCK;
+fcntl(sockfd, F_SETFL, newSocketFlag);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// windows上设置阻塞和非阻塞模式的方法
+u_long argp = 1;	// 非阻塞模式
+ioctlsocket(s, FIONBIO, &amp;argp);
+
+u_long argp = 0;	// 阻塞模式
+ioctlsocket(s, FIONBIO, &amp;argp);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="4-6-send和recv函数在阻塞和非阻塞模式下的表现"><a href="#4-6-send和recv函数在阻塞和非阻塞模式下的表现" class="headerlink" title="4.6 send和recv函数在阻塞和非阻塞模式下的表现"></a>4.6 send和recv函数在阻塞和非阻塞模式下的表现</h3><p>send函数：将应用层发送缓冲区的数据拷贝到内核缓冲区中。</p>
+<p>recv函数：将内核缓冲区中的数据拷贝到应用程序的缓冲区中。</p>
+<p>当发送接收双方的内核缓存区都被填满时，继续调用send函数，或者发送接收双方的内核缓存区都没有数据时，继续调用recv函数：</p>
+<ol>
+<li>当socket是阻塞模式时，继续调用send/recv函数，程序会阻塞在send/recv调用处</li>
+<li>当socket是非阻塞模式时，继续调用send/recv函数，函数不会阻塞程序执行流，而是立即出错并返回，得到一个相关的错误码。</li>
+</ol>
+<h4 id="非阻塞模式下send和recv函数的返回值总结"><a href="#非阻塞模式下send和recv函数的返回值总结" class="headerlink" title="非阻塞模式下send和recv函数的返回值总结"></a>非阻塞模式下send和recv函数的返回值总结</h4><table>
+<thead>
+<tr>
+<th>返回值n</th>
+<th>返回值的含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大于0</td>
+<td>成功发送(send)或接收(recv)n字节</td>
+</tr>
+<tr>
+<td>0</td>
+<td>对端关闭连接</td>
+</tr>
+<tr>
+<td>小于0（-1）</td>
+<td>出错、被信号中断、对端TCP窗口太小导致数据发送不出去或者当前网卡缓冲区已无数据可放</td>
+</tr>
+</tbody></table>
+<h4 id="发送0字节数据的效果"><a href="#发送0字节数据的效果" class="headerlink" title="发送0字节数据的效果"></a>发送0字节数据的效果</h4><p>两种情况让send函数的返回值为0：</p>
+<p>1.对端关闭连接时，正好尝试调用send函数发送数据。</p>
+<p>2.本端尝试调用send函数发送0字节数据。</p>
+<p>recv函数只有在对端关闭连接时才会返回0，对端发送0字节数据，本段的recv函数不会收到0字节数据。</p>
+<h3 id="4-7-connect函数在阻塞和非阻塞模式下的行为"><a href="#4-7-connect函数在阻塞和非阻塞模式下的行为" class="headerlink" title="4.7 connect函数在阻塞和非阻塞模式下的行为"></a>4.7 connect函数在阻塞和非阻塞模式下的行为</h3><p>当socket使用阻塞模式时，connect函数会一直到有明确的结果才会返回。在实际项目中，一般使用异步connect技术（非阻塞connect）。步骤如下：</p>
+<ol>
+<li>创建socket，将socket设置为非阻塞模式。</li>
+<li>调用connect函数，此时无论connect函数是否连接成功，都会立即返回。如果返回-1，则不一定表示连接出错，如果此时错误码是EINPROGRESS，则表示正在尝试连接。</li>
+<li>调用select函数，在指定的时间内判断该select是否可写，如果可写，则说明连接成功，反之则认为失败。</li>
+</ol>
+<p><strong>注意</strong>：在Linux上，一个socket在没有建立连接之前，用select函数检测其是否可写，也会得到可写的结果。因此，在Linux上，在connect之后，不仅要调用select检测是否可写，还要调用getsockopt检测此时socket是否出错，通过错误码来检测和确定是否连接上。错误码为0时表示连接上，反之表示未连接上。</p>
+<h3 id="4-8-连接时顺便接收第一组数据"><a href="#4-8-连接时顺便接收第一组数据" class="headerlink" title="4.8 连接时顺便接收第一组数据"></a>4.8 连接时顺便接收第一组数据</h3><p>Linux提供了TCP_DEFER_ACCEPT的socket选项，设置该选项后只有连接建立成功且收到第1组对端数据时，accept函数才会返回。</p>
+<p>Windows中提供了扩展函数AcceptEx，用于接受连接后，可选择性地决定是否顺便收取第1组对端数据。</p>
+<p>同时主动连接方也可以使用ConnectEx函数在发起连接时顺便发送第1组数据。</p>
+<h3 id="4-9-获取当前socket对应的接收缓冲区中的可读数据量"><a href="#4-9-获取当前socket对应的接收缓冲区中的可读数据量" class="headerlink" title="4.9 获取当前socket对应的接收缓冲区中的可读数据量"></a>4.9 获取当前socket对应的接收缓冲区中的可读数据量</h3><p>在Windows上可以使用ioctlsocket函数，函数签名如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">int ioctlsocket(SOCKET s, long cmd, u_long* argp);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>要获取对应的socket接收缓冲区中的字节数，将cmd命令设置为FIONREAD即可</p>
+<pre class="line-numbers language-none"><code class="language-none">ulong bytesToRecv;
+if (ioctlsocket(clientsock, FIONREAD, &amp;bytesToRecv) == 0)
+{
+	// 函数调用成功后，bytesToRecv的值即为当前接收缓冲区中数据的字节数
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在Linux上可以使用ioctl函数，用法与Windows上基本相同</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;sys/ioctl.h&gt;
+int ioctl(int d, int request, ...);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h4><p>1.参数bytesToRecv是一个输出参数，对于大多数其他函数来说bytesToRecv可以不指定初始化值，因为函数在调用成功后会给该变量设值。但是对于Linux中的ioctl函数来说，必须将bytesToRecv初始化为0，才能在ioctl函数调用成功后得到正确的结果。windows的ioctlsocket函数则没有这个限制。</p>
+<p>2.不要在调用recv或read函数接收数据之前，使用ioctlsocket或ioctl函数获取数据大小，再根据大小分配缓冲区。在实际的网络通信程序中，很少需要预先知道在接收缓冲区中有多少可读数据，一般根据实际的业务需求决定收取多少字节的数据。</p>
+<h3 id="4-10-Linux-EINTR错误码"><a href="#4-10-Linux-EINTR错误码" class="headerlink" title="4.10 Linux EINTR错误码"></a>4.10 Linux EINTR错误码</h3><p>在类UNIX/Linux中调用一些socket函数时，除了在函数调用出错时会返回-1外，这些函数可能被信号中断时也会返回-1。此时可以通过错误码errno判断是不是EINTR，来确定是不是被信号中断。</p>
+<h3 id="4-11-Linux-SIGPIPE信号"><a href="#4-11-Linux-SIGPIPE信号" class="headerlink" title="4.11 Linux SIGPIPE信号"></a>4.11 Linux SIGPIPE信号</h3><p>当A关闭连接时，若B继续向A发送数据，则根据TCP的规定，B会收到A的一个RST报文应答，若B继续向这个服务器发送数据，系统就会产生一个SIGPIPE信号给B进程，告诉它这个连接已经断开了，不要再写了。系统对SIGPIPE信号的默认处理行为是让B进程退出。</p>
+<p>TCP通信是全双工的信道，可以看作两条单工信道，TCP连接两端的两个端点各负责一条。当对端关闭时，虽然本意是关闭整个两条信道，但本端只收到FIN包。按照TCP规定的语义，表示对端只关闭了其所负责的那一条单工信道，虽然不再发送数据，但仍然可以继续接收数据。</p>
+<p>对一个已经收到FIN包的socket调用read/recv方法，如果接收缓冲区已空，则会返回0，也就是常说的连接关闭状态。但第一次对其调用write/send方法时，如果发送缓冲区没问题，则发送成功，但发生的报文会导致对端回应RST报文。再次尝试调用write/send函数时，则会因为产生SIGPIPE信号而导致进程退出。</p>
+<p>为了避免这种情况，可以捕获SIGPIPE信号并对其进行处理或忽略该信号。</p>
+<pre class="line-numbers language-none"><code class="language-none">signal(SIGPIPE, SIG_IGN);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这样设置后，第2次调用write/send方法时会返回-1，同时errno错误码被设置为SIGPIPE，程序便能知道对端已经关闭。</p>
+<h3 id="4-12-Linux-poll函数的用法"><a href="#4-12-Linux-poll函数的用法" class="headerlink" title="4.12 Linux poll函数的用法"></a>4.12 Linux poll函数的用法</h3><p>poll函数用于检测一组文件描述符上的可读可写和出错事件，其函数签名如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;poll.h&gt;
+int poll(struct pollfd* fds, nfds_t nfds, int timeout);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>参数定义如下：</p>
+<p>1）fds：指向一个结构体数组首个元素的指针，每个数组元素都是一个struct pollfd结构，用于指定检测某个给定fd的条件。</p>
+<p>2）nfds：参数fds结构体数组的长度。</p>
+<p>3）timeout：表示poll函数的超时时间，单位为毫秒。</p>
+<p>struct pollfd结构体定义如下：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct pollfd {
+	int		fd;			// 待检测事件的fd
+	short	events;		// 关心的事件组合
+	short 	revents;	// 检测后得到的事件类型
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="poll与select相比的优点"><a href="#poll与select相比的优点" class="headerlink" title="poll与select相比的优点"></a>poll与select相比的优点</h4><ol>
+<li>poll不要求计算最大文件描述符加1的大小。</li>
+<li>与select相比，poll在处理大数量的文件描述符时速度更快</li>
+<li>poll没有最大连接数的限制，因为其存储fd的数组没有长度限制</li>
+<li>在调用poll函数时，只需要对参数进行一次设置就好了</li>
+</ol>
+<h4 id="poll的缺点"><a href="#poll的缺点" class="headerlink" title="poll的缺点"></a>poll的缺点</h4><ol>
+<li>在调用poll函数时，不管有没有意义，大量fd的数组在用户态和内核地址空间之间被整体复制。</li>
+<li>与select函数一样，poll函数返回后，需要遍历fd集合来获取就绪的fd，这样会使性能下降。</li>
+<li>同时连接的大量客户端在某一时刻可能只有很少的就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</li>
+</ol>
+<h3 id="4-13-Linux-epoll模型"><a href="#4-13-Linux-epoll模型" class="headerlink" title="4.13 Linux epoll模型"></a>4.13 Linux epoll模型</h3><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><p>要使用epoll模型，需要通过epoll_create函数来创建一个epollfd。</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;sys/epoll.h&gt;
+int epoll_create(int size);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>参数size需要设置成一个大于0的值。epoll_create函数调用成功，返回一个非负值的epollfd，否则返回-1。</p>
+<p>epoll_ctl函数可以将需要检测事件的其他fd绑定到这个epollfd上，或者修改一个已经绑定上去的fd的事件类型，或者在不需要时将fd从epollfd上解绑。</p>
+<pre class="line-numbers language-none"><code class="language-none">int epoll_ctl(int epfd, int op, int fd, struct epoll_event* event);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>参数说明：</p>
+<p>1）epfd：即epollfd</p>
+<p>2）op：操作类型，取值有EPOLL_CTL_ADD, EPOLL_CTL_MOD, EPOLL_CTL_DEL，分别表示在epollfd上添加、修改和移除fd。</p>
+<p>3）fd：即要被操作的fd</p>
+<p>4）event：这是一个epoll_event结构体的地址。定义如下：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct epoll_event
+{
+	uint32_t event;		// 需要检测的fd事件标志
+	epoll_data_t data;	//用户自定义数据
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>5)函数返回值：若调用成功返回0，调用失败返回-1。</p>
+<p>创建epollfd后，设置好某个fd上需要检测的事件并将该fd绑定到epollfd上，就可以调用epoll_wait函数检测事件了。</p>
+<pre class="line-numbers language-none"><code class="language-none">int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeout);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>参数events是一个epoll_event结构数组的首地址，是一个输出参数，在函数调用成功后，在events中存放的是与就绪事件相关的epoll_event结构体数组。参数maxevents是数组元素的个数。timeout是超时时间，单位是毫秒，如果设置为0，则epoll_wait会立即返回。</p>
+<p>epoll_wait若调用成功，则返回有事件的fd数量。若返回0，则表示超时。若调用失败，则返回-1。</p>
+<h4 id="LT模式和ET模式"><a href="#LT模式和ET模式" class="headerlink" title="LT模式和ET模式"></a>LT模式和ET模式</h4><p>epoll新增了一个事件宏EPOLLET，即边缘触发模式。</p>
+<p>1）对于水平触发模式(LT)，一个事件只要有，就会一直触发。</p>
+<p>2）对于边缘触发模式(ET)，在一个事件从无到有时才会触发。</p>
+<h4 id="LT模式和ET模式处理读事件的区别"><a href="#LT模式和ET模式处理读事件的区别" class="headerlink" title="LT模式和ET模式处理读事件的区别"></a>LT模式和ET模式处理读事件的区别</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/epoll.h&gt;
+#include &lt;poll.h&gt;
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+#include &lt;vector&gt;
+#include &lt;errno.h&gt;
+
+int main()
+{
+    // 创建一个监听socket
+    int listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (listenfd == -1)
+    {
+        std::cout &lt;&lt; "create listen socket error." &lt;&lt; std::endl;
+        return -1;
+    }
+    
+    // 设置重用IP地址和端口号
+    int on = 1;
+    setsocket(listenfd, SOL_SOCKET, SO_REUSEADDR, (char*)&amp;on, sizeof(on));
+    setsocket(listenfd, SOL_SOCKET, SO_REUSEPORT, (char*)&amp;on, sizeof(on));
+    
+    // 将监听socket设置为非阻塞的
+    int oldSocketFlag = fcntl(listenfd, F_GETFL, 0);
+    int newSocketFlag = oldSocketFlag | O_NONBLOCK;
+    if (fcntl(listenfd, F_SETFL, newSocketFlag) == -1)
+    {
+        close(listenfd);
+        std::cout &lt;&lt; "set listenfd to nonblock error." &lt;&lt; std::endl;
+        return -1;
+    }
+    
+    // 初始化服务器地址
+    struct sockaddr_in bindaddr;
+    bindaddr.sin_family = AF_INET;
+    bindaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    bindaddr.sin_port = htons(3000);
+    
+    if (bind(listenfd, (struct sockaddr*)&amp;bindaddr, sizeof(bindaddr)) == -1)
+    {
+        std::cout &lt;&lt; "bind listen socket error." &lt;&lt; std::endl;
+        close(listenfd);
+        return -1;
+    }
+    
+    // 启动监听
+    if (listen(listenfd, SOMAXCONN) == -1)
+    {
+        std::cout &lt;&lt; "listen error." &lt;&lt; std::endl;
+        close(listenfd);
+        return -1;
+    }
+    
+    // 创建epollfd
+    int epollfd = epoll_create(1);
+    if (epollfd == -1)
+    {
+        std::cout &lt;&lt; "create epollfd error." &lt;&lt; std::endl;
+        close(listenfd);
+        return -1;
+    }
+    
+    epoll_event listen_fd_event;
+    listen_fd_event.data.fd = listenfd;
+    listen_fd_event.events = EPOLLIN;
+    // 使用ET模式
+    listen_fd_event.events |= EPOLLET;
+    
+    // 将监听socket绑定到epollfd上
+    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, listenfd, &amp;listen_fd_event) == -1)
+    {
+        std::cout &lt;&lt; "epoll_ctl error." &lt;&lt; std::endl;
+        close(listenfd);
+        return -1;
+    }
+    
+    int n;
+    while (true)
+    {
+        epoll_event epoll_events[1024];
+        n = epoll_wait(epollfd, epoll_events, 1024, 1000);
+        if (n &lt; 0)
+        {
+            // 信号被中断
+            if (errno == EINTR)
+                continue;
+            
+            // 出错，退出
+            break;
+        }
+        else if (n == 0)
+        {
+            // 超时，继续
+            continue;
+        }
+        
+        // 收到事件
+        for (size_t i=0; i&lt;n; ++i)
+        {
+            //事件可读
+            if (epoll_events[i].events &amp; EPOLLIN)
+            {
+                if (epoll_events[i].data.fd == listenfd)
+                {
+                    // 监听socket，接受新连接
+                    struct sockaddr_in clientaddr;
+                    sockelen_t clientaddrlen = sizeof(clientaddr);
+                    int clientfd = accept(listenfd, (struct sockaddr*)&amp;clientaddr, &amp;clientaddrlen);
+                    if (clientfd != -1)
+                    {
+                        int oldSocketFlag = fcntl(clientfd, F_GETFL, 0);
+                        int newSocketFlag = oldSocketFlag | O_NONBLOCK;
+                        if (fcntl(clientfd, F_SETFL, newSocketFlag) == -1)
+                        {
+                            close(clientfd);
+                            std::cout &lt;&lt; "set clientfd to nonblock error." &lt;&lt; std::endl;
+                        }
+                        else
+                        {
+                            epoll_event client_fd_event;
+                            client_fd_event.data.fd = clientfd;
+                            client_fd_event.events = EPOLLIN;
+                            //使用ET模式
+                            client_fd_event.events |= EPOLLET;
+                            if (epoll_ctl(epollfd, EPOLL_CTL_ADD, clientfd, &amp;client_fd_event) != -1)
+                            {
+                                std::cout &lt;&lt; "new client accepted, clientfd: " &lt;&lt; clientfd &lt;&lt; std::endl;
+                            }
+                            else
+                            {
+                                std::cout &lt;&lt; "add client fd to epollfd error." &lt;&lt; std::endl;
+                                close(clientfd);
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    std::cout &lt;&lt; "client fd: " &lt;&lt; epoll_events[i].data.fd &lt;&lt; " recv data." &lt;&lt; std::endl;
+                    // 普通clientfd
+                    char ch;
+                    // 每次只接收1字节
+                    int m = recv(epoll_events[i].data.fd, &amp;ch, 1, 0);
+                    if (m == 0)
+                    {
+                        // 对端关闭了连接，从epollfd上移除clientfd
+                        if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
+                        {
+                            std::cout &lt;&lt; "client disconnected, clientfd: " &lt;&lt; epoll_events[i].data.fd &lt;&lt; std::endl;
+                        }
+                        close(epoll_events[i].data.fd);
+                    }
+                    else if (m &lt; 0)
+                    {
+                        // 出错
+                        if (errno != EWOULDBLOCK &amp;&amp; errno != EINTR)
+                        {
+                            if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
+                            {
+                                std::cout &lt;&lt; "client disconnected, clientfd: " &lt;&lt; epoll_events[i].data.fd &lt;&lt; std::endl;
+                             
+                            }
+                            close(epoll_events[i].data.fd);
+                        }
+                    }
+                    else
+                    {
+                        //正常收到数据
+                        std::cout &lt;&lt; "recv from client: " &lt;&lt; epoll_events[i].data.fd &lt;&lt; ", " &lt;&lt; ch &lt;&lt; std::endl;
+                    }
+                }
+            }
+            else if (epoll_events[i].events &amp; EPOLLERR)
+            {
+                // 暂不处理
+            }
+        }
+    }
+    
+    close(listenfd);
+    return 0;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
+<li>在LT模式下，读事件触发后可以按需收取想要的字节数，不用把本次接收的数据收取干净（即不用循环到recv或read函数返回-1，错误码为EWOULDBLOCK或EAGAIN）；在ET模式下，读事件时必须把数据收取干净，因为不一定再有机会收取数据了，即使有机会，也可能因为没有及时处理上次没读完的数据，造成客户端响应延迟。</li>
+<li>在LT模式下，不需要写事件时一定要及时移除，避免不必要地触发且浪费CPU资源；在ET模式下，写事件触发后，如果还需要下一次的写事件触发来驱动任务，则需要继续注册一次检测可写事件。</li>
+<li>LT模式和ET模式各有优缺点。使用LT模式时，可以自由决定每次收取多少字节或何时接收连接，但是可能会导致多次触发；使用ET模式时，必须每次都将数据接收完或立即调用accept函数接受连接，优点是触发次数少。</li>
+</ol>
+<h4 id="EPOLLONESHOT选项"><a href="#EPOLLONESHOT选项" class="headerlink" title="EPOLLONESHOT选项"></a>EPOLLONESHOT选项</h4><p>如果某个socket注册了EPOLLONESHOT标志，则其注册监听的事件在触发一次后再也不会触发，除非重新注册监听该事件类型。</p>
+<h3 id="4-14-readv和writev函数"><a href="#4-14-readv和writev函数" class="headerlink" title="4.14 readv和writev函数"></a>4.14 readv和writev函数</h3><p>用来将一个文件描述符对应的文件或套接字中的数据读到多个缓冲区中，或将多个缓冲区中的数据同时写入一个文件描述符对应的文件或套接字中。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;sys/uio.h&gt;
+
+ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
+ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+ssize_t preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset);
+ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>参数iov是一个struct iovec数组，参数iovcnt是该数组元素的个数。</p>
+<p>函数readv和preadv若调用成功，返回总读取字节数；函数writev和pwritev若调用成功，返回总写入字节数；函数调用失败返回-1。</p>
+<p>struct iovec定义如下:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct iovec
+{
+	void *iov_base;		// 数据起始地址
+	size_t iov_len;		// 需要传输的字节数
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="第六章-网络通信协议设计"><a href="#第六章-网络通信协议设计" class="headerlink" title="第六章 网络通信协议设计"></a>第六章 网络通信协议设计</h2><h3 id="6-1-理解TCP"><a href="#6-1-理解TCP" class="headerlink" title="6.1 理解TCP"></a>6.1 理解TCP</h3><p>TCP是流式协议，即协议的内容是流水一样的字节流，内容与内容之间没有明确的分界标志，需要我们人为地给这些内容划分边界。</p>
+<h3 id="6-2-如何解决粘包问题"><a href="#6-2-如何解决粘包问题" class="headerlink" title="6.2 如何解决粘包问题"></a>6.2 如何解决粘包问题</h3><p>使用TCP进行通信，在大多数场景下是不存在丢包和包乱序问题的。就剩下解决粘包问题。</p>
+<p>粘包就是连续向对端发送两个或两个以上的数据包，对端在一次收取中收到的数据包数量可能大于1个，可能是几个包加上某个包的部分。或者是只收取到一部分的包（半包）。</p>
+<p>解决思路：从收到的数据中把包与包的边界区分出来。三种方法：</p>
+<p>1）固定包长的数据包。简单但灵活性较差。</p>
+<p>2）以指定的字符（串）为包的结束标志。需要对结束字符坐转码或转义操作。</p>
+<p>3）包头 + 包体格式。将包分成两部分，包头是固定大小的，且包头必须包含一个字段来说明接下来的包体有多大。</p>
+<h3 id="6-3-解包与处理"><a href="#6-3-解包与处理" class="headerlink" title="6.3 解包与处理"></a>6.3 解包与处理</h3><p>假设包头格式如下</p>
+<pre class="line-numbers language-none"><code class="language-none">// 强制1字节对齐
+#pragma pack(push, 1)
+// 协议头
+struct msg_header
+{
+	int32_t bodysize;	// 包体大小
+};
+#pragma pack(pop)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>处理流程如下：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// 包的最大字节数限制为10MB
+#define MAX_PACKAGE_SIZE	10 * 1024 * 1024
+
+void ChatSession::OnRead(const std::shared_ptr&lt;TcpConnection&gt;&amp; conn, Buffer* pBuffer, Timestamp receivTime)
+{
+    while (true)
+    {
+        if (pBuffer-&gt;readableBytes() &lt; (size_t)sizeof(msg_header))
+        {
+            // 不够一个包头的大小，直接退出
+            return;
+        }
+        
+        // 取包头信息
+        msg_header header;
+        memcpy(&amp;header, pBuffer-&gt;peak(), sizeof(msg_header));
+        
+        // 包头有错误，立即关闭连接
+        if (header.bodysize &lt;= 0 || header.bodysize &gt; MAX_PACKAGE_SIZE)
+        {
+            // 客户端发送非法数据包，服务器主动关闭它
+            LOGE("Illegal package, bodysize: %lld, close TcpConnection, client: %s", header.bodysize, conn-&gt;peerAddress().toIpPort().c_str());
+            conn-&gt;forceClose();
+            return;
+        }
+        
+        // 收到的数据不够一个完整的包
+        if (pBuffer-&gt;readableBytes() &lt; (size_t)header.bodysize + sizeof(msg_header))
+            return;
+        
+        pBuffer-&gt;retrieve(sizeof(msg_header));
+        // inbuf用来存放当前要处理的包
+        std::string inbuf;
+        inbuf.append(pBuffer-&gt;peek(), header.bodysize);
+        pBuffer-&gt;retrieve(header.bodysize);
+        // 解包和业务处理
+        if (!Process(conn, inbuf.c_str(), inbuf.length()))
+        {
+            // 客户端发送非法数据包，服务器主动关闭它
+            LOGE("Process package error, close TcpConnecton, client: %s", conn-&gt;peerAddress().toIpPort().c_str());
+            conn-&gt;forceClose();
+            return;
+        }
+    }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="需要注意的一些细节"><a href="#需要注意的一些细节" class="headerlink" title="需要注意的一些细节"></a>需要注意的一些细节</h4><p>1）取包头时应该拷贝一份数据包头大小的数据出来，而不是从缓冲区pBuffer中直接将数据取出来。</p>
+<p>2）通过包头得到包体的大小时，一定要对bodysize的数值进行校验。防止非法bodysize对服务造成影响。</p>
+<p>3）整个判断包头、包体及处理包的逻辑都被放在一个while循环里面。处理一次性收取的多个包。</p>
+<h3 id="6-4-从struct到TLV"><a href="#6-4-从struct到TLV" class="headerlink" title="6.4 从struct到TLV"></a>6.4 从struct到TLV</h3><p>TLV（Type Length Value)：对于字符串类型的字段，可以在该字段前面加一个表示字符串长度的标志，来解决定义字符串类型时太长浪费、太短不够用的问题；通过在每个字段前面再添加一个type标志来表示常用的类型来解决修改协议需要兼容众多旧版本的问题。</p>
+<h3 id="6-5-整型数值的压缩"><a href="#6-5-整型数值的压缩" class="headerlink" title="6.5 整型数值的压缩"></a>6.5 整型数值的压缩</h3><p>再实际处理中，1字节（Byte）共有8位（bit），该字节的最高位用来作为标志位，说明一个整型数值是否到此字节结束。如果某字节的最高位为0，则表示该整型值的内容到此字节为止；最高位为1，表示下一字节仍然是该整型值的内容。</p>
+<p>对无符号int32的整型数值压缩算法:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// poco-master\Foundation\src\BinaryWriter.cpp
+// 将一个uint32压缩成1~5字节的算法
+void BinaryWrite::write7BitEncoded(UInt32 value)
+{
+	do
+	{
+		unsigned char c = (unsigned char) (value &amp; 0x7F);
+		value &gt;&gt;= 7;
+		if (value)
+		{
+			c |= 0x80;
+		}
+		_ostr.write((const char*) &amp;c, 1);
+	}
+	while (value);
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对无符号int32的整型数值解压缩算法:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// 将一字节流中连续的1~5字节还原成一个uint32整型
+void BinaryReader::read7BitEncoded(UInt32&amp; value)
+{
+	char c;
+	value 0;
+	intv s = 0;
+	do
+	{
+		c = 0;
+		_istr.read(&amp;c, 1);
+		UInt32 x = (c &amp; 0x7F);
+		x &lt;&lt;= s;
+		value += x;
+		s += 7;
+	}
+	while (c &amp; 0x80);
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-6-设计通信协议时的注意事项"><a href="#6-6-设计通信协议时的注意事项" class="headerlink" title="6.6 设计通信协议时的注意事项"></a>6.6 设计通信协议时的注意事项</h3><h4 id="字节对齐"><a href="#字节对齐" class="headerlink" title="字节对齐"></a>字节对齐</h4><p>使用#pragma pack(push, n)来告诉编译器将接下来的所有结构体的每个字段都按n字节对齐，这样做是为了使内存更加紧凑及节省存储空间。不需要对齐动能后，应该使用#pragma pack(pop)让编译器恢复之前的对齐方式。</p>
+<h4 id="显式指定整型字段的长度"><a href="#显式指定整型字段的长度" class="headerlink" title="显式指定整型字段的长度"></a>显式指定整型字段的长度</h4><p>对于一个int字段，应该显式指定该类型的长度，如使用int32_t、int64_t这样的类型来代替int、long，避免因为不同机器字长的不同，导致协议解析出错或产生错误的结果。</p>
+<h4 id="涉及浮点数时要考虑精度问题"><a href="#涉及浮点数时要考虑精度问题" class="headerlink" title="涉及浮点数时要考虑精度问题"></a>涉及浮点数时要考虑精度问题</h4><p>为了避免不同的机器解析浮点数得到不同的结果，建议在网络传输时将浮点数值放大相应的倍数，变成整数或者转换成字符串来传输。</p>
+<h4 id="大小端的问题"><a href="#大小端的问题" class="headerlink" title="大小端的问题"></a>大小端的问题</h4><p>在设计协议格式时，如果在协议中存在整型字段，建议使用同一字节序。通常的做法是在进行网络传输时将所有则整型都转换为网络字节序（大端编码），避免不同的机器在解析时因为大小端问题而得到不同的整型。</p>
+<h4 id="协议与自动升级功能"><a href="#协议与自动升级功能" class="headerlink" title="协议与自动升级功能"></a>协议与自动升级功能</h4><p>在客户端与服务器通信的所有协议格式中，自动升级协议是最重要的一个，无论版本如何迭代，一定要保证自动升级协议的新旧兼容。</p>
+<h3 id="6-7-包分片"><a href="#6-7-包分片" class="headerlink" title="6.7 包分片"></a>6.7 包分片</h3><p>当一个包的数据较大，超过一个包的最长长度时，就需要对包进行分片。</p>
+<p>设计包分片的两种思路：</p>
+<p>1）设置分片标志</p>
+<p>2）在每个包分片的包头部分都有该包的总分片数量和当前分片编号。</p>
+<h4 id="一个具体的包分片例子"><a href="#一个具体的包分片例子" class="headerlink" title="一个具体的包分片例子"></a>一个具体的包分片例子</h4><p>协议头定义：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// 与客户端交互协议包头
+#pragma pack(push, 1)
+typedef struct tagNtPkgHead
+{
+	unsigned char bStartFlag;			// 协议包起始标志0xFF
+	unsigned char bVer;					// 版本号
+	unsigned char bEncryptFlay;			// 加密标志（如果不加密，则为0）
+	unsigned char bFrag;				// 是否有包分片（1：有包分片；0：无包分片）
+	unsigned short wLen;				// 总包长
+	unsigned short wCmd;				// 命令号
+	unsigned short wSeq;				// 包的序列号，业务使用
+	unsigned short wCrc;				// Crc16校验码
+	unsigned int dwSID;					// 会话ID
+	unsigned short wTotal;				// 有包分片时的分片总数
+	unsigned short wCurSeq;				// 有包分片时的分片序号，从0开始，无分片时也为0
+} NtPkgHead, *PNtPkgHead;
+#pragma pack(pop)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对端处理包分片:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">UINT CSocketClient::RecvDataThreadProc(LPVOID lpParam)
+{
+	LOG_NORMAL("Start recv data thread.");
+	DWORD			dwWaitResult;
+	std::string		strPkg;
+	// 临时存放一个完整的包数据的变量
+	std::string		strTotalPkg;
+	unsigned short	uPkgLen = 0;
+	unsigned int 	uBodyLen = 0;
+	unsigned int	uTotalPkgLen = 0;
+	unsigned int 	uCmd = 0;
+	NtPkgHead		pkgHead;
+	unsigned short	uTotal = 0;
+	// 记录上一次的包分片序号，包分片序号从0开始
+    unsigned short	uCurSeq = 0;
+    int 			nWaitTimeOut = 1;
+    
+    CSocketClient*	pSocketClient = (CSocketClient*)lpParam;
+    
+    while (!m_bExit)
+    {
+        // 检测是否有数据
+        if (!pSocketClient-&gt;CheckReceivedData())
+        {
+            // 休眠10毫秒
+            Sleep(10);
+            continue;
+           
+        }
+        
+        // 接收数据，并放入pSocketClient-&gt;m_strRecvBuf中
+        if (!pSocketClient-&gt;Recv())
+        {
+            LOG_ERROR("Recv data error");
+            
+            // 接收数据出错，清空接收缓冲区，可以做一些关闭连接、重连等动作
+            pSocketClient-&gt;m_strRecvBuf.clear();
+            
+            Reconnect();
+            continue;
+        }
+        
+        // 一定要放在一个循环里解包，因为在当前缓冲区中可能有多个数据包
+        while (true)
+        {
+            // 判断当前收到的数据是否够一个包头大小
+            if (pSocketClient-&gt;m_strRecvBuf.length() &lt; sizeof(NtPkgHead))
+                break;
+            
+            memset(&amp;pkgHead, 0, sizeof(pkgHead));
+            memcpy_s(&amp;pkgHead, sizeof(pkgHead), pSocketClient-&gt;m_strRecvBuf.c_str(), sizeof(pkgHead));
+            // 对包消息头进行检验
+            if (!CheckPkgHead(&amp;pkgHead))
+            {
+                // 如果包头检验不通过，则缓冲区里面的数据已经是脏数据了，直接清空。
+                // 可以做一些关闭连接并重连的动作
+                LOG_ERROR("Check packet head error, discard data %d bytes", (int)pSocketClient-&gt;m_strRecvBuf.length());
+                
+                pSocketClient-&gt;m_strRecvBuf.clear();
+                
+                Reconnect();
+                break;
+            }
+            
+            // 判断当前数据是否够一个整包的大小
+            uPkgLen = ntohs(pkgHead.wLen);
+            if (pSocketClient-&gt;m_strRecvBuf.length() &lt; uPkgLen)
+                break;
+            
+            strPkg.clear();
+            strPkg.append(pSocketClient-&gt;m_strRecvBuf.c_str(), uPkgLen);
+            
+            // 从接收缓冲区中移除已经处理的数据部分
+            pSocketClient-&gt;m_strRecvBuf.erase(0, uPkgLen);
+            
+            uTotal = ::ntohs(pkgHead.wTotal);
+            uCurSeq = ::ntohs(pkgHead.wCurSeq);
+            // 无分片或者是第一个分片
+            if (uCurSeq == 0)
+            {
+                strTotalPkg.clear();
+                uTotalPkgLen = 0;
+            }
+            
+            uBodyLen = uPkgLen - sizeof(NtPkgHead);
+            uTotalPkgLen += uBodyLen;
+            strTotalPkg.append(strPkg.data() + sizeof(NtPkgHead), uBodyLen);
+            
+            // 如果无分片或者是包的最后一个分片，则将组装后的包发送出去
+            if (uTotal == 0 || (uTotal != 0 &amp;&amp; uTotal == uCurSeq +1))
+            {
+                uCmd = ::ntohs(pkgHead.wCmd);
+                
+                // ProxyPackage是解析处理的业务包定义
+                ProxyPackage proxyPackage;
+                // 复制业务号
+                proxyPackage.nCmd = uCmd;
+                // 复制包长度
+                proxyPackage.nLength = uTotalPkgLen;
+                // 复制包体内容
+                proxyPackage.pszJson = new char[uTotalPkgLen];
+                memset(proxyPackage.pszJson, 0, uTotalPkgLen * sizeof(char));
+                memcpy_s(proxyPackage.psaJson, uTotalPkgLen, strTotalPkg.c_str(), strTotalPkg.length());
+                
+                // 将一个完整的包交给业务处理
+                pSocketClient-&gt;m_pNetProxy-&gt;AddPackage((const char*)&amp;proxyPackage, sizeof(proxyPackage));
+            }
+        }
+    }
+    
+    LOG_NORMAL("Exit recv data thread.");
+    return 0;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-8-XML-和-JSON-格式-的协议"><a href="#6-8-XML-和-JSON-格式-的协议" class="headerlink" title="6.8 XML 和 JSON 格式 的协议"></a>6.8 XML 和 JSON 格式 的协议</h3><p>XML和JSON这两种格式由于其良好的自我解释性，是开发中使用非常广泛的两种数据格式。</p>
+<p>在通常情况下，XML或JSON格式不会被单独作为协议格式，而是作为某个协议的一部分出现。</p>
+<h3 id="6-9-一个自定义协议示例"><a href="#6-9-一个自定义协议示例" class="headerlink" title="6.9 一个自定义协议示例"></a>6.9 一个自定义协议示例</h3><h3 id="6-10-理解HTTP"><a href="#6-10-理解HTTP" class="headerlink" title="6.10 理解HTTP"></a>6.10 理解HTTP</h3><p>HTTP由包头和包体两部分组成，包头与包体之间使用一个 \r\n 分割，包头的每一行均以 \r\n 结束，在包头结束时再添加一个 \r\n 表示包头结束。因此在用程序解析HTTP格式的数据时可以通过\r\n\r\n界定包头的结束位置和包体的起始位置。</p>
+<h4 id="GET与POST方法"><a href="#GET与POST方法" class="headerlink" title="GET与POST方法"></a>GET与POST方法</h4><p>如果GET请求带参数，那么参数一般被附加在请求的URL后面，参数与参数之间使用&amp;分割。</p>
+<p>POST请求的数据被放在HTTP包体中(/r/n/r/n标志之后)。要知道包体部分的长度，一种方式是采用HTTP chunk，一种方式是在包头中设置一个Content-Length字段，这个字段的值标识了包体的长度。</p>
+<p>GET与POST请求的安全性都是差不多的，在对安全要求更高的应用中，会将SSL与HTTP结合起来，即HTTPS。</p>
+<h4 id="HTTP-chunk编码"><a href="#HTTP-chunk编码" class="headerlink" title="HTTP chunk编码"></a>HTTP chunk编码</h4><p>HTTP在传输的过程中如果包体过大，或者传输产生的内容给对端时，传输方无法预先知道传输的内容有多大，这是可以使用HTTP chunk编码技术。</p>
+<p>HTTP chunk编码的技术原理是将整个HTTP包体分成多个小块，每一块都有自己的字段来说明自身的长度，对端收到这些块后，去除说明的部分，将多个小块合并在一起得到完整的包体内容。</p>
+<h4 id="HTTP-服务端的实现"><a href="#HTTP-服务端的实现" class="headerlink" title="HTTP 服务端的实现"></a>HTTP 服务端的实现</h4><p>假设用户在浏览器中输入了以下内容，以实现一个注册功能:</p>
+<pre class="line-numbers language-none"><code class="language-none">http://101.37.25.166:12345/register.do?p={"username": "12917043329", "nickname": "balloon", "password": "123"}<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>收到数据后按如下逻辑进行处理:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void HttpSession::OnRead(const std::shared_ptr&lt;TcpConnection&gt;&amp; conn, Buffer* pBuffer, Timestamp recriveTime)
+{
+	string inbuf;
+    // 先把所有数据都取出来
+    inbuf.append(pBuffer-&gt;peek(), pBuffer-&gt;readableBytes());
+    // 因为一个HTTP包头的数据至少有\r\n\r\n，所以大于4个字符
+    // 若小于或等于4个字符，则说明数据未收完，退出，等待网络底层接着收取
+    if (inbuf.length() &lt;= 4)
+        return;
+    
+    // 检查是否以\r\n\r\n结束，如果不是，则说明包头不完整，退出
+    string end = inbuf.substr(inbuf.length() - 4);
+    if (end != "\r\n\r\n")
+    {
+         if (inbuf.length() &gt;= MAX_URL_LENGTH)
+        {
+            // 超过2048个字符，且不含有\r\n\r\n，认为是非法请求
+            conn-&gt;forceClose()
+        }
+        return;
+    }
+       
+    
+    // 以\r\n分割每一行
+    std::vector&lt;string&gt; lines;
+    StringUtil::Split(inbuf, lines, "\r\n");
+    if (lines.size() &lt; 1 || lines[0].empty())
+    {
+        conn-&gt;forceClose();
+        return;
+    }
+    
+    std::vector&lt;string&gt; chunk;
+    StringUtil::Split(liens[0], chunk, " ");
+    // 在chunk中至少有3个字符串：GET\URL\HTTP版本号
+    if (chunk.size() &lt; 3)
+    {
+        conn-&gt;forceClose();
+        return;
+    }
+    
+    LOG_INFO &lt;&lt; "url: " &lt;&lt; chunk[1] &lt;&lt; " from " &lt;&lt; conn-&gt;peerAddress().toIpPort();
+    std::vector&lt;string&gt; part;
+    // 通过“？”分割成前后两端，前面是URL，后面是参数
+    StringUtil::Split(chunk[1], part, "?");
+    if (part.size() &lt; 2)
+    {
+        conn-&gt;forceClose();
+        return;
+    }
+    
+    string url = part[0];
+    string param = part[1].substr(2);
+    
+    if (!Process(conn, url, param))
+    {
+        LOG_ERROR &lt;&lt; "handle http request error, from: " &lt;&lt; conn-&gt;peerAddress().toIpPort() &lt;&lt; ", request: " &lt;&lt; pBuffer-&gt;retrieveAllAsString();
+    }
+    // 短连接，处理完毕后关闭连接
+    conn-&gt;forceClose();
+    
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>根据URL匹配网址</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">bool HttpSession::Process(const std::shared_ptr&lt;TcpConnection&gt;&amp; conn, const std::string&amp; url, const std::string&amp; param)
+{
+	if (url.empty())
+		return false;
+		
+	if (url == "/register.do")
+		OnRegisterResponse(param, conn);
+	else if (url == "/login.do")
+		OnLoginResponse(param, conn);
+	else
+		return false;
+		
+	return true;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果是注册请求，则会走注册处理逻辑</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void HttpSession::OnRegisterResponse(const std::string&amp; data, const std::shared_ptr&lt;TcpConnection&gt;&amp; conn)
+{
+	string retData;
+	string decodeData;
+	URLEncodeUtil::Decode(data, decodeData);
+	BussinessLogic::RegisterUser(decodeData, conn, false, retData);
+	if (!retData.empty())
+	{
+		std::string response;
+		URLEncodeUtil::Encode(retData, response);
+		MakeupResponse(retData, response);
+		conn-&gt;send(response);
+		
+		LOG_INFO &lt;&lt; "Response to client: cmd=msg_type_register" &lt;&lt; ", data=" &lt;&lt; retData &lt;&lt; conn-&gt;peerAddress().toIpPort();
+	}
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="HTTP-与-长连接"><a href="#HTTP-与-长连接" class="headerlink" title="HTTP 与 长连接"></a>HTTP 与 长连接</h4><p>对于一些特定场景会用到HTTP长连接，可以在HTTP头中设置keepalive字段，用于建议连接的双方使用长连接进行通信，而不是对每次请求都建立新的连接。但这只是一个建议选项，web服务器可能不遵循keepalive字段的建议。</p>
+<p>Libcurl是一个跨平台的用于发送HTTP请求的第三方库，基本使用方法如下:</p>
+<p>1）使用curl_easy_init函数初始化一个CURL对象</p>
+<pre class="line-numbers language-none"><code class="language-none">CURL* curl = curl_easy_init();<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>2）调用curl_easy_setopt函数为CURL对象设置相关选项，如请求的URL地址，方法，最大超时时间等</p>
+<pre class="line-numbers language-none"><code class="language-none">// 设置请求的URL
+curl_easy_setopt(curl, CURLOPT_URL, url);
+// 若设置CURLOPT_POST这个选项，则使用POST方法进行请求，否则使用GET方法
+curl_easy_setopt(curl, CURLOPT_POST, 1L);
+// 设置连接超时时间
+curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, connTimeout);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>3）调用curl_easy_perform函数发送实际的HTTP请求，并得到一个类型为CURLcode的返回值，如果返回值为CURLE_OK，则说明请求成功。</p>
+<pre class="line-numbers language-none"><code class="language-none">CURLcode ret = curl_easy_perform(curl);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>4）无论调用成功与否，都调用curl_easy_cleanup函数释放curl_easy_init函数分配的CURL对象。</p>
+<pre class="line-numbers language-none"><code class="language-none">curl_easy_cleanup(curl);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="6-11-SMTP和POP3"><a href="#6-11-SMTP和POP3" class="headerlink" title="6.11 SMTP和POP3"></a>6.11 SMTP和POP3</h3><h4 id="邮件协议简介"><a href="#邮件协议简介" class="headerlink" title="邮件协议简介"></a>邮件协议简介</h4><p>1）POP3：规定了怎样将个人计算机连接到Internet的邮件服务器和下载电子邮件的电子协议，是因特网电子邮件的第一个离线协议标准，允许用户从服务器上把邮件存储到本地主机上，同时删除保存在邮件服务器上的邮件。</p>
+<p>2）SMTP：是一组用于从源地址到目的地址传输邮件的规范，帮助每台计算机在发送或中转邮件时都找到下一个目的地。</p>
+<p>3）IMAP是与POP3协议类似的邮件访问标准协议之一。不同的是，开启了IMAP后，在电子邮件客户端收取的邮件仍然保留在服务器上，同时客户端上的操作都会被反馈到服务器上，而POP3对邮件的操作只会在本地邮件客户端上起作用。</p>
+<h4 id="SMTP"><a href="#SMTP" class="headerlink" title="SMTP"></a>SMTP</h4><p>SMTP用于发送邮件，格式如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">关键字 自定义内容\r\n<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>假设现在要实现一个邮件报警系统，用一个SmtpSocket类来综合常用邮件的功能。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// 发送邮件类，SmtpSocket.h
+#pragma once
+
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include "Platform.h"
+
+class SmtpSocket final
+{
+public:
+    static bool sendMail(const std::string&amp; server, short port, const std::string&amp; from, const std::string&amp; fromPassword, const std::vector&lt;std::string&gt;&amp; to, const std::string&amp; subject, const std::string&amp; mailData);
+    
+public:
+    SmtpSocket(void);
+    ~SmtpSocket(void);
+    
+    bool isConnected() const { return m_hSocket; }
+    bool connected(const char* pszUrl, short port = 25);
+    bool logon(const char* pszUser, const char* pszPassword);
+    bool setMailFrom(const char* pszFrom);
+    bool setMailTo(const std::vector&lt;std::string&gt;&amp; sendTo);
+    bool send(const std::string&amp; subject, const std::string&amp; mailData);
+    
+    void closeConnection();
+    void quit();
+
+private:
+    // 验证从服务器返回的前三位代码和传递进来的参数是否一样
+    bool checkResponse(const char* recvCode);
+    
+private:
+    bool				m_bConnected;
+    SOCKET				m_hSocket;
+    std::string			m_strUser;
+    std::string			m_strPassword;
+    std::string			m_strFrom;
+    std::vector&lt;std::string&gt;	m_strTo;
+};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>SmtpSocket.cpp：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include "SmtpSocket.h"
+#include &lt;sstream&gt;
+#include &lt;time.h&gt;
+#include &lt;string.h&gt;
+#include "Base64Util.h"
+#include "Platform.h"
+
+bool SmtpSocket::sendMail(const std::string&amp; server, short port, const std::string&amp; from, const std::string&amp; fromPassword, const std::vector&lt;std::string&gt;&amp; to, const std::string&amp; subject, const std::string&amp; mailData)
+{
+    size_t atSymbolPos = from.find_first_of("@");
+    if (atSymbolPos == std::string::npos)
+        return false;
+    
+    std::string strUser = from.substr(0, atSymbolPos);
+    
+    SmtpSocket smtpSocket;
+    // smtp.163.com 25
+    if (!smtpSocket.connect(server.c_str(), port))
+        return false;
+    
+    // testformmybook 2019hhxxttxs
+    if (!smtpSocket.logon(strUser.c_str(), fromPassword.c_str()))
+        return false;
+    
+    // testformmybook@163.com
+    if (!smtpSocket.setMailFrom(from.c_str()))
+        return false;
+    
+    if (!smtpSocket.setMailTo(to))
+        return false;
+    
+    if (!smtpSocket.send(subject, mailData))
+        return false;
+    
+    return true;
+}
+
+SmtpSocket::SmtpSocket() : m_bConnected(false), m_hSocket(-1) {}
+
+SmtpSocket::~SmtpSocket()
+{
+    quit();
+}
+
+bool SmtpSocket::checkResponse(const char* recvCode)
+{
+    char recvBuffer[1024] = { 0 };
+    long lResult = 0;
+    lResult = recv(m_hSocket, recvBuffer, 1024, 0);
+    if (lResult == SOCKET_ERROR || lResult &lt; 3)
+        return false;
+    
+    return recvCode[0] == recvBuffer[0] &amp;&amp; \
+        recvCode[1] == recvBuffer[1] &amp;&amp; \
+        recvCode[2] == recvBuffer[2] ? true : false ;
+}
+
+void SmtpSocket::quit()
+{
+    if (m_hSocket &lt; 0)
+        return;
+    
+    // 退出
+    if (::send(m_hSocket, "QUIT\r\n", strlen("QUIT\r\n"), 0) == SOCKET_ERROR)
+    {
+        closeConnection();
+        return;
+    }
+    
+    if (!checkResponse("221"))
+        return;
+}
+
+bool SmtpSocket::logon(const char* pszUser, const char* pszPassword)
+{
+    if (m_hSocket &lt; 0)
+        return false;
+    
+    // 发送 "AUTH LOGIN"
+    if (::send(m_hSocket, "AUTH LOGIN\r\n", strlen("AUTH LOGIN\r\n"), 0) == SOCKET_ERROR)
+        return false;
+    
+    if (!checkResponse("334"))
+        return false;
+    
+    // 发送经base64编码的用户名
+    char szUserEncoded[64] = {0};
+    Base64Util::encode(szUserEncoded, pszUser, strlen(pszUser), '='. 64);
+    strncat(szUserEncoded, "\r\n", 64);
+    
+    if (::send(m_hSocket, szUserEncoded, strlen(szUserEncoded), 0) == SOCKET_ERROR)
+        return false;
+    
+    if (!checkResponse("334"))
+        return false;
+    
+    // 发送经base64编码的密码
+    // 验证密码
+    char szPwdEncoded[64] = {0};
+    Base64Util::encode(szPwdEncoded, pszPassword, strlen(pszPassword), '=', 64);
+    strcat(szPwdEncoded, "\r\n", 64);
+    if (::send(m_hSocket, szPwdEncoded, strlen(szPwdEncoded), 0) == SOCKET_ERROR)
+        return false;
+    
+    if (!checkResponse("235"))
+        return false;
+    
+    m_strUser = pszUser;
+    m_strPassword = pszPassword;
+    
+    return true;
+}
+
+void SmtpSocket::closeConnection()
+{
+    if (m_hSocket &gt;= 0)
+    {
+        closesocket(m_hSocket);
+        m_hSocket = -1;
+        m_bConnected = false;
+    }
+}
+
+bool SmtpSocket::connect(const char* pszUrl, short port)
+{
+    struct sockaddr_in server = { 0 };
+    struct hostent* pHostent = NULL;
+    unsigned int addr = 0;
+    
+    closeConnection();
+    m_hSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    
+    if (m_hSocket &lt; 0)
+        return false;
+    
+    long tmSend(15 * 1000L), tmRecv(15 * 1000L), noDelay(1);
+    setsockopt(m_hSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&amp; noDelay, sizeof(long));
+    setsockopt(m_hSocket, SOL_SOCKET, SO_SNDTIMEO, (char*)&amp; tmSend, sizeof(long));
+    setsockopt(m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char*)&amp; tmRecv, sizeof(long));
+    
+    if (inet_addr(pszUrl) == INADDR_NONE)
+    {
+        pHostent = gethostbyname(pszUrl);
+    }
+    else
+    {
+        addr = inet_addr(pszUrl);
+        pHostent = gethostbyaddr((char*)&amp; addr, sizeof(addr), AF_INET);
+    }
+    
+    if (!pHostent)
+        return false;
+    
+    server.sin_family = AF_INET;
+    server.sin_port = htons((u_short)port);
+    server.sin_addr.s_addr = *((unsigned long*)pHostent-&gt;h_addr);
+    if (::conncet(m_hSocket, (struct sockaddr*)&amp; server, sizeof(server)) == SOCKET_ERROR)
+        return false;
+    
+    if (!checkResponse("220"))
+        return false;
+    
+    // 向服务器发送"HELO" + 服务器名
+    // string strTmp = "HELO " + SmtpAddr + "\r\n";
+    char szSend[256] = {0};
+    snprintf(szSend, sizeof(szSend), "HELO %s\r\n", pszUrl);
+    if (::send(m_hSocket, szSend, strlen(szSend), 0) == SOCKET_ERROR)
+        return false;
+    
+    if (!checkResponse("250"))
+        return false;
+    
+    m_bConnected = true;
+    
+    return true;
+}
+
+bool SmtpSocket::setMailFrom(const char* pszFrom)
+{
+    if (m_hSocket &lt; 0)
+        return false;
+    
+    char szSend[256] = {0};
+    snprintf(szSend, sizeof(szSend), "MAIL FROM:&lt;%s&gt;\r\n", pszFrom);
+    if (::send(m_hSocket, szSend, strlen(szSend), 0) == SOCKET_ERROR)
+    	return false;
+    
+    if (!checkResponse("250"))
+        return false;
+    
+    m_strFrom = pszFrom;
+    return true;
+}
+
+bool SmtpSocket::setMailTo(const std::vector&lt;std::string&gt;&amp; sendTo)
+{
+    if (m_hSocket &lt; 0)
+        return false;
+    
+    char szSend[256] = {0};
+    for (const auto&amp; iter : sendTo)
+    {
+        snprintf(szSend, sizeof(szSend)m "rept to: &lt;%s&gt;\r\n", iter.c_str());
+        if (::send(m_hSocket, szSend, strlen(szSend), 0) == SOCKET_ERROR)
+            return false;
+        
+        if (!checkResponse("250"))
+            return false;
+    }
+    m_strTo = sendTo;
+    return true;
+}
+
+bool SmtpSocket::send(const std::string&amp; subject, const std::string&amp; mailData)
+{
+    if (m_hSocket &lt; 0)
+        return false;
+    
+    std::ostringstream osContent;
+    
+    // 注意：邮件正文的内容与其他附属字样之间一定要空一行
+    osContent &lt;&lt; "Date: " &lt;&lt; time(nullptr) &lt;&lt; "\r\n";
+    osContent &lt;&lt; "from: " &lt;&lt; m_strFrom &lt;&lt; "\r\n";
+    osContent &lt;&lt; "to: ";
+    for (const auto&amp; iter : m_strTo)
+    {
+        osContent &lt;&lt; iter &lt;&lt; ";";
+    }
+    osContent &lt;&lt; "\r\n";
+    osContent &lt;&lt; "subject: " &lt;&lt; subject &lt;&lt; "\r\n";
+    osContent &lt;&lt; "Content-Type: text/plain; charset=UTF-8\r\n";
+    osContent &lt;&lt; "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
+    osContent &lt;&lt; mailData &lt;&lt; "\r\n.\r\n";
+    
+    std::string data = osContent.str();
+    const char* lpSendBuffer = data.c_str();
+    
+    // 发送"DATA\r\n"
+    if (::send(m_hSocket, "DATA\r\n", strlen("DATA\r\n"), 0) == SOCKET_ERROR)
+        return false;
+    
+    if (!checkResponse("354"))
+        return false;
+    
+    long dwSend = 0;
+    long dwOffset = 0;
+    long lTotal = data.length();
+    long lResult = 0;
+    const long SEND_MAX_SIZE = 1024 * 100000;
+    while ((long)dwoffset &lt; lTotal)
+    {
+        if (lTotal - dwOffset &gt; SEND_MAX_SIZE)
+            dwSend = SEND_MAX_SIZE;
+        else
+            dwSend = lTotal - dwOffset;
+        
+        lResult = ::send(m_hSocket, lpSendBuffer + dwOffset, dwSend, 0);
+        if (lResult == SOCKET_ERROR)
+            return false;
+        
+        dwOffset += lResult;
+    }
+    if (!checkResponse("250"))
+        return false;
+    
+    return true;
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后使用另外一个类MailMonitor对SmtpSocket对象的功能进行高层抽象</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// MailMonitor.h
+#pragma once
+
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;list&gt;
+#include &lt;memory&gt;
+#include &lt;mutex&gt;
+#include &lt;condition_variable&gt;
+#include &lt;thread&gt;
+
+struct MailItem
+{
+    std::string subject;
+    std::string content;
+};
+
+class MailMonitor final
+{
+public:
+    static MailMonitor&amp; getInstance();
+    
+private:
+    MailMonitor() = default;
+    ~MailMonitor() = default;
+    MailMonitor(const MailMonitor&amp; rhs) = delete;
+    MailMonitor&amp; operator=(const MailMonitor&amp; rhs) = delete;
+    
+public:
+    bool initMonitorMailInfo(const std::string&amp; servername, const std::string&amp; mailserver, short mailport, const std::string&amp; mailfrom, const std::string&amp; mailfromPassword, const std::string&amp; mailto);
+    void uninit();
+    void wait();
+    
+    void run();
+    
+    bool alert(const std::string&amp; subject, const std::string&amp; content);
+    
+private:
+    void alertThread();
+    
+    void split(const std::string&amp; str, std::vector&lt;std::string&gt;&amp; v, const char* delimiter="|");
+    
+private:
+    // 用于标识是哪一台服务器发送的邮件
+    std::string						m_strMailName;
+    std::stfing						m_strMailServer;
+    short							m_nMailPort;
+    std::string						m_strFrom;
+    std::string						m_strFromPassword;
+    std::vector&lt;std::string&gt;		 m_strMailTo;
+    // 待写入的日志
+    std::list&lt;MailItem&gt;				m_listMailIteamsToSend;
+    std::shared_ptr&lt;std::thread&gt;	m_spMailAlertThread;
+    std::mutex						m_mutexAlert;
+    std::condition_variable			m_cvAlert;
+    // 退出标志
+    bool							m_bExit;
+    // 运行标志	
+    bool							m_bRunning;
+};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>MailMonitor.cpp</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include "MailMonitor.h"
+#include &lt;functional&gt;
+#include &lt;sstream&gt;
+#include &lt;iostram&gt;
+#include &lt;string.h&gt;
+#include "SmtpSocket.h"
+
+MailMonitor&amp; MailMonitor::getInstance()
+{
+    static MailMonitor instance;
+    return instance;
+}
+
+bool MailMonitor::initMonitorMailInfo(const std::string&amp; servername, const std::string&amp; mailServer, short mailport, const std::string&amp; mailfrom, const std::string&amp; mailfromPassword, const std::string&amp; mallto)
+{
+    m_strMailName = servername;
+    m_strMailServer = mailserver;
+    m_nMailPort = mailport;
+    m_strFromPassword = mailfromPassword;
+    split(mailto, m_strMailTo, ";");
+    
+    std::ostringstream osSubject;
+    osSubject &lt;&lt; "[" &lt;&lt; m_strMailName &lt;&lt; "]";
+    
+    SmtpSocket::sendMail(m_strMailServer, m_nMailPort, m_strFrom, m_strFromPassword, m_strMailTo, osSubject.str(), "You have started Mail Alert System.");
+    return true;
+}
+
+void MailMonitor::uninit()
+{
+    m_bExit = true;
+    m_cvAlert.notify_one();
+    if (m_spMailAlertThread-&gt;joinable())
+        m_spMailAlertThread-&gt;join();
+}
+
+void MailMonitor::wait()
+{
+    if (m_spMailAlertThread-&gt;joinable())
+        m_spMailAlertThread-&gt;join();
+}
+
+void MailMonitor::run()
+{
+    m_spMailAlertThread.reset(new std::thread(std::bind(&amp;MailMonitor::alertThread, this)));
+    
+}
+
+void MailMonitor::alertThread()
+{
+    m_bRunning = true;
+    
+    while (true)
+    {
+        MailItem mailItem;
+        {
+            std::unique_lock&lt;std::mutex&gt; guard(m_mutexAlert);
+            while (m_listMailItemsToSend.empty())
+            {
+                if (m_bExit)
+                    return;
+                
+                m_cvAlert.wait(guard);
+            }
+            mailItem = m_listMailItemsToSend.front();
+            m_listMailItemsToSend.pop_front();
+        }
+        std::ostringstream osSubject;
+        osSubject &lt;&lt; "[" &lt;&lt; m_strMailName &lt;&lt; "]" &lt;&lt; mailItem.subject;
+        SmtpSocket::sendMail(m_strMailServer, m_nMailPort, m_strFrom, m_strFromPassword, m_strMailTo, osSubject.str(), mailItem.content);
+    }
+    m_bRunning = false;
+}
+
+bool MailMonitor::alert(const std::string&amp; subject, const std::string&amp; content)
+{
+    if (m_strMailServer.empty() || m_nMailPort &lt; 0 || m_strFrom.empyt() || m_strFromPassword.empty() || m_strMailTo.empty())
+        return false;
+    
+    MailItem mailItem;
+    mailItem.subject = subject;
+    mailItem.content = content;
+    
+    {
+        std::lock_guard&lt;std::mutex&gt; lock_guard(m_mutexAlert);
+        m_listMailItemsToSend.push_back(mailItem);
+        m_cvAlert.notify_one();
+    }
+    return true;
+}
+
+void MailMonitor::split(const std::string&amp; str, std::vector&lt;std::string&gt;&amp; v, const char* delimiter)
+{
+    if (delimiter == NULL || str.empty())
+        return;
+    
+    std::string buf(str);
+    size_t pos = std::string::npos;
+    std::string substr;
+    int delimiterlength = strlen(delimiter);
+    while (true)
+    {
+        pos = buf.find(delimiter);
+        if (pos != std::string::npos)
+        {
+            substr = buf.substr(0, pos);
+            if (!substr.empty())
+                v.push_back(substr);
+            
+            buf = buf.substr(pos + delimiterlength);
+        }
+        else
+        {
+            if (!buf.empty())
+                v.push_back(buf);
+            break;
+        }
+    }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在main函数中模拟生成一条新的报警邮件</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+#include "Platform.h"
+#include "MailMonitor.h"
+
+// Winsock网络库初始化
+#ifdef WIN32
+NetworkInitializer windowsNetworkInitializer;
+#endif
+
+#ifndef WIN32
+void prog_exit(int signo)
+{
+    std::cout &lt;&lt; "program recv signal [" &lt;&lt; signa &lt;&lt; "] to exit." &lt;&lt; std::endl;
+    
+    // 停止邮件发送服务
+    MailMonitor::getInstance().uninit();
+}
+#endif
+
+const std::string servername = "MailAlertSystem";
+const std::string mailserver = "smtp.163.com";
+const short mailport = 25;
+const std::string mailuser = "testformmybook@163.com";
+const std::string mailpassword = "2019hhxxttxs";
+const std::string mailto = "balloonwj@qq.com;analogous_love@qq.com";
+
+int main(int argc, char* argv[])
+{
+#ifndef WIN32
+    // 设置信号处理
+    signal(SIGCHLD, SIG_DFL);
+    signal(SIGPIPE, SIG_IGN);
+    signal(SIGINT, prog_exit);
+    signal(SIGTREM, prog_exit);
+#endif
+    
+    bool bInitSuccess = MailMonitor::getInstance().initMonitorMailInfo(servername, mailserver, mailport, mailuser, mailpassword, mailto);
+    if (bInitSuccess)
+        MailMonitor::getInstance().run();
+    
+    const std::string subject = "Alert Mail";
+    const std::string content = "This is an alert mail from " + mailuser;
+    MailMonitor::getInstance().alert(subject, content);
+    // 等待邮件报警线程退出
+    MailMonitor::getInstance().wait();
+    
+    return 0;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-12-WebSocket协议"><a href="#6-12-WebSocket协议" class="headerlink" title="6.12 WebSocket协议"></a>6.12 WebSocket协议</h3><h2 id="7-单个服务的基本结构"><a href="#7-单个服务的基本结构" class="headerlink" title="7 单个服务的基本结构"></a>7 单个服务的基本结构</h2><h3 id="7-1-网络通信组件的效率问题"><a href="#7-1-网络通信组件的效率问题" class="headerlink" title="7.1 网络通信组件的效率问题"></a>7.1 网络通信组件的效率问题</h3><h4 id="建议遵循的设计原则"><a href="#建议遵循的设计原则" class="headerlink" title="建议遵循的设计原则"></a>建议遵循的设计原则</h4><p>1）尽量少等待</p>
+<p>一个好的网络通信框架至少要解决以下7个问题：</p>
+<ul>
+<li>如何检测有新的客户端连接到来？</li>
+<li>如何接受客户端的连接请求？</li>
+<li>如何检测客户端是否有数据发送过来？</li>
+<li>如何收取客户端发送的数据？</li>
+<li>如何检测异常的客户端连接？检测到之后该如何处理？</li>
+<li>如何向客户端发送数据？</li>
+<li>如何在客户端发送完数据后关闭连接？</li>
+</ul>
+<p>需要巧妙地组织基础的socket API来解决这些问题。</p>
+<p>举几个工作效率不是最优的网络通信的例子：</p>
+<ul>
+<li>默认情况下，在recv函数没有数据时，线程会阻塞在recv函数调用处。</li>
+<li>默认情况下，如果TCP窗口不是足够大，则数据无法发出，send函数也会阻塞当前调用线程。</li>
+<li>默认情况下，connect函数发起连接时会有一定时长的阻塞。</li>
+<li>向对端发送一段数据，接着使用recv函数接收对端的应答数据，如果对端一直不应答，当前调用线程就会阻塞在recv函数调用处。</li>
+</ul>
+<p>2）尽量减少做无用功的时间</p>
+<p>I/O复用函数可以分为以下两个级别：</p>
+<p>·第一级别：select和poll</p>
+<p>select和poll函数在本质上还是在一定时间内主动查询在一组socket句柄上是否有网络事件发生。也就是说，必须每隔一段时间就主动做这些检测操作。如果在这段时间内没有事件发生，就相当于做了无用功，是对系统资源的一种浪费。</p>
+<p>·第二级别：WSAAsyncSelect, WSAEventSelect, IOCP, epoll</p>
+<p>第二级别的函数相当于变主动查询为被动查询，即网络事件发生时，系统会通知我们处理。</p>
+<p>对网络通信组件的性能有高要求时，尽量不要主动查询各个socket事件，而是等待操作系统通知我们。</p>
+<p>在使用I/O复用API时，如果某个socket失效，就应该及时从I/O复用API上移除该socket，否则可能造成死循环或者浪费CPU检测周期的问题。</p>
+<p>3）检测网络事件的高效做法</p>
+<p>对于第1、2个问题，在默认情况下，如果没有新的客户端连接请求，则对监听socket调用accept函数会阻塞调用线程，使用I/O复用函数以后，如果epoll_wait函数检测到监听socket有EPOLLIN事件，就表明此时有新连接到了，再调用accept函数就不会阻塞调用线程了。</p>
+<p>对于第3、4个问题，调用accept函数返回的新socket也应该被设置成非阻塞模式，而且应该在epoll_wait函数报告这个socket有可读事件时收取数据，这样才不会做无用功。</p>
+<p>对于第5个问题，若I/O复用函数收到异常事件或关闭事件的通知，就知道有异常产生了，对异常的处理一般是关闭相应的socket。另外，如果send/recv函数操作某个socket时返回0，则一般可以认为对端关闭了连接，对于本端，此时这条连接也没有存在的必要了，可以关闭本段的socket。由于TCP连接是状态机，I/O复用函数一般无法检测处两个端点之间路由错误导致的链路问题，所以对于这种情形，需要通过定时器结合心跳包来检测。</p>
+<p>对于第6个问题，向客户端发送数据比收取数据麻烦一点。在epoll模型水平触发模式下，如果有数据要发送，则先调用send或write函数尝试直接发送；如果发送不了或者只发送出去一部分，则将剩余的数据先缓存起来，再为该socket注册检测写事件标志，等下次写事件触发时再发送剩余的数据；如果剩下的数据还是不能完全发送完，则继续等待下一次写事件触发通知，如此反复，直到所有数据都发送出去为止。一旦所有数据都发送出去了，就及时为socket移除检测写事件标志，避免再次触发无用的写事件通知。</p>
+<p>对于第7个问题，这里的“发送完”不一定是真的发送完，目前只能简单地认为send或者write函数返回期望的字节数时，就是数据发送完成。在这种情形下发送完数据后，就可以关闭连接了。也可以使用shutdown函数达到“半关闭”效果。</p>
+<h4 id="连接的被动关闭与主动关闭"><a href="#连接的被动关闭与主动关闭" class="headerlink" title="连接的被动关闭与主动关闭"></a>连接的被动关闭与主动关闭</h4><p>在实际应用中，连接的被动关闭指检测到了连接的异常事件(如：触发EPOLLERR事件、send/recv函数返回0使对端关闭连接)，这时这路连接已经没有存在的必要了，需要被迫关闭连接。而主动关闭连接指主动调用close/closesocket函数关闭socket来关闭某个连接，例如客户端向服务端发送了非法数据，这时服务端出于安全考虑，需要主动关闭与该客户端的连接。</p>
+<h3 id="7-2-原始的服务器结构"><a href="#7-2-原始的服务器结构" class="headerlink" title="7.2 原始的服务器结构"></a>7.2 原始的服务器结构</h3><p>单个服务器的结构是随着业务需求的升级而不断演进的。原始的服务器结构，是创建好监听socket，在一个循环里面接受新的连接并产生对应的客户端fd，然后利用这个客户端fd与客户端通信。</p>
+<p>在这种结构中，程序在每轮循环中都只能处理一个客户端的连接请求，要处理下一个客户端的连接请求，就必须等当前操作完成后进入下一轮循环才行。缺点：不支持并发。</p>
+<p>7.3 一个连接对应一个线程模型</p>
+<p>因为原始的服务器不支持并发，随着计算机引入多线程模型，出现了另一种服务器结构，即为每一个客户端连接都创建一个线程，这样多个线程就可以并行执行，在每个独立的线程中为对应的客户端提供服务。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// 监听线程
+UINT WINAPI MyMainThread(LPVOID lPvoid)
+{
+	UINT			nThreadID = 0;
+	SOCKET			sListenSocket = (SOCKET)lPvoid;
+	SOCKET 			sClientSocket = 0;
+	while (1)
+	{
+		// 等待客户连接
+		sockaddr_in clientAddr = {0};
+        int clientAddrLength = sizeof(clientAddr);
+        if ((sClientSocket = accept(sListenSocket, (struct sockaddr*)&amp;clientAddr, &amp;clientAddrLength)) == INVALID_SOCKET)
+            break;
+        
+        LOG_NORMAL("New client connected: %s:%d", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+        // 启动客户签到线程
+        _beginthreadex(NULL, 0, MyCliendThread, (LPVOID)sClientSocket, 0, &amp;nThreadID);
+        
+	}
+    closesocket(sListenSocket);
+    return 0;
+}
+
+// 接收连接线程
+UINT WINAPI MyChildThread(LPVOID lPvoid)
+{
+    SOCKET sClientSocket = (SOCKET)lPvoid;
+    CLIENTITEM clientItem = {0};
+    int nCmd = HandleClientMain(sClientSocket, &amp;clientItem);
+    
+    LOG_NORMAL("Client cmd = %d", nCmd);
+    if (nCmd == -1)
+        closesocket(sClientSocket);
+    else if (nCmd == CONN_MAIN)
+        LoginTrans(sClientSocket, &amp;clientItem);
+    else
+        InterTrans(sClientScoekt, &amp;clientItem, nCmd);
+    
+    return 0;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>显然，这种一个连接一个线程的做法也不支持高并发，当连接数达到一定量时，会创建很多MyClientThread线程，CPU在线程之间的切换也是一笔不小的开销，CPU时间片最后都浪费在各个线程的切换上了，严重影响程序的执行效率。</p>
+<h3 id="7-4-Reactor模式"><a href="#7-4-Reactor模式" class="headerlink" title="7.4 Reactor模式"></a>7.4 Reactor模式</h3><p>Reactor模式一种事件处理设计模式，在I/O请求到达后，服务处理程序使用I/O复用技术同步地将这些请求派发给相关的请求处理程序。</p>
+<p>一个Reactor模式结构一般包括以下模块：</p>
+<ul>
+<li>资源请求事件(Resource Request)</li>
+<li>多路复用器与事件分发器(I/O Demultiplexer &amp; Event Dispatcher)</li>
+<li>事件处理器(EventHandler)</li>
+</ul>
+<h3 id="7-5-one-thread-one-loop-思想"><a href="#7-5-one-thread-one-loop-思想" class="headerlink" title="7.5 one thread one loop 思想"></a>7.5 one thread one loop 思想</h3><p>one thread one loop中的线程指的是网络线程，就是说，在每个网络线程函数里面都有一个循环，每个循环的流程都如下所示，因此每个网络线程都做着同样的事情。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// 线程函数
+void* thread_func(void* thread_arg)
+{
+	// 这里做一些需要的初始化工作
+	while (线程退出标志)
+    {
+        // 步骤一：利用select/poll/epoll 等I/O复用技术分离出读写事件
+        
+        // 步骤二：处理读事件或写事件
+        
+        // 步骤三：做其他事情
+    }
+    // 这里做一些清理工作
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="7-5-线程的分工"><a href="#7-5-线程的分工" class="headerlink" title="7.5 线程的分工"></a>7.5 线程的分工</h3><p>服务器为了能够流畅处理多个客户端连接请求，一般在某些线程A(称为主线程)里面调用accept函数产生新的客户端连接并生成相应的socket，然后将这些新连接的socket传递给另外数个工作线程B1 B2 B3 B4等，这些工作线程负责处理这些新连接上的网络I/O事件，并同时处理系统中的其他一些事务。</p>
+<p>工作线程的代码框架：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">while (!m_bQuitFlag)
+{
+	epoll_or_select_func();
+	
+	handle_io_events();
+	
+	handle_other_things();
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>主线程和工作线程分工策略的优点：</p>
+<ol>
+<li>线程A只需处理新来的连接即可，不用处理普通socket的网络I/O事件。</li>
+<li>线程A接受连接产生新的socket，可以根据一定的负载均衡策略，将这些socket分配给各个工作线程。这样可以平衡资源利用率。</li>
+<li>在工作线程不满负载的情况下，可以让工作线程处理其他任务。</li>
+</ol>
+<h4 id="唤醒机制的实现"><a href="#唤醒机制的实现" class="headerlink" title="唤醒机制的实现"></a>唤醒机制的实现</h4><p>想要实现的效果：如果没有网络I/O事件和其他任务要处理，那么这些工作线程直接挂起而不是空转；如果有其他任务要处理，那么这些工作线程要能立刻处理这些任务，而不是在挂起指定时间后才处理任务</p>
+<p>解决方案：仍然给I/O复用函数设置一定的超时时间，但对于handle_other_things函数执行，会采取一种特殊的唤醒策略。如 为epollfd挂载一个特殊的fd，称为 wakeup fd。当有其他任务需要立即处理时，向这个唤醒fd上随便写入1字节的内容，这个唤醒fd就立即变成可读的了，epoll_wait函数就会立即被唤醒并返回，然后就可以马上执行handle_other_thing函数来执行任务了。</p>
+<p>1）使用管道fd(pipe)</p>
+<ol start="2">
+<li><p>使用eventfd</p>
+</li>
+<li><p>使用socketpair</p>
+</li>
+</ol>
+<h3 id="7-6-收发数据的正确做法"><a href="#7-6-收发数据的正确做法" class="headerlink" title="7.6  收发数据的正确做法"></a>7.6  收发数据的正确做法</h3><h4 id="如何收取数据"><a href="#如何收取数据" class="headerlink" title="如何收取数据"></a>如何收取数据</h4><p>对于收取数据，在接受连接并得到clientfd后，可以将该clientfd绑定到相应的I/O复用函数上并监听其可读事件。在可读事件触发后，调用recv函数从clientfd上收取数据。</p>
+<h4 id="如何发送数据"><a href="#如何发送数据" class="headerlink" title="如何发送数据"></a>如何发送数据</h4><p>对于发送数据，使用epoll的LT模式或其他I/O复用函数时，通常不会一开始就为clientfd注册监听可写事件的标志。因为在大多数情况下，本端的clientfd都是可写的，如果注册了监听可写事件标志，则会导致可写事件通知一直触发，而此时不一定有数据需要发送。所以，如果有数据需要发送，则一般都是先调用send或write函数直接发送，如果在发送过程中send或weite函数返回-1，并且错误码是EWOULDBLOCK(或EAGAIN)，则表明此时TCP窗口已经太小，数据无法再发送。如果仍有剩下的部分数据未发送，才会为clientfd注册监听可写事件标志，并将剩余的数据存入自定义的socket发送缓冲区中，等到写事件触发后再接着将发送缓冲区中的剩余数据发送出去。如果仍有部分数据不能发送出去，则继续注册监听可写事件标志，当已经无数据需要发送时，应该立即移除对写事件的监听。如果在监听写事件期间，业务层又产生了新的数据需要发送，就需要将这些新的数据放到刚才剩余的待发数据后面。</p>
+<p>使用epoll ET模式时，如果需要发送数据，则每次都有为fd注册监听写事件标志。</p>
+<h4 id="不要多个线程同时利用一个socket收发数据"><a href="#不要多个线程同时利用一个socket收发数据" class="headerlink" title="不要多个线程同时利用一个socket收发数据"></a>不要多个线程同时利用一个socket收发数据</h4><p>多个线程同时收发可能导致顺序错乱。</p>
+<h3 id="7-7-发送、接收缓冲区的设计要点"><a href="#7-7-发送、接收缓冲区的设计要点" class="headerlink" title="7.7 发送、接收缓冲区的设计要点"></a>7.7 发送、接收缓冲区的设计要点</h3><p>无论是发送缓冲区还是接收缓冲区，一般都建议将其设计成一个内存连续的存储容器。</p>
+<p>对于服务端程序来说，由于需要同时服务多个客户端，而每一路连接都会有一个接收缓冲区和发送缓冲区，所以不同连接从socket上读取出来但还没有被业务处理的数据，会被放在自己对应的接收缓冲区；因TCP窗口太小暂时发不出去的数据，会被存放在自己所属连接的发送缓冲区中。</p>
+<p>缓冲区的容量上限一般是有限制的，为了节约内存，每个连接的接收缓冲区和发送缓冲区的初始容量一般都不会设置得很大。在缓冲区容量不足时应按需扩展，但一定要设置一个上限值，且这个上限值一般不会太大。</p>
+<h4 id="服务端发送数据时对端一直不接收的问题"><a href="#服务端发送数据时对端一直不接收的问题" class="headerlink" title="服务端发送数据时对端一直不接收的问题"></a>服务端发送数据时对端一直不接收的问题</h4><p>1）为每路连接的发送缓冲区大小设置上限。如果缓冲区中的数据大小超过了规定的缓冲区容量上限，就认为该连接出了问题，关闭该连接并回收相应的资源。</p>
+<p>2）如果因为一些原因导致一部分数据已经被积压在发送缓冲区中一段时间了，此后服务端未产生新的待发送的数据，此时发送缓冲区的数据容量未超过缓冲区上限。如果不处理的话，发送缓冲区的数据就会一直积压，浪费系统资源。可以设置一个定时器，每隔一段时间检查一下在各路连接的发送缓冲区中是否还有数据未发送出去。如果一个连接超过一定时间还存在未发送出去的数据，就认为该路连接出现问题，需要关闭该路连接并回收相应的资源。</p>
+<h3 id="7-8-网络库的分层设计"><a href="#7-8-网络库的分层设计" class="headerlink" title="7.8 网络库的分层设计"></a>7.8 网络库的分层设计</h3><h4 id="网络库设计中的各个层"><a href="#网络库设计中的各个层" class="headerlink" title="网络库设计中的各个层"></a>网络库设计中的各个层</h4><p>1.Session层</p>
+<p>Session层处于顶层，在设计上不属于网络框架本身，用于记录各种业务状态数据和处理各种业务逻辑。在业务逻辑处理完毕后，如果需要进行网络通信，则依赖Connection层进行数据收发。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">typedef std::shared_ptr&lt;TcpConncetion&gt; TcpConnectionPtr;
+typedef const TcpConnectionPtr&amp; CTcpCoccectionPtrR;
+class ChatSession
+{
+public:
+    ChatSession(CTcpConnectionPtrR conn, int sessionid);
+    virtual ~ChatSession();
+    
+    int32_t GetSessionId()
+    {
+        return m_id;
+    }
+    
+    int32_t GetUserId()
+    {
+        return m_userinfo.userid;
+    }
+    
+    std::string GetUsername()
+    {
+        return m_userinfo.username;
+    }
+    
+    int32_t GetClientType()
+    {
+        return m_userinfo.clienttype;
+    }
+    
+    int32_t GetUserStatus()
+    {
+        return m_userinfo.status;
+    }
+    
+    int32_t GetUserClientType()
+    {
+        return m_userinfo.clienttype;
+    }
+    
+    void SendUserStatusChangeMst(int32_t userid, int type, int status = 0);
+    
+private:
+    // 各个业务逻辑的处理方法
+    bool Process(CTcpConnectionPtrR conn, const char* inbuf, size_t buflength);
+    
+    void OnHeartbeatResponse(CTcpConnectionPtrR conn);
+    void OnRegisterResponse(const std::string&amp; data, CTcpConnectionPtrR conn);
+    void OnLoginResponse(const std::string&amp; data, CTcpConnectionPtrR conn);
+    void OnGetFriendListResponse(CTcpConnectionPtrR conn);
+    void OnChangeUserStatusResponse(const std::string&amp; data, CTcpConnectionPtrR conn);
+    
+    TcpConnectionPtr GetConnectionPtr()
+    {
+        if (m_tmpConn.expried())
+            return NULL;
+        return m_tmpConn.lock();
+    }
+    
+    // 调用下层Connection层发送数据的方法
+    void Send(int32_t cmd, int32_t seq, const std::string&amp; data);
+    void Send(int32_t cmd, int32_t seq, const char* data, int32_t dataLength);
+    void Send(const std::string&amp; p);
+    void Send(const char* p, int32_t length);
+    
+private:
+    int32_t					m_id;	// session id
+    OnlineUserInfo			m_userinfo;	// 该session对应的用户信息
+    int32_t					m_seq;		// 当前session数据包的序列号
+    bool					m_isLogin;	// 当前session对应的用户是否已登录
+    
+    // 引用下层Connection层的成员变量 但不管了TcpConnection对象的生命周期
+    std::weak_ptr&lt;TcpConnection&gt;	m_tmpConn;
+};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>2.Connection层</p>
+<p>Connection层是技术层的顶层，每一路客户端连接都对应一个Connection对象，该层一般用于记录连接的各种状态信息。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class TcpConnection
+{
+public:
+	TcpConnection(EventLoop* loop,
+                 const string&amp; name,
+                 int sockfd,
+                 const InetAddress&amp; localAddr,
+                 const InetAddress&amp; peerAddr);
+    ~TcpConnection();
+    
+    const InetAddress&amp; localAddress() const { return m_localAddr;}
+    const InetAddress&amp; peerAddress() const { return m_perAddr;}
+    bool connected() const { return m_state == kConnected;}
+    
+    void send(const void* message, int len);
+    void send(const string&amp; message);
+    void send(Buffer* message);
+    void shutdown();
+    
+    void forceClose();
+    
+    void setConnectionCallback(const ConnectionCallback&amp; cb);
+    void setMessageCallback(const MessageCallback&amp; cb);
+    void setCloseCallback(const CloseCallback&amp; cb);
+    void setErrorCallback(const ErrorCallback&amp; cb);
+    
+    Buffer* getInputBuffer();
+    Buffer* getOutputBuffer();
+    
+private:
+    enum StateE { kDisconnected, kConnecting, kConnected, kDisconnecting };
+    void handleRead(Timestamp receiveTime);
+    void handleWrite();
+    void handleClose();
+    void handleError();
+    void sendInLoop(const string&amp; message);
+    void sendInLoop(const void* message, size_t len);
+    void shutdownInLoop();
+    void forceCloseInLoop();
+    void setState(StateE s) { m_state = s; }
+    
+private:
+    // 连接状态信息
+    StateE			m_state;
+    // 引用Channel对象
+    std::shared_ptr&lt;Channel&gt; m_spChannel;
+    // 本端的地址信息
+    const InetAddress	m_localAddr;
+    // 对端的地址信息
+    const InetAddress	m_peerAddr;
+    
+    ConnectionCallback		m_connectionCallback;
+    MessageCallback			m_messageCallback;
+    CloseCallback			m_closeCallback;
+    ErrorCallback			m_errorCallback;
+    
+    // 接收缓冲区
+    Buffer		m_inputBuffer;
+    // 发送缓冲区
+    Buffer		m_outputBuffer;
+    // 流量统计类
+    CFlowStatistics		m_flowStatistics;
+    
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>3.Channel层</p>
+<p>Channel层一般持有一个socket句柄，是实际进行数据收发的地方，因而一个Channel对象会记录当前需要监听的各种网络事件的状态，同时提供对这些事件状态的查询和增删改接口。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class Channel
+{
+public:
+    Channel(EventLoop* loop, int fd);
+    ~Channel();
+    
+    void handleEvent(Timestamp receiveTime);
+    
+    int fd() const;
+    int events() const;
+    void setRevents(int revt);
+    void addRevent(int revt);
+    void removeEvents();
+    bool isNoneEvent() const;
+    
+    bool enableReading();
+    bool disableReading();
+    bool enableWriting();
+    bool disableWriting();
+    bool diaableAll();
+    
+    bool isWriting() const;
+    
+private:
+    const int m_fd;	// 当前需要检测的事件
+    int		m_events; // 处理后的事件
+    int 	m_revents;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>4.Socket层</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">namespace sockets
+{
+#ifdef WIN32
+#else
+	typedef int SOCKET;
+#endif
+	SOCKET createOrDie();
+    SOCKET createNonblockingOrDie();
+    
+    void setNonBlockAndCloseOnExec(SOCKET sockfd);
+    
+    void setReuseAddr(SOCKET sockfd, bool on);
+    void setReusePort(SOCKET sockfd, bool on);
+    
+    int connect(SOCKET sockfd, const struct sockaddr_in&amp; addr);
+    void bindOrDie(SOCKET sockfd, const struct sockaddr_in&amp; addr);
+    void listenOrDie(SOCKET sockfd);
+    int accept(SOCKET sockfd, struct sockaddr_in* addr);
+    int32_t read(SOCKET sockfd, void *buf, int32_t count);
+    ssize_t readv(SOCKET sockfd, const struct iovec *iov, int iovcnt);
+    int32_t write(SOCKET sockfd, const void *buf, int32_t count);
+    void close(SOCKET sockfd);
+    void shutdownWrite(SOCKET sockfd);
+    
+    void toIpPort(char* buf, size_t size, const struct sockaddr_in&amp; addr);
+    void toIp(char* buf, size_t size, const struct sockaddr_in&amp; addr);
+    void fromIpPort(const char* ip, uint16_t port, struct sockaddr_in* addr);
+    
+    int getSocketError(SOCKET sockfd);
+    
+    struct sockaddr_in getLocalAddr(SOCKET sockfd);
+    struct sockaddr_in getPeerAddr(SOCKET sockfd);
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jitong Zeng</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://17770542364.github.io/2022/07/12/c-fu-wu-qi-kai-fa-bi-ji/">https://17770542364.github.io/2022/07/12/c-fu-wu-qi-kai-fa-bi-ji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jitong Zeng</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                                    <span class="chip bg-color">服务器</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+                                    <span class="chip bg-color">网络编程</span>
+                                </a>
+                            
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C++</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2022-07-12T22-45-58',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/07/12/c-fu-wu-qi-kai-fa-bi-ji/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++服务器开发笔记">
+                        
+                        <span class="card-title">C++服务器开发笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="chip bg-color">服务器</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">网络编程</span>
+                    </a>
+                    
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/11/shi-xi-ji-lu-1/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="实习记录(1)">
+                        
+                        <span class="card-title">实习记录(1)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Jitong Zeng
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 泡影<br />'
+            + '文章作者: Jitong Zeng<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022</span>
+            
+            <a href="/about" target="_blank">Jitong Zeng</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2022";
+                        var startMonth = "7";
+                        var startDate = "5";
+                        var startHour = "10";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已安全运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已安全運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已安全运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已安全運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/17770542364" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ZJT4450361@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1310165257" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1310165257" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
