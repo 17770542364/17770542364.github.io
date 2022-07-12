@@ -6,16 +6,26 @@
     <meta charset="utf-8">
     <meta name="keywords" content="WebRTC客户端(一) WebRTC架构, 泡影">
     <meta name="description" content="WebRTC整体架构
+
+
+
 WebRTC目录结构
 
+
+
+
+
 WebRTC Modules目录
+
+
+
+
 
 WebRTC运行机制轨与流
 Track 轨 	各个轨之间保持平行
 MediaStream 流 每个流里面包括了多条轨
 
-WebRTC重要的类
-MediaStr">
+WebRTC重要">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -523,11 +533,22 @@ MediaStr">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="WebRTC整体架构"><a href="#WebRTC整体架构" class="headerlink" title="WebRTC整体架构"></a>WebRTC整体架构</h2><p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616150935297.png" alt="image-20220616150935297"></p>
-<h2 id="WebRTC目录结构"><a href="#WebRTC目录结构" class="headerlink" title="WebRTC目录结构"></a>WebRTC目录结构</h2><p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616151953427.png" alt="image-20220616151953427"></p>
-<p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616152128809.png" alt="image-20220616152128809"></p>
-<h2 id="WebRTC-Modules目录"><a href="#WebRTC-Modules目录" class="headerlink" title="WebRTC Modules目录"></a>WebRTC Modules目录</h2><p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616152630603.png" alt="image-20220616152630603"></p>
-<p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616152810130.png" alt="image-20220616152810130"></p>
+                <h2 id="WebRTC整体架构"><a href="#WebRTC整体架构" class="headerlink" title="WebRTC整体架构"></a>WebRTC整体架构</h2><img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616150935297.png" class="" title="image-20220616150935297">
+
+
+
+<h2 id="WebRTC目录结构"><a href="#WebRTC目录结构" class="headerlink" title="WebRTC目录结构"></a>WebRTC目录结构</h2><img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616151953427.png" class="" title="image-20220616151953427">
+
+<img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616152128809.png" class="" title="image-20220616152128809">
+
+
+
+<h2 id="WebRTC-Modules目录"><a href="#WebRTC-Modules目录" class="headerlink" title="WebRTC Modules目录"></a>WebRTC Modules目录</h2><img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616152630603.png" class="" title="image-20220616152630603">
+
+<img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616152810130.png" class="" title="image-20220616152810130">
+
+
+
 <h2 id="WebRTC运行机制"><a href="#WebRTC运行机制" class="headerlink" title="WebRTC运行机制"></a>WebRTC运行机制</h2><h3 id="轨与流"><a href="#轨与流" class="headerlink" title="轨与流"></a>轨与流</h3><ul>
 <li>Track 轨 	各个轨之间保持平行</li>
 <li>MediaStream 流 每个流里面包括了多条轨</li>
@@ -537,8 +558,9 @@ MediaStr">
 <li>RTCPeerConnection </li>
 <li>RTCDataChannel 非音视频的数据通过这个类进行传输</li>
 </ul>
-<h3 id="PeerConnection调用过程"><a href="#PeerConnection调用过程" class="headerlink" title="PeerConnection调用过程"></a>PeerConnection调用过程</h3><p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616160704314.png" alt="image-20220616160704314"></p>
-<h3 id="调用时序图"><a href="#调用时序图" class="headerlink" title="调用时序图"></a>调用时序图</h3><p><img src="/WebRTC%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%80-WebRTC%E6%9E%B6%E6%9E%84/image-20220616165550065.png" alt="image-20220616165550065"></p>
+<h3 id="PeerConnection调用过程"><a href="#PeerConnection调用过程" class="headerlink" title="PeerConnection调用过程"></a>PeerConnection调用过程</h3><img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616160704314.png" class="" title="image-20220616160704314">
+
+<h3 id="调用时序图"><a href="#调用时序图" class="headerlink" title="调用时序图"></a>调用时序图</h3><img src="/2022/07/05/webrtc-ke-hu-duan-yi-webrtc-jia-gou/image-20220616165550065.png" class="" title="image-20220616165550065">
 
                 
             </div>
