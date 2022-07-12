@@ -4,6 +4,58 @@
   
     
     <entry>
+      <title>LeetCode刷题笔记</title>
+      <link href="/2022/07/12/leetcode-shua-ti-bi-ji/"/>
+      <url>/2022/07/12/leetcode-shua-ti-bi-ji/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+            <tag> LeetCode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Effective C++笔记</title>
+      <link href="/2022/07/12/effective-c-bi-ji/"/>
+      <url>/2022/07/12/effective-c-bi-ji/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>C++服务器开发笔记</title>
       <link href="/2022/07/12/c-fu-wu-qi-kai-fa-bi-ji/"/>
       <url>/2022/07/12/c-fu-wu-qi-kai-fa-bi-ji/</url>
@@ -37,9 +89,23 @@
       <link href="/2022/07/11/shi-xi-ji-lu-1/"/>
       <url>/2022/07/11/shi-xi-ji-lu-1/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>这个暑假，我来到了重庆电信实习。</p>]]></content>
       
       
+      <categories>
+          
+          <category> 实习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+            <tag> workflow </tag>
+            
+        </tags>
       
     </entry>
     
