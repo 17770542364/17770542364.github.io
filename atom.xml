@@ -6,7 +6,7 @@
   <link href="https://17770542364.github.io/atom.xml" rel="self"/>
   
   <link href="https://17770542364.github.io/"/>
-  <updated>2022-07-12T15:19:03.773Z</updated>
+  <updated>2022-07-13T12:33:02.186Z</updated>
   <id>https://17770542364.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>实习记录(1)sha256WithRsa签名算法(C++)</title>
+    <link href="https://17770542364.github.io/2022/07/13/shi-xi-ji-lu-1/"/>
+    <id>https://17770542364.github.io/2022/07/13/shi-xi-ji-lu-1/</id>
+    <published>2022-07-13T09:16:14.000Z</published>
+    <updated>2022-07-13T12:33:02.186Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天，琴姐交给我一个任务，将一段java实现的sha256WithRsa签名算法转换成C++实现。java的实现如下所示：&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-java&quot; data-language=&quot;java&quot;&gt;&lt;code</summary>
+        
+      
+    
+    
+    
+    <category term="实习" scheme="https://17770542364.github.io/categories/%E5%AE%9E%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="https://17770542364.github.io/tags/C/"/>
+    
+    <category term="RSA" scheme="https://17770542364.github.io/tags/RSA/"/>
+    
+    <category term="SHA264" scheme="https://17770542364.github.io/tags/SHA264/"/>
+    
+  </entry>
   
   <entry>
     <title>C++常见面试题</title>
@@ -112,34 +142,6 @@
     <category term="网络编程" scheme="https://17770542364.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
     
     <category term="C++" scheme="https://17770542364.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>实习记录(1)</title>
-    <link href="https://17770542364.github.io/2022/07/11/shi-xi-ji-lu-1/"/>
-    <id>https://17770542364.github.io/2022/07/11/shi-xi-ji-lu-1/</id>
-    <published>2022-07-11T09:16:14.000Z</published>
-    <updated>2022-07-12T14:55:40.296Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;这个暑假，我来到了重庆电信实习。&lt;/p&gt;
-</summary>
-        
-      
-    
-    
-    
-    <category term="实习" scheme="https://17770542364.github.io/categories/%E5%AE%9E%E4%B9%A0/"/>
-    
-    
-    <category term="C++" scheme="https://17770542364.github.io/tags/C/"/>
-    
-    <category term="workflow" scheme="https://17770542364.github.io/tags/workflow/"/>
     
   </entry>
   

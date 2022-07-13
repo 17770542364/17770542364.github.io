@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>实习记录(1)sha256WithRsa签名算法(C++)</title>
+      <link href="/2022/07/13/shi-xi-ji-lu-1/"/>
+      <url>/2022/07/13/shi-xi-ji-lu-1/</url>
+      
+        <content type="html"><![CDATA[<p>今天，琴姐交给我一个任务，将一段java实现的sha256WithRsa签名算法转换成C++实现。java的实现如下所示：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">rsa256Sign</span><span class="token punctuation">(</span><span class="token class-name">String</span> content<span class="token punctuation">,</span> <span class="token class-name">String</span> privateKey<span class="token punctuation">,</span><span class="token class-name">String</span> charset<span class="token punctuation">)</span><span class="token punctuation">{</span>        <span class="token keyword">try</span> <span class="token punctuation">{</span>            <span class="token class-name">PrivateKey</span> priKey <span class="token operator">=</span> <span class="token function">getPrivateKeyFromPKCS8</span><span class="token punctuation">(</span>KEY_ALGORITHM<span class="token punctuation">,</span>                <span class="token keyword">new</span> <span class="token class-name">ByteArrayInputStream</span><span class="token punctuation">(</span>privateKey<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token class-name">Signature</span> signature <span class="token operator">=</span> <span class="token class-name">Signature</span>                <span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>SIGN_SHA256RSA_ALGORITHMS<span class="token punctuation">)</span><span class="token punctuation">;</span>            signature<span class="token punctuation">.</span><span class="token function">initSign</span><span class="token punctuation">(</span>priKey<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isBlank</span><span class="token punctuation">(</span>charset<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>                signature<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>content<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>                signature<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>content<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span>charset<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token punctuation">}</span>            <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> signed <span class="token operator">=</span> signature<span class="token punctuation">.</span><span class="token function">sign</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token class-name">Base64</span><span class="token punctuation">.</span><span class="token function">encodeBase64</span><span class="token punctuation">(</span>signed<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"RSAcontent = "</span> <span class="token operator">+</span> content <span class="token operator">+</span> <span class="token string">"; charset = "</span> <span class="token operator">+</span> charset<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>        <span class="token punctuation">}</span>    <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>传进来的参数分别为需要加密的字段，私钥，字符集，返回加密好的base64编码。通过调用java.security包中的一些方法可以很方便地实现。</p><p>通过在网上搜寻得知，C/C++可以使用openssl来实现各种加密解密算法，因此我便开始去了解openssl库的使用方法。在这之前，先简单回顾一下关于密码学相关的知识。</p><h3 id="密码学回顾"><a href="#密码学回顾" class="headerlink" title="密码学回顾"></a>密码学回顾</h3><h4 id="1-对称加密"><a href="#1-对称加密" class="headerlink" title="1.对称加密"></a>1.对称加密</h4><p>对称密码体制也称单钥或私钥密码体制，其加密密钥和解密密钥相同，或实质上等同， 即从一个易于推出另一个。</p><p> 优点：保密性高，加密速度快，适合加密大量数据，易于通过硬件实现；<br>缺点：秘钥必须通过安全可靠的途径传输，秘钥的分发是保证安全的关键因素；</p><h4 id="2-非对称加密"><a href="#2-非对称加密" class="headerlink" title="2.非对称加密"></a>2.非对称加密</h4><p>非对称密码体制又称双钥或公钥密码体制，其加密密钥和解密密钥不同，从一个很难推出另一个。其中的加密密钥可以公开，称为公开密钥，简称公钥；解密密钥必须保密，称为私有密钥，简称私钥。</p><p> 优点：密钥交换可通过公开信道进行，无需保密。既可用于加密也可用于签名。<br>缺点：加密速度不如对称密码，不适合大量数据加密，加密操作难以通过硬件实现</p><p>常见的非对称密码算法：RSA(基于大整数质因子分解难题)、ECC(基于椭圆曲线离散对数难题)。</p><h4 id="3-哈希函数与数字签名"><a href="#3-哈希函数与数字签名" class="headerlink" title="3.哈希函数与数字签名"></a>3.哈希函数与数字签名</h4><ul><li>哈希函数</li></ul><p>哈希函数将任意长的消息映射为一个固定长度的散列值，也称消息摘要。消息摘要可以作为认证符，完成消息认证。<br>哈希是单向函数，从消息摘要来推理原消息是极为困难的。哈希函数的安全性是由发生碰撞的概率决定的。如果攻击者能轻易构造出两个不同的消息具有相同的消息摘要，那么这样的哈希函数是不可靠的。</p><p> 常见的哈希函数有：MD5，SHA264，HMAC。</p><ul><li>数字签名</li></ul><p>数字签名是公钥密码的典型应用，可以提供和现实中亲笔签名相似的效果，在技术上和法律上都有保证。是网络环境中提供消息完整性，确认身份，保证消息来源（抗抵赖性）的重要技术。</p><p> 数字签名与验证过程：</p><p> 发送方用哈希函数从报文文本中生成一个128位的散列值（或报文摘要），发送方用自己的私钥对这个散列值进行加密来形成自己的数字签名。然后，这个数字签名将作为报文的附件和报文一起发送给接收方。接收方收到报文后，用同样的哈希函数从原始报文中计算出散列值（或报文摘要），接着再用发送方的公钥来对报文附加的数字签名进行解密得出另一个散列值，如果两个散列值相同，那么接收方就能确认该数字签名是发送方的。通过数字签名能够实现消息的完整性和不可抵赖性。</p><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>现在我们要实现的是一个使用非对称加密算法RSA的数字签名算法，已知明文和私钥，生成一个经过RSA加密后的消息摘要，并返回base64编码。加密的步骤如下：</p><ol><li>使用SHA256算法得到一段消息摘要</li><li>使用RSA算法中的私钥对消息摘要进行加密</li><li>对加密后的密文进行base64编码</li></ol><p>加密的步骤比较简单，但是在关于C++的实现比较少，因此在写代码的过程中也遇到了不少困难。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 实习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+            <tag> RSA </tag>
+            
+            <tag> SHA264 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>C++常见面试题</title>
       <link href="/2022/07/12/c-chang-jian-mian-shi-ti/"/>
       <url>/2022/07/12/c-chang-jian-mian-shi-ti/</url>
@@ -127,33 +156,6 @@
             <tag> 网络编程 </tag>
             
             <tag> C++ </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>实习记录(1)</title>
-      <link href="/2022/07/11/shi-xi-ji-lu-1/"/>
-      <url>/2022/07/11/shi-xi-ji-lu-1/</url>
-      
-        <content type="html"><![CDATA[<p>这个暑假，我来到了重庆电信实习。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 实习 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> C++ </tag>
-            
-            <tag> workflow </tag>
             
         </tags>
       
