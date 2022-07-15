@@ -6,7 +6,7 @@
   <link href="https://17770542364.github.io/atom.xml" rel="self"/>
   
   <link href="https://17770542364.github.io/"/>
-  <updated>2022-07-13T12:33:02.186Z</updated>
+  <updated>2022-07-14T13:27:14.100Z</updated>
   <id>https://17770542364.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>音视频基础</title>
+    <link href="https://17770542364.github.io/2022/07/13/yin-shi-pin-ji-chu/"/>
+    <id>https://17770542364.github.io/2022/07/13/yin-shi-pin-ji-chu/</id>
+    <published>2022-07-13T13:22:45.000Z</published>
+    <updated>2022-07-14T13:27:14.100Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;音视频的应用&quot;&gt;&lt;a href=&quot;#音视频的应用&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="音视频" scheme="https://17770542364.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
+    
+    
+    <category term="ffmpeg" scheme="https://17770542364.github.io/tags/ffmpeg/"/>
+    
+  </entry>
   
   <entry>
     <title>实习记录(1)sha256WithRsa签名算法(C++)</title>

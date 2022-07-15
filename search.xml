@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>音视频基础</title>
+      <link href="/2022/07/13/yin-shi-pin-ji-chu/"/>
+      <url>/2022/07/13/yin-shi-pin-ji-chu/</url>
+      
+        <content type="html"><![CDATA[<hr><h2 id="音视频的应用"><a href="#音视频的应用" class="headerlink" title="音视频的应用"></a>音视频的应用</h2><ul><li>互动直播系统</li><li>娱乐直播直播</li><li>音视频特效</li><li>音视频编辑</li></ul><h2 id="最简单的直播系统"><a href="#最简单的直播系统" class="headerlink" title="最简单的直播系统"></a>最简单的直播系统</h2><h3 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h3><ul><li><p>ffmpeg</p><ul><li>ffmpeg -i 文件路径 -f flv rtmp://服务器地址</li></ul></li><li><p>ffplay</p></li><li><p>vlc</p></li></ul><h3 id="架构模型"><a href="#架构模型" class="headerlink" title="架构模型"></a>架构模型</h3><ul><li>流媒体服务器</li><li>推流工具</li><li>拉流工具</li></ul><img src="/2022/07/13/yin-shi-pin-ji-chu/image-20220713213551172.png" class="" title="image-20220713213551172"><h2 id="推流中断与画质不清晰的解决办法"><a href="#推流中断与画质不清晰的解决办法" class="headerlink" title="推流中断与画质不清晰的解决办法"></a>推流中断与画质不清晰的解决办法</h2><p>推流中断的原因：音频和视频播放不同步，时间戳出现错误</p><p>解决：加入参数 -re</p><p>画质不清晰的原因：播放时按照默认设置对视频重新编码，画质有所下降</p><p>解决：加入参数 -c copy</p><h2 id="编译ffmpeg与ffplay"><a href="#编译ffmpeg与ffplay" class="headerlink" title="编译ffmpeg与ffplay"></a>编译ffmpeg与ffplay</h2><h3 id="Mac-x2F-Linux环境变量"><a href="#Mac-x2F-Linux环境变量" class="headerlink" title="Mac/Linux环境变量"></a>Mac/Linux环境变量</h3><ul><li>环境变量的工作原理</li></ul><p>PATH：用于配置全局使用的命令地址</p><p>PKG_CONFIG_PATH(pkg-config): 用于找到头文件和库文件的地址</p><ul><li>环境变量的变更</li></ul><p>~/.bashrc | ~/.bash_profile</p><p>source ~/.bashrc</p><h3 id="pkg-config命令"><a href="#pkg-config命令" class="headerlink" title="pkg-config命令"></a>pkg-config命令</h3><p>pkg-config –libs –cflags libavutil</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 音视频 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ffmpeg </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>实习记录(1)sha256WithRsa签名算法(C++)</title>
       <link href="/2022/07/13/shi-xi-ji-lu-1/"/>
       <url>/2022/07/13/shi-xi-ji-lu-1/</url>
