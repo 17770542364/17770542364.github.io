@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>git常用操作</title>
+      <link href="/2022/07/15/git-chang-yong-cao-zuo/"/>
+      <url>/2022/07/15/git-chang-yong-cao-zuo/</url>
+      
+        <content type="html"><![CDATA[<h2 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h2><p>查看工作区状态，如果跟踪的文件有做任何修改，都可以通过该命令来发现。</p><h2 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h2><p>查看具体修改内容，可以显示所有文件的所有修改内容。</p><h2 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h2><p>切换分支</p><h2 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h2><p>将工作区所作的修改添加到暂存区</p><p>**git add .**命令，可以将工作区所有的修改内容都添加到暂存区</p><h2 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h2><p>git commit -m “备注”</p><p>将暂存区中的内容保存到本地工作区</p><p>也可以通过<code>git commit -am</code>来进行快速操作，其实它就是<code>git add . &amp; git commit -m</code>的结合体。</p><h2 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h2><p>将本地文件推送到远程仓库中</p><h2 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h2><p>查看远程仓库有没有更新，有更新就下载下来，如果没有更新就没有任何反应</p><h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>合并分支</p><h2 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h2><p>拉取远程仓库，如果远程仓库有更新，则会将更新下载下来并合并到当前分支上</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>音视频基础</title>
       <link href="/2022/07/13/yin-shi-pin-ji-chu/"/>
       <url>/2022/07/13/yin-shi-pin-ji-chu/</url>
