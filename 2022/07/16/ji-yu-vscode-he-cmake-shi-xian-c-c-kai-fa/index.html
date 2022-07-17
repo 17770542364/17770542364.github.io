@@ -1,0 +1,2056 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="基于vscode和CMake实现C/C++开发, 泡影">
+    <meta name="description" content="
+一、Linux系统linux是开源的操作系统
+属于：多用户、多任务
+Linux一切皆文件
+1.1目录结构
+
+
+bin：全称binary，含义是二进制。该目录中存储的都是一些二进制文件，文件都是可以被运行的。
+dev：该目录中主要存放的是外">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+    
+
+    <title>基于vscode和CMake实现C/C++开发 | 泡影</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="泡影" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">泡影</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">泡影</div>
+        <div class="logo-desc">
+            
+            一个简单的个人博客，记录自己学习中遇到的困难和收获
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/17770542364/17770542364.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/17770542364/17770542364.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">基于vscode和CMake实现C/C++开发</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CMake/">
+                                <span class="chip bg-color">CMake</span>
+                            </a>
+                        
+                            <a href="/tags/VSCode/">
+                                <span class="chip bg-color">VSCode</span>
+                            </a>
+                        
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-07-16
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-07-17
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    23 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <hr>
+<h1 id="一、Linux系统"><a href="#一、Linux系统" class="headerlink" title="一、Linux系统"></a>一、Linux系统</h1><p>linux是开源的操作系统</p>
+<p>属于：多用户、多任务</p>
+<p>Linux一切皆文件</p>
+<h2 id="1-1目录结构"><a href="#1-1目录结构" class="headerlink" title="1.1目录结构"></a>1.1目录结构</h2><img src="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/image-20220717000159895.png" class="" title="image-20220717000159895">
+
+<ul>
+<li>bin：全称binary，含义是二进制。该目录中存储的都是一些二进制文件，文件都是可以被运行的。</li>
+<li>dev：该目录中主要存放的是外接设备，如盘、其他的光盘等。在其中的外接设备是不能直接被使用的，需要挂载（类似windows下的分配盘符）。</li>
+<li>etc：该目录主要存储一些配置文件</li>
+<li>home：表示<strong>除了root用户以外</strong>其他用户的家目录，类似于windows下的User/用户目录。</li>
+<li>proc：全称process，表示进程，该目录中存储的是Linux运行时候的进程。</li>
+<li>root：root用户自己的家目录</li>
+<li>sbin：全称super binary，该目录也是存储一些可以被执行的二进制文件，但是必须得有super权限的用户才能执行。</li>
+<li>tmp：表示“临时的”，当系统运行时候产生的临时文件会在这个目录中。</li>
+<li>usr：存放的是用户自己安装的软件，类似windows下的program files。</li>
+<li>var：存放的程序/系统的日志文件的目录。</li>
+<li>mnt：当外接设备需要挂载的时候，就需要挂载到mnt目录下。</li>
+</ul>
+<h2 id="1-2指令与选项"><a href="#1-2指令与选项" class="headerlink" title="1.2指令与选项"></a>1.2指令与选项</h2><p>指令含义：linux的指令是指在Linux终端（命令行）中输入的内容。</p>
+<p>指令格式：</p>
+<ul>
+<li>完整指令的<strong>标准格式</strong>：<strong>命令</strong>（空格）[<strong>选项</strong>]（空格）[<strong>操作对象</strong>]</li>
+<li>选项和操作对象都可以没有，也可以是多个</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none"># 指令示例：以下两条指令等价
+ls -l -a -h /home ./
+ls -lah /home ./<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="1-3重要指令讲解"><a href="#1-3重要指令讲解" class="headerlink" title="1.3重要指令讲解"></a>1.3重要指令讲解</h2><ul>
+<li><p><u>pwd</u> - Print current working directory</p>
+<ul>
+<li>作用：打印当前终端所在的目录</li>
+<li>用法： <strong>pwd</strong></li>
+</ul>
+</li>
+<li><p><u>ls</u> - List directory contents</p>
+<ul>
+<li><p>作用：列出当前工作目录下的所有文件/文件夹的名称</p>
+</li>
+<li><p>用法1：<strong>ls</strong></p>
+<p>含义：列出当前工作目录下的文件/文件夹的名称</p>
+</li>
+<li><p>用法2：<strong>ls [路径]</strong></p>
+<p>含义：列出指定路径下的文件/文件夹名称</p>
+<ul>
+<li>绝对路径：相对<strong>根目录</strong>的路径</li>
+<li>相对路径：相对<strong>当前目录</strong>的路径</li>
+</ul>
+</li>
+<li><p>用法3：ls [选项] [路径]</p>
+<p>含义：列出指定路径下的文件/文件夹名称，并以指定的格式进行显示</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ls 选项 路径</span>
+<span class="token function">ls</span> -lah /home
+<span class="token comment"># 选项解释：</span>
+	-l <span class="token builtin class-name">:</span> 表示list，以详细列表的形式进行展示
+	-a <span class="token builtin class-name">:</span> 表示all，显示所有的文件/文件夹<span class="token punctuation">(</span>包含了隐藏文件/文件夹<span class="token punctuation">)</span>
+	-h <span class="token builtin class-name">:</span> 以可读性较高的形式显示
+<span class="token comment"># 在Linux中隐藏文件一般都是以"."开头</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><u>cd</u> - change directory</p>
+<ul>
+<li>作用：切换当前的工作目录</li>
+<li>用法：cd [路径]</li>
+</ul>
+</li>
+<li><p><u>mkdir</u> - make directories</p>
+<ul>
+<li><p>作用：创建目录</p>
+</li>
+<li><p>用法：makir [选项] 路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在当前路径下创建出目录"myfolder"</span>
+<span class="token function">mkdir</span> myfolder
+<span class="token comment"># 创建多层不存在的目录</span>
+<span class="token function">mkdir</span> -p ~/a/b/c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>touch - change file timestamps</p>
+<ul>
+<li><p>作用：创建新文件</p>
+</li>
+<li><p>用法：touch 路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在当前目录下创建linux.txt文件</span>
+<span class="token function">touch</span> linux.txt
+
+<span class="token comment"># 在上级目录下创建linux文件</span>
+<span class="token function">touch</span> <span class="token punctuation">..</span>/linux
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>为什么创建新文件是touch】</p>
+<ol>
+<li>touch的作用本来不是创建文件，而是将指定文件的修改时间设置为当前时间。就是假 装“碰”（touch）了一下这个文件，假装文件被“修改”了，于是文件的修改时间就是被设置为当前 时间。</li>
+<li>这带来了一个副作用，就是当touch一个不存在的文件的时候，它会创建这个文件。然后， 由于touch已经可以完成创建文件的功能了，就不再需要一个单独的create了。</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><u>rm</u> - remove files or directories</p>
+<ul>
+<li><p>作用：删除文件/文件夹</p>
+</li>
+<li><p>用法：rm [选项] 需要移除的文件/文件夹路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 删除当前路径下的myfile文件</span>
+<span class="token function">rm</span> myfile
+
+<span class="token comment"># 删除当前路径下的abc文件夹</span>
+<span class="token function">rm</span> -rf myfolder
+	-r 删除文件夹
+	-f 无需确认<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><u>cp</u> - copy files and directories</p>
+<ul>
+<li><p>作用：复制文件/文件夹到指定的位置</p>
+</li>
+<li><p>用法：cp [选项] [被复制的文件/文件夹路径] [文件/文件夹被复制到的路径]</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 复制文件</span>
+<span class="token function">cp</span> /home/zeng/myfile ./
+
+<span class="token comment"># 复制文件夹到根目录</span>
+<span class="token function">cp</span> -r /home/zeng/myfolder /
+	-r 表示递归复制，复制文件夹的时候需要加 -r<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><u>mv</u> - move(rename) files</p>
+<ul>
+<li><p>作用：移动文件到新的位置，或者重命名文件</p>
+</li>
+<li><p>用法：mv [需要移动的文件路径] [需要保存的位置路径]</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动当前目录下的myfile 文件到根目录下</span>
+<span class="token function">mv</span> myfile /myfile
+
+<span class="token comment"># 移动当前目录下的myfile到根目录下，并重命名为myfile01</span>
+<span class="token function">mv</span> myfile /myfile01<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+<h2 id="1-4文件编辑"><a href="#1-4文件编辑" class="headerlink" title="1.4文件编辑"></a>1.4文件编辑</h2><ul>
+<li>vim [file]<ul>
+<li>所有的Linux系统都会内置Vi/Vim编辑器</li>
+<li>Vim具有程序开发的能力，也可以用来对文件进行简单的编辑</li>
+</ul>
+</li>
+</ul>
+<img src="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/vi-vim-cheat-sheet-sch-16580230294782.gif" class="" title="vi-vim-cheat-sheet-sch">
+
+<ul>
+<li>gedit [file]<ul>
+<li>Linux下的一个纯文本编辑器</li>
+<li>可以根据不同的语言高亮显示关键字和标识符</li>
+</ul>
+</li>
+<li>nano [file]<ul>
+<li>是一个小巧的文本编辑器</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、开发环境搭建"><a href="#二、开发环境搭建" class="headerlink" title="二、开发环境搭建"></a>二、开发环境搭建</h1><h2 id="2-1编译器，调试器安装"><a href="#2-1编译器，调试器安装" class="headerlink" title="2.1编译器，调试器安装"></a>2.1编译器，调试器安装</h2><ul>
+<li><p>安装GCC，GDB</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> update 
+<span class="token comment"># 以下命令安装编译器和调试器</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>安装成功确认</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 以下命令确认每个软件是否安装成功</span>
+<span class="token comment"># 如果成功，则显示版本号</span>
+gcc --version
+g++ --version
+gdb --version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="2-2CMake安装"><a href="#2-2CMake安装" class="headerlink" title="2.2CMake安装"></a>2.2CMake安装</h2><ul>
+<li><p>安装CMake</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 通过以下命令安装CMake</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> cmake<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>安装成功确认</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 以下命令确认每个软件是否安装成功</span>
+<span class="token comment"># 如果成功，则显示版本号</span>
+cmake --version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<img src="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/image-20220717100104718.png" class="" title="image-20220717100104718"></li>
+</ul>
+<h1 id="三、GCC编译器"><a href="#三、GCC编译器" class="headerlink" title="三、GCC编译器"></a>三、GCC编译器</h1><p>VSCode是通过调用GCC编译器来实现C/C++的编译工作的</p>
+<p>LInux开发C/C++一定要熟悉GCC</p>
+<h2 id="3-1编译过程"><a href="#3-1编译过程" class="headerlink" title="3.1编译过程"></a>3.1编译过程</h2><ol>
+<li><p><strong>预处理 - Pre-Processing</strong>	生成.i文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -E 编译选项指示编译器仅对输入文件进行预处理</span>
+g++ -E test.cpp -o test.i<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>编译 - Compiling</strong>  生成.s文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -S 编译选项告诉g++在为C++文件生成汇编文件后停止编译</span>
+<span class="token comment"># g++产生的汇编语言文件的缺省扩展名是 .s</span>
+g++ -S test.i -o test.s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>汇编 - Assembling</strong> 生成.o文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -C 编译选项告诉g++仅把汇编文件编译为机器语言的目标代码</span>
+<span class="token comment"># g++产生的目标代码文件的缺省扩展名是 .o</span>
+g++ -C test.s -o test.o<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>链接 - Linking</strong> 生成bin文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -o 编译选项为将产生的可执行文件指定文件名</span>
+g++ test.o -o <span class="token builtin class-name">test</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ol>
+<h2 id="3-2g-重要编译参数"><a href="#3-2g-重要编译参数" class="headerlink" title="3.2g++重要编译参数"></a>3.2g++重要编译参数</h2><ul>
+<li><p><strong>-g</strong> 编译带调试信息的可执行文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -g 告诉gcc产生能被GNU调试器GDB使用的调试信息，以调试程序</span>
+
+<span class="token comment"># 产生带调试信息的可执行文件test</span>
+g++ -g test.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-O[n]</strong> 优化源代码</p>
+<blockquote>
+<p>所谓优化，例如省略掉代码中从未使用过的变量、直接将常量表达式用结果值代替等等，这些操作 会缩减目标文件所包含的代码量，提高最终生成的可执行文件的运行效率。</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -O 选项告诉 g++ 对源代码进行基本优化。这些优化在大多数情况下都会使程序执行的更快。 -O2 选项告诉 g++ 产生尽可能小和尽可能快的代码。 如-O2，-O3，-On（n 常为0–3）</span>
+<span class="token comment"># -O 同时减小代码的长度和执行时间，其效果等价于-O1 </span>
+<span class="token comment"># -O0 表示不做优化 </span>
+<span class="token comment"># -O1 为默认优化 </span>
+<span class="token comment"># -O2 除了完成-O1的优化之外，还进行一些额外的调整工作，如指令调整等。 </span>
+<span class="token comment"># -O3 则包括循环展开和其他一些与处理特性相关的优化工作。</span>
+<span class="token comment"># 选项将使编译的速度比使用 -O 时慢， 但通常产生的代码执行速度会更快。</span>
+
+<span class="token comment"># 使用 -O2优化源代码，并输出可执行文件</span>
+g++ -O2 test.cpp -o <span class="token builtin class-name">test</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-l</strong> 指定库文件 | <strong>-L</strong> 指定库文件路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -l参数(小写)就是用来指定程序要链接的库，-l参数紧接着就是库名</span>
+<span class="token comment"># 在/lib, /usr/lib和/usr/local/lib里面的库直接用-l参数就能链接</span>
+
+<span class="token comment"># 链接glog库</span>
+g++ -lglog test.cpp
+
+<span class="token comment"># 如果库文件没有放在上面三目录里，需要使用-L参数(大写)指定库文件所在目录</span>
+<span class="token comment"># -L参数跟着的是库文件所在的目录名</span>
+
+<span class="token comment"># 链接mytest库，libmytest.so在/home/zeng/mytestlibfolder目录下</span>
+g++ -L/home/zeng/mytestlibfolder -lmytest test.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-I</strong> 指定头文件的搜索目录</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -I</span>
+<span class="token comment"># /usr/include目录一般是不用指定的，gcc知道去哪里找，但是如果头文件不在/usr/include中，我们就要用-I参数进行指定。比如头文件放在/myinclude目录中，那么编译命令就要加上-I/myinclude 参数，如果不加就会得到一个"xxx.h: No such file or directory"的错误。-I参数可以用相对路径。</span>
+
+g++ -I/myinclude test.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-Wall</strong> 打印警告信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 打印出gcc提供的警告信息</span>
+g++ -Wall test.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-w</strong> 关闭警告信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 关闭所有警告信息</span>
+g++ -w test.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-std=c++11</strong>  设置编译标准</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 使用C++11编译标准</span>
+g++ -std<span class="token operator">=</span>c++11 test.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-o</strong>  指定输出的文件名 </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 指定输出的文件名</span>
+g++ test.cpp -o <span class="token builtin class-name">test</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>-D</strong> 定义宏</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在使用gcc/g++编译的时候定义宏</span>
+
+<span class="token comment"># 常用场景：</span>
+<span class="token comment"># -DDEBUG 定义DEBUG宏，可能在文件中有DEBUG宏部分的相关信息，通过是否定义DEBUG宏来选择开启或者关闭DEBUG</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>示例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">// -Dname 定义宏name,默认定义内容为字符串“1” #include &lt;stdio.h&gt;
+int main() {
+#ifdef DEBUG printf("DEBUG LOG\n");
+#endif printf("in\n"); }
+// 1. 在编译的时候，使用gcc -DDEBUG main.cpp // 2. 第七行代码可以被执行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="3-3g-命令行编译实战"><a href="#3-3g-命令行编译实战" class="headerlink" title="3.3g++命令行编译实战"></a>3.3g++命令行编译实战</h2>  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 最初目录结构 .</span>
+├── include
+│	 └── Swap.h 
+├── main.cpp 
+└── src
+	└── Swap.cpp
+<span class="token number">2</span> directories, <span class="token number">3</span> files<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-3-1直接编译"><a href="#3-3-1直接编译" class="headerlink" title="3.3.1直接编译"></a>3.3.1直接编译</h3>  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 将 main.cpp src/Swap.cpp 编译为可执行文件 附带一堆参数</span>
+g++ main.cpp src/Swap.cpp -Iinclude -std<span class="token operator">=</span>c++11 -O2 -Wall -o b.out
+<span class="token comment"># 运行 b.out ./b.out</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-3-2生成库文件并编译"><a href="#3-3-2生成库文件并编译" class="headerlink" title="3.3.2生成库文件并编译"></a>3.3.2生成库文件并编译</h3><p>  （1）链接静态库生成可执行文件1</p>
+  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">## 进入src目录下</span>
+<span class="token builtin class-name">cd</span> src
+
+<span class="token comment">## 汇编，生成Swap.o文件</span>
+g++ Swap.cpp -c -I<span class="token punctuation">..</span>/include 
+<span class="token comment"># 生成静态库libSwap.a</span>
+ar rs libSwap.a Swap.o
+
+<span class="token comment">## 回到上级目录</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+
+<span class="token comment">## 链接，生成可执行文件 staticmain</span>
+g++ main.cpp -Iinclude -Lsrc -lSwap -o staticmain<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>  （2）链接动态库生成可执行文件2</p>
+  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">## 进入src目录下</span>
+<span class="token builtin class-name">cd</span> src
+
+<span class="token comment">## 生成动态库libSwap.so</span>
+g++ Swap.cpp -I<span class="token punctuation">..</span>/include -fPIC -shared -o libSwap.so
+<span class="token comment">## 上面的命令等同于下面两条命令</span>
+<span class="token comment"># gcc Swap.cpp -I../include -c -fPIC</span>
+<span class="token comment"># gcc -shared -o libSwap.so Swap.o</span>
+
+<span class="token comment">## 回到上级目录</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+
+<span class="token comment">## 链接，生成可执行文件：sharemain</span>
+g++ main.cpp -Iinclude -Lsrc -lSwap -o shardmain<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>  编译完成后的目录结构</p>
+  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 最终目录结构 .</span>
+├── include
+│ 	└── Swap.h
+├── main.cpp
+├── sharemain
+├── src 
+│ 	├── libSwap.a
+│ 	├── libSwap.so
+│ 	├── Swap.cpp
+│ 	└── Swap.o 
+└── staticmain
+<span class="token number">2</span> directories, <span class="token number">8</span> files<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-3-3运行可执行文件"><a href="#3-3-3运行可执行文件" class="headerlink" title="3.3.3运行可执行文件"></a>3.3.3运行可执行文件</h3>  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 运行可执行文件1</span>
+./staticmain
+
+<span class="token comment"># 运行可执行文件2 需要指定动态库所在的位置</span>
+<span class="token assign-left variable">LD_LIBRARY_PATH</span><span class="token operator">=</span>src ./sharemain<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>   同时存在动态库和静态库时优先链接动态库</p>
+<h1 id="四、GDB调试器"><a href="#四、GDB调试器" class="headerlink" title="四、GDB调试器"></a>四、GDB调试器</h1><p>GDB(GNU Debugger)是一个用来调试C/C++程序的功能强大的调试器。</p>
+<p>程序员可以使用GDB来跟踪程序中的错误，从而减少程序员的工作量</p>
+<p>GDB主要功能：</p>
+<ul>
+<li>设置<strong>断点</strong>（断点可以是条件表达式）</li>
+<li>使程序在指定的代码行上暂停执行，便于观察</li>
+<li><strong>单步</strong>执行程序，便与调试</li>
+<li>查看程序中变量值的变化</li>
+<li>动态改变程序的执行环境</li>
+<li>分析崩溃程序产生的core文件</li>
+</ul>
+<h2 id="4-1常用的调试命令参数"><a href="#4-1常用的调试命令参数" class="headerlink" title="4.1常用的调试命令参数"></a>4.1常用的调试命令参数</h2><p>调试开始：执行 **gdb [exefilename]**，进入gdb调试程序，其中exefilename为要调试的可执行文件名称</p>
+<pre class="line-numbers language-none"><code class="language-none">## 以下命令的括号内为命令的简化使用，如run(r)，直接输入命令 r 就代表命令run
+
+help(h) # 查看命令帮助，具体命令查询在gdb中输入 help + 命令
+
+start	# 单步执行，运行程序，停在第一行执行语句
+
+list(l)	# 查看源代码(list-n，从第n行开始查看代码。list+ 函数名，查看具体函数)
+
+set		# 设置变量的值
+
+next(n)	# 单步调试（逐过程，函数直接执行）
+ 
+step(s)	# 单步调试（逐语句，跳入自定义函数内部执行）
+
+backtrace(bt)	# 查看函数的调用栈帧和层级关系
+
+frame(f)	# 切换函数的栈帧
+
+info(i)	# 查看函数内部局部变量的数值
+
+finish	# 结束当前函数，返回到函数调用点
+
+continue(c)	# 继续运行
+
+print(p)	# 打印值及地址 
+
+quit(q)	# 退出gdb
+
+break+num(b)	# 在第num行设置断点
+
+info breakpoints	# 查看当前设置的所有断点
+
+delete breakpoints num(d)	# 删除第num个断点
+
+display	# 追踪观察具体变量值
+
+undisplay	# 取消追踪观察变量
+
+watch	# 被设置观察点的变量发生修改时，打印显示
+
+i watch	# 显示观察点
+
+enable breakpoints	# 启用断点 
+
+disable	breakpoints	# 禁用断点
+
+x	# 查看内存x/20xw 显示20个单元，16进制，4字节每单元
+
+run argv[1] argv[2]	# 调试时命令行传参
+
+set follow-fork-mode child	# Makefile项目管理：选择跟踪父子进程(fork())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>1.编译程序时需要加上 -s，之后才能用gdb进行调试</p>
+<p>2.回车键：重复上一次命令</p>
+</blockquote>
+<h1 id="五、VSCode"><a href="#五、VSCode" class="headerlink" title="五、VSCode"></a>五、VSCode</h1><h2 id="VSCode高频使用快捷键"><a href="#VSCode高频使用快捷键" class="headerlink" title="VSCode高频使用快捷键"></a>VSCode高频使用快捷键</h2><p><strong>在 Ctrl+P 窗口下可以:</strong></p>
+<ul>
+<li>直接输入文件名，跳转到文件 ? 列出当前可执行的动作 ! 显示 Errors 或 Warnings ，也可以 Ctrl+Shift+M : 跳转到行数，也可以 Ctrl+G 直接进入 @ 跳转到 symbol （搜索变量或者函数），也可以 Ctrl+Shift+O 直接进入 @ 根据分类跳转 symbol ，查找属性或函数，也可以 Ctrl+Shift+O 后输入:进入 # 根据名字查找 symbol ，也可以 Ctrl+T</li>
+<li>快捷键：编辑器与窗口管理</li>
+</ul>
+<ol>
+<li>打开一个新窗口： Ctrl+Shift+N</li>
+<li>关闭窗口： Ctrl+Shift+W </li>
+<li>同时打开多个编辑器（查看多个文件） </li>
+<li>新建文件 Ctrl+N </li>
+<li>文件之间切换 Ctrl+Tab </li>
+<li>切出一个新的编辑器（最多 3 个） Ctrl+\ ，也可以按住 Ctrl 鼠标点击 Explorer 里的文件名 </li>
+<li>左中右 3 个编辑器的快捷键 Ctrl+1 Ctrl+2 Ctrl+3 </li>
+<li>3 个编辑器之间循环切换 Ctrl+</li>
+</ol>
+<p> 编辑器换位置， Ctrl+k 然后按 Left 或 Right</p>
+<h2 id="↓-代码编辑相关的快捷键-↓"><a href="#↓-代码编辑相关的快捷键-↓" class="headerlink" title="**↓ 代码编辑相关的快捷键 ↓ **"></a>**↓ 代码编辑相关的快捷键 ↓ **</h2><p><strong>快捷键：格式调整</strong></p>
+<ol>
+<li>代码行缩进 Ctrl+[ 、 Ctrl+] </li>
+<li>Ctrl+C 、 Ctrl+V 复制或剪切当前行/当前选中内容 </li>
+<li>代码格式化： Shift+Alt+F ，或 Ctrl+Shift+P 后输入 format code </li>
+<li>上下移动一行： Alt+Up 或 Alt+Down</li>
+<li>向上向下复制一行： Shift+Alt+Up 或 Shift+Alt+Down </li>
+<li>在当前行下边插入一行 Ctrl+Enter</li>
+</ol>
+<p> 在当前行上方插入一行 Ctrl+Shift+Enter<br><strong>快捷键：光标相关</strong></p>
+<ol>
+<li>移动到行首： Home </li>
+<li>移动到行尾： End </li>
+<li>移动到文件结尾： Ctrl+End </li>
+<li>移动到文件开头： Ctrl+Home </li>
+<li>移动到定义处： F12</li>
+<li>定义处缩略图：只看一眼而不跳转过去 Alt+F12 </li>
+<li>移动到后半个括号： Ctrl+Shift+] </li>
+<li>选择从光标到行尾： Shift+End </li>
+<li>选择从行首到光标处： Shift+Home</li>
+<li>删除光标右侧的所有字： Ctrl+Delete </li>
+<li>扩展/缩小选取范围： Shift+Alt+Left 和 Shift+Alt+Right </li>
+<li>多行编辑(列编辑)： Alt+Shift+鼠标左键， Ctrl+Alt+Down/Up </li>
+<li>同时选中所有匹配： Ctrl+Shift+L </li>
+<li>Ctrl+D 下一个匹配的也被选中 (在 sublime 中是删除当前行，后面自定义快键键中，设置与 Ctrl+Shift+K 互换了)</li>
+<li>回退上一个光标操作： Ctrl+U</li>
+</ol>
+<p><strong>快捷键：重构代码</strong></p>
+<ol>
+<li>找到所有的引用： Shift+F12 </li>
+<li>同时修改本文件中所有匹配的： Ctrl+F12</li>
+<li>重命名：比如要修改一个方法名，可以选中后按 F2 ，输入新的名字，回车，会发现所有的文件都 修改了</li>
+<li>跳转到下一个 Error 或 Warning ：当有多个错误时可以按 F8 逐个跳转</li>
+</ol>
+<p> 查看 diff ： 在 explorer 里选择文件右键 Set file to compare，然后需要对比的文件上右 键选择 Compare with file_name_you_chose<br><strong>快捷键：查找替换</strong></p>
+<ol>
+<li>查找 Ctrl+F </li>
+<li>查找替换 Ctrl+H</li>
+</ol>
+<p> 整个文件夹中查找 Ctrl+Shift+F<br><strong>快捷键：显示相关</strong></p>
+<ol>
+<li>全屏：F11 </li>
+<li>zoomIn/zoomOut：Ctrl +/</li>
+<li>侧边栏显/隐：Ctrl+B </li>
+<li>显示资源管理器 Ctrl+Shift+E </li>
+<li>显示搜索 Ctrl+Shift+F </li>
+<li>显示 Git Ctrl+Shift+G </li>
+<li>显示 Debug Ctrl+Shift+D </li>
+<li>显示 Output Ctrl+Shift+U</li>
+</ol>
+<h2 id="高频使用的技巧"><a href="#高频使用的技巧" class="headerlink" title="高频使用的技巧"></a>高频使用的技巧</h2><ul>
+<li>左右分屏</li>
+<li>固定打开的文件</li>
+<li>格式化代码</li>
+<li>Rename Symbol</li>
+<li>显示minimap</li>
+<li>侧边栏查看OUTLINE</li>
+<li>全屏</li>
+<li>关闭多个打开的文件</li>
+</ul>
+<h1 id="六、CMake"><a href="#六、CMake" class="headerlink" title="六、CMake"></a>六、CMake</h1><p>CMake是一个<strong>跨平台</strong>的安装编译工具，可以用简单的语句来描述<strong>所有平台</strong>的安装(编译过程)</p>
+<p>CMake可以说已经成为大部分C++开源项目的标配</p>
+<h2 id="6-1语法特性介绍"><a href="#6-1语法特性介绍" class="headerlink" title="6.1语法特性介绍"></a>6.1语法特性介绍</h2><ul>
+<li><p><strong>基本语法格式：指令( 参数1 参数2 …)</strong></p>
+<ul>
+<li>参数使用<strong>括弧</strong>括起来</li>
+<li>参数之间使用<strong>空格</strong>或<strong>分号</strong>分开</li>
+</ul>
+</li>
+<li><p><strong>指令是大小写无关的，参数和变量是大小写相关的</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">set</span><span class="token punctuation">(</span>HELLO hello.cpp<span class="token punctuation">)</span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>hello main.cpp hello.cpp<span class="token punctuation">)</span>
+<span class="token function">ADD_EXECUTABLE</span><span class="token punctuation">(</span>hello main.cpp <span class="token punctuation">${</span>HELLO<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>变量使用${}方式取值，但是在IF控制语句中是直接使用变量名</strong></p>
+</li>
+</ul>
+<h2 id="6-2重要指令和CMake常用变量"><a href="#6-2重要指令和CMake常用变量" class="headerlink" title="6.2重要指令和CMake常用变量"></a>6.2重要指令和CMake常用变量</h2><h3 id="6-2-1重要指令"><a href="#6-2-1重要指令" class="headerlink" title="6.2.1重要指令"></a>6.2.1重要指令</h3><ul>
+<li><p><strong>cmake_minimum_required</strong> - 指定CMake的最小版本要求</p>
+<ul>
+<li><p>语法： cmake_minimum_required(VERSION versionNumber [FATAL_ERROR])</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># cmake的最小版本要求为2.8.3</span>
+<span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">2.8.3</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>project</strong> - 定义工程名称，并可指定工程支持的语言</p>
+<ul>
+<li><p>语法： project(porjectname [CXX] [C] [Java])</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 指定工程名为HELLOWORLD</span>
+<span class="token keyword">project</span><span class="token punctuation">(</span>HELLOWORLD<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>set</strong> -显式的定义变量</p>
+<ul>
+<li><p>语法： set(VAR [VALUE] [CHCHE TYPE DOCSTRING [FORCE]])</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 定义SRC变量， 其值为main.cpp hello.cpp</span>
+<span class="token keyword">set</span><span class="token punctuation">(</span>SRC main.cpp hello.cpp<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>include_directories</strong> -向工程添加多个特定的头文件搜索路径</p>
+<ul>
+<li><p>语法：include_directories(dir1 dir2 …)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 将/usr/include/myincludefolder和./include添加到头文件搜索路径</span>
+<span class="token keyword">include_directories</span><span class="token punctuation">(</span>/usr/include/myincludefolder ./include<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>link_directories</strong> -向工程添加多个特定的库文件搜索路径</p>
+<ul>
+<li><p>语法：link_directories(dir1 dir2 …)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 将/usr/lib/mylibfolder 和 ./lib添加到库文件搜索路径</span>
+<span class="token keyword">link_directories</span><span class="token punctuation">(</span>/usr/lib/mylibfolder ./lib<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>add_library</strong> -生成库文件</p>
+<ul>
+<li><p>语法：add_library(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 …)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 通过变量SRC生成 libhello.so共享库</span>
+<span class="token keyword">add_library</span><span class="token punctuation">(</span>hello <span class="token namespace">SHARED</span> <span class="token punctuation">${</span>SRC<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>add_compile_options</strong> -添加编译参数</p>
+<ul>
+<li><p>语法：add_compile_options( … )</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 添加编译参数 -Wall -std=c++11 -O2</span>
+<span class="token keyword">add_compile_options</span><span class="token punctuation">(</span>-Wall -std=c++<span class="token number">11</span> -O2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>add_executable</strong> -生成可执行文件</p>
+<ul>
+<li><p>语法：add_executable(exename source1 source2 … )</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 编译main.cpp生成可执行文件main</span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>main main.cpp<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>target_link_libraries</strong> -为target添加需要链接的共享库</p>
+<ul>
+<li><p>语法： target_link_libraries(target library1&lt;debug|optimized&gt; library2 …)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 将hello动态库文件链接到可执行文件main</span>
+<span class="token keyword">target_link_libraries</span><span class="token punctuation">(</span>main hello<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>add_subdirectory</strong> -向当前工程添加存放源文件的子目录，并可以指定中间二进制和目标二进制存放的位置</p>
+<ul>
+<li><p>语法：add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 添加src子目录，src中需有一个CMakeLists.txt</span>
+<span class="token keyword">add_subdirectory</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>aux_source_directory</strong> -发现一个目录下所有的源代码文件并将列表存储在一个变量中，这个指令临时用来自动构造源文件列表</p>
+<ul>
+<li><p>语法：aux_source_directory(dir VARIABLE)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 定义SRC变量，其值为当前目录下所有的源代码文件</span>
+<span class="token keyword">aux_source_directory</span><span class="token punctuation">(</span>. SRC<span class="token punctuation">)</span>]
+<span class="token comment"># 编译SRC变量所代表的源代码文件，生成main可执行文件</span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>main <span class="token punctuation">${</span>SRC<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-2-2CMake常用变量"><a href="#6-2-2CMake常用变量" class="headerlink" title="6.2.2CMake常用变量"></a>6.2.2CMake常用变量</h3><ul>
+<li><p><strong>CMAKE_C_FLAGS</strong> gcc编译选项</p>
+</li>
+<li><p><strong>CMAKE_CXX_FLAGS</strong> g++编译选项</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 在CMAKE_CXX_FLAGS编译选项后追加-std=c++11</span>
+<span class="token keyword">set</span><span class="token punctuation">(</span><span class="token variable">CMAKE_CXX_FLAGS</span> <span class="token string">"<span class="token interpolation"><span class="token punctuation">${</span><span class="token variable">CMAKE_CXX_FLAGS</span><span class="token punctuation">}</span></span> -std=c++11"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>CMAKE_BUILD_TYPE</strong> 编译类型(Debug, Release)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 设定编译类型为debug，调试时需要选择debug</span>
+<span class="token keyword">set</span><span class="token punctuation">(</span>CMAEK_BUILD_TYPE Debug<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>CMAKE_BINARY_DIR</strong> | <strong>PROJECT_BINARY_DIR</strong> | <strong>projectname_BINARY_DIR</strong></p>
+<blockquote>
+<p>1.这三个变量指代的内容是一致的</p>
+<p>2.如果是in-source build，指的就是工程顶层目录</p>
+<p>3.如果是 out-of-source编译，指的是工程编译发生的目录</p>
+<p>4.PROJECT_BINARY_DIR跟其他指令稍有区别，暂时可以理解为是一致的。</p>
+</blockquote>
+</li>
+<li><p><strong>CMAKE_SOURCE_DIR</strong> | <strong>PORJECT_SOURCE_DIR</strong> | <strong>projectname_SOURCE_DIR</strong></p>
+<blockquote>
+<p>1.这三个变量指代的内容是一致的，不管采用何种编译方式，都是工程顶层目录</p>
+<p>2.也就是在in-ource build时，跟CMAKE_BINARY_DIR等变量一致</p>
+<p>3.PROJECT_SOURCE_DIR跟其他指令稍有区别，暂时可以理解为是一致的</p>
+</blockquote>
+</li>
+<li><p><strong>CMAKE_C_COMPILER</strong>: 指定C编译器</p>
+</li>
+<li><p><strong>CMAKE_CXX_COMPILER</strong>: 指定C++编译器</p>
+</li>
+<li><p><strong>EXECUTABLE_OUTPUT_PATH</strong>: 可执行文件输出的存放路径</p>
+</li>
+<li><p><strong>LIBRARY_OUTPUT_PATH</strong>: 库文件输出的存放路径</p>
+</li>
+</ul>
+<h2 id="6-3-CMake编译工程"><a href="#6-3-CMake编译工程" class="headerlink" title="6.3 CMake编译工程"></a>6.3 CMake编译工程</h2><p>CMkae目录结构：项目主目录存放在一个CMakeLists.txt文件</p>
+<p>两种方式设置编译规则：</p>
+<ol>
+<li>包含源文件的子文件夹<strong>包含</strong>CMakeLists.txt文件，主目录的CMakeLists.txt通过add_subdirectory添加子目录即可</li>
+<li>包含源文件的子文件夹未包含CMakeLists.txt文件，子目录编译规则体系在主目录的CMakeLists.txt中</li>
+</ol>
+<h3 id="6-3-1编译流程"><a href="#6-3-1编译流程" class="headerlink" title="6.3.1编译流程"></a>6.3.1编译流程</h3><p>在linux平台下使用CMake构建C/C++工程的流程如下</p>
+<ul>
+<li>手动编写CMakeLists.txt</li>
+<li>执行命令cmake PATH 生成Makefile</li>
+<li>执行命令make进行编译</li>
+</ul>
+<h3 id="6-4-2两种构建方式"><a href="#6-4-2两种构建方式" class="headerlink" title="6.4.2两种构建方式"></a>6.4.2两种构建方式</h3><ul>
+<li><p>内部构建(in-source build)：不推荐使用</p>
+<p>内部构建会在同级目录下产生一大堆中间文件，这些中间文件并不是我们最终所需要的，和工程源文件放在一起会显得杂乱无章</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment">## 内部构建</span>
+
+<span class="token comment"># 在当前目录下，编译本目录的CMakeLists.txt，生成Makefile和其他文件</span>
+cmake .
+<span class="token comment"># 执行make命令，生成target</span>
+make<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>外部编译(out-of-source build):推荐使用</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment">## 外部构建</span>
+
+<span class="token comment"># 1.在当前目录下，构建build文件夹</span>
+mkdir build
+<span class="token comment"># 2.进入到build文件夹</span>
+cd build
+<span class="token comment"># 3.编译上级目录的CMakeLists.txt，生成Makefile和其他文件</span>
+cmake ..
+<span class="token comment"># 4.执行make命令，生成target</span>
+make<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="6-4-CMake实践"><a href="#6-4-CMake实践" class="headerlink" title="6.4 CMake实践"></a>6.4 CMake实践</h2><h3 id="6-4-1最小的CMake工程"><a href="#6-4-1最小的CMake工程" class="headerlink" title="6.4.1最小的CMake工程"></a>6.4.1最小的CMake工程</h3><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># Set the minimum version of CMake that can be used </span>
+<span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">3.0</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Set the project name</span>
+<span class="token keyword">project</span> <span class="token punctuation">(</span>HELLO<span class="token punctuation">)</span>
+
+<span class="token comment"># Add an executable</span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>hello_cmake main.cpp<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="6-4-2多目录工程-直接编译"><a href="#6-4-2多目录工程-直接编译" class="headerlink" title="6.4.2多目录工程 - 直接编译"></a>6.4.2多目录工程 - 直接编译</h3><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># Set the minimum version of CMake that can be used </span>
+<span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">3.0</span><span class="token punctuation">)</span>
+
+<span class="token comment">#project name </span>
+<span class="token keyword">project</span><span class="token punctuation">(</span>SWAP<span class="token punctuation">)</span>
+
+<span class="token comment">#head file path</span>
+<span class="token keyword">include_directories</span><span class="token punctuation">(</span> include <span class="token punctuation">)</span>
+
+<span class="token comment">#source directory files to var </span>
+<span class="token keyword">add_subdirectory</span><span class="token punctuation">(</span> src DIR_SRCS <span class="token punctuation">)</span>
+
+<span class="token comment">#add executable file </span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>swap_02 <span class="token punctuation">${</span>TEST_MATH<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">#add link library</span>
+<span class="token keyword">target_link_libraries</span><span class="token punctuation">(</span><span class="token punctuation">${</span>FS_BUILD_BINARY_PREFIX<span class="token punctuation">}</span>sqrt <span class="token punctuation">${</span>LIBRARIES<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-4-3多目录工程-生成库编译"><a href="#6-4-3多目录工程-生成库编译" class="headerlink" title="6.4.3多目录工程 -生成库编译"></a>6.4.3多目录工程 -生成库编译</h3><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># Set the minimum version of CMake that can be used</span>
+<span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">3.0</span><span class="token punctuation">)</span>
+
+<span class="token comment">#project name </span>
+<span class="token keyword">project</span><span class="token punctuation">(</span>SWAP_LIBRARY<span class="token punctuation">)</span>
+
+<span class="token comment">#add compile options</span>
+<span class="token keyword">add_compile_options</span><span class="token punctuation">(</span><span class="token string">"-Wall -std=c++11"</span><span class="token punctuation">)</span>
+
+<span class="token comment">#set CMAKE_BUILD_TYPE</span>
+<span class="token keyword">set</span><span class="token punctuation">(</span> <span class="token variable">CMAKE_BUILD_TYPE</span> Debug <span class="token punctuation">)</span>
+
+<span class="token comment"># set output binary path </span>
+<span class="token keyword">set</span><span class="token punctuation">(</span><span class="token variable">EXECUTABLE_OUTPUT_PATH</span> <span class="token punctuation">${</span><span class="token variable">PROJECT_BINARY_DIR</span><span class="token punctuation">}</span>/bin<span class="token punctuation">)</span>
+
+<span class="token comment">############################################################ # Create a library</span>
+<span class="token comment">############################################################</span>
+<span class="token comment">#Generate the static library from the library sources </span>
+<span class="token keyword">add_library</span><span class="token punctuation">(</span> swap_library <span class="token namespace">STATIC</span> src/Swap.cpp <span class="token punctuation">)</span> <span class="token keyword">target_include_directories</span><span class="token punctuation">(</span> swap_lib <span class="token namespace">PUBLIC</span> <span class="token punctuation">${</span><span class="token variable">PROJECT_SOURCE_DIR</span><span class="token punctuation">}</span>/include <span class="token punctuation">)</span>
+
+<span class="token comment">############################################################ # Create an executable</span>
+<span class="token comment">############################################################</span>
+<span class="token comment"># Add an executable with the above sources </span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span> swap_01 main.cpp <span class="token punctuation">)</span>
+
+<span class="token comment"># link the new swap_01 target with the swap_lib target</span>
+<span class="token keyword">target_link_libraries</span><span class="token punctuation">(</span> swap_01 swap_liby <span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h1 id="七、使用VSCode进行完整的项目开发"><a href="#七、使用VSCode进行完整的项目开发" class="headerlink" title="七、使用VSCode进行完整的项目开发"></a>七、使用VSCode进行完整的项目开发</h1><p>案例：士兵突击 需求：</p>
+<ol>
+<li>士兵 许三多 有一把枪，叫做 AK47</li>
+<li>士兵 可以 开火 </li>
+<li>士兵 可以 给枪装填子弹</li>
+<li>枪 能够 发射 子弹 </li>
+<li>枪 能够 装填子弹 —— 增加子弹数量</li>
+</ol>
+<p>开发：</p>
+<ul>
+<li>开发枪类</li>
+<li>开发士兵类</li>
+</ul>
+<img src="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/image-20220717202949143.png" class="" title="image-20220717202949143">
+
+<h2 id="7-1合理设置项目目录"><a href="#7-1合理设置项目目录" class="headerlink" title="7.1合理设置项目目录"></a>7.1合理设置项目目录</h2><img src="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/image-20220717205602567.png" class="" title="image-20220717205602567">
+
+
+
+<h2 id="7-2编写项目源文件"><a href="#7-2编写项目源文件" class="headerlink" title="7.2编写项目源文件"></a>7.2编写项目源文件</h2><p>见源代码</p>
+<h2 id="7-3编写CMakeLists-txt构建项目编译规则"><a href="#7-3编写CMakeLists-txt构建项目编译规则" class="headerlink" title="7.3编写CMakeLists.txt构建项目编译规则"></a>7.3编写CMakeLists.txt构建项目编译规则</h2><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">3.0</span><span class="token punctuation">)</span>
+
+<span class="token keyword">project</span><span class="token punctuation">(</span>SOLIDER<span class="token punctuation">)</span>
+
+<span class="token keyword">set</span><span class="token punctuation">(</span><span class="token variable">CMAKE_BUILD_TYPE</span> Debug<span class="token punctuation">)</span>
+
+<span class="token keyword">set</span><span class="token punctuation">(</span><span class="token variable">CMAKE_CXX_FLAGS</span> <span class="token string">"<span class="token interpolation"><span class="token punctuation">${</span><span class="token variable">CMAKE_CXX_FLAGS</span><span class="token punctuation">}</span></span> -O0 -Wall"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">include_directories</span><span class="token punctuation">(</span>include<span class="token punctuation">)</span>
+
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>my_cmake_exe main.cpp src/Gun.cpp src/Solider.cpp<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="7-4使用外部构建，手动编译CMake项目"><a href="#7-4使用外部构建，手动编译CMake项目" class="headerlink" title="7.4使用外部构建，手动编译CMake项目"></a>7.4使用外部构建，手动编译CMake项目</h2><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment">## 外部构建</span>
+
+<span class="token comment"># 1.在当前目录下，构建build文件夹</span>
+mkdir build
+<span class="token comment"># 2.进入到build文件夹</span>
+cd build
+<span class="token comment"># 3.编译上级目录的CMakeLists.txt，生成Makefile和其他文件</span>
+cmake ..
+<span class="token comment"># 4.执行make命令，生成target</span>
+make<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="7-5配置VScode的json文件并调试项目"><a href="#7-5配置VScode的json文件并调试项目" class="headerlink" title="7.5配置VScode的json文件并调试项目"></a>7.5配置VScode的json文件并调试项目</h2><p>生成launch.json文件</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"0.2.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"configurations"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        
+        <span class="token punctuation">{</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"(gdb) 启动"</span><span class="token punctuation">,</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"cppdbg"</span><span class="token punctuation">,</span>
+            <span class="token property">"request"</span><span class="token operator">:</span> <span class="token string">"launch"</span><span class="token punctuation">,</span>
+            
+            <span class="token comment">// 可执行文件的位置</span>
+            <span class="token property">"program"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}/build/my_cmake_exe"</span><span class="token punctuation">,</span>
+            
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"stopAtEntry"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token property">"cwd"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}"</span><span class="token punctuation">,</span>
+            <span class="token property">"environment"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"externalConsole"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token property">"MIMode"</span><span class="token operator">:</span> <span class="token string">"gdb"</span><span class="token punctuation">,</span>
+            <span class="token property">"setupCommands"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"为 gdb 启用整齐打印"</span><span class="token punctuation">,</span>
+                    <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"-enable-pretty-printing"</span><span class="token punctuation">,</span>
+                    <span class="token property">"ignoreFailures"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">"description"</span><span class="token operator">:</span>  <span class="token string">"将反汇编风格设置为 Intel"</span><span class="token punctuation">,</span>
+                    <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"-gdb-set disassembly-flavor intel"</span><span class="token punctuation">,</span>
+                    <span class="token property">"ignoreFailures"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            
+           	<span class="token comment">// 配置编译任务</span>
+            <span class="token property">"preLaunchTask"</span><span class="token operator">:</span> <span class="token string">"Build"</span><span class="token punctuation">,</span>
+            
+            <span class="token property">"miDebuggerPath"</span><span class="token operator">:</span> <span class="token string">"/usr/bin/gdb"</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置tasks.json文件，用于调试前自动编译</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">{</span>
+
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"2.0.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"options"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"cwd"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}/build"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">"tasks"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"label"</span><span class="token operator">:</span> <span class="token string">"cmake"</span><span class="token punctuation">,</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"shell"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"cmake"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">".."</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"label"</span><span class="token operator">:</span> <span class="token string">"make"</span><span class="token punctuation">,</span>
+            <span class="token property">"group"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"kind"</span><span class="token operator">:</span> <span class="token string">"build"</span><span class="token punctuation">,</span>
+                <span class="token property">"isDefault"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"make"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"label"</span><span class="token operator">:</span> <span class="token string">"Build"</span><span class="token punctuation">,</span>
+            <span class="token property">"dependsOrder"</span><span class="token operator">:</span> <span class="token string">"sequence"</span><span class="token punctuation">,</span><span class="token comment">// 按列出的顺序执行任务依赖项</span>
+            <span class="token property">"dependsOn"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                <span class="token string">"cmake"</span><span class="token punctuation">,</span>
+                <span class="token string">"make"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+        
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jitong Zeng</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://17770542364.github.io/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/">https://17770542364.github.io/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jitong Zeng</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CMake/">
+                                    <span class="chip bg-color">CMake</span>
+                                </a>
+                            
+                                <a href="/tags/VSCode/">
+                                    <span class="chip bg-color">VSCode</span>
+                                </a>
+                            
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2022-07-16T23-47-52',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="基于vscode和CMake实现C/C++开发">
+                        
+                        <span class="card-title">基于vscode和CMake实现C/C++开发</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Jitong Zeng
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CMake/">
+                        <span class="chip bg-color">CMake</span>
+                    </a>
+                    
+                    <a href="/tags/VSCode/">
+                        <span class="chip bg-color">VSCode</span>
+                    </a>
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/15/git-chang-yong-cao-zuo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="git常用操作">
+                        
+                        <span class="card-title">git常用操作</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Jitong Zeng
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/git/">
+                        <span class="chip bg-color">git</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 泡影<br />'
+            + '文章作者: Jitong Zeng<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022</span>
+            
+            <a href="/about" target="_blank">Jitong Zeng</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2022";
+                        var startMonth = "7";
+                        var startDate = "5";
+                        var startHour = "10";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已安全运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已安全運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已安全运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已安全運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/17770542364" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ZJT4450361@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1310165257" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1310165257" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
