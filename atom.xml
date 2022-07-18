@@ -6,7 +6,7 @@
   <link href="https://17770542364.github.io/atom.xml" rel="self"/>
   
   <link href="https://17770542364.github.io/"/>
-  <updated>2022-07-17T13:43:57.258Z</updated>
+  <updated>2022-07-18T10:42:29.698Z</updated>
   <id>https://17770542364.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++操作Redis实现消息队列</title>
+    <link href="https://17770542364.github.io/2022/07/18/c-cao-zuo-redis-shi-xian-xiao-xi-dui-lie/"/>
+    <id>https://17770542364.github.io/2022/07/18/c-cao-zuo-redis-shi-xian-xiao-xi-dui-lie/</id>
+    <published>2022-07-18T07:36:38.000Z</published>
+    <updated>2022-07-18T10:42:29.698Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;1-安装hiredis-h接口&quot;&gt;&lt;a href=&quot;#1-安装hiredis-h接口&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="C++" scheme="https://17770542364.github.io/tags/C/"/>
+    
+    <category term="Redis" scheme="https://17770542364.github.io/tags/Redis/"/>
+    
+  </entry>
   
   <entry>
     <title>基于vscode和CMake实现C/C++开发</title>
