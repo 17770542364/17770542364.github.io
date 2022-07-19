@@ -464,21 +464,21 @@ tar -zxvf hir">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-18
+                    2022-07-19
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    10 分
                 </div>
                 
 
@@ -532,7 +532,32 @@ tar -zxvf hir">
 <pre class="line-numbers language-none"><code class="language-none">void freeReplyObject(void *reply);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p> 释放redisCommand执行后返回的的redisReply所占用的内存</p>
-<h2 id="3-Redis消息队列"><a href="#3-Redis消息队列" class="headerlink" title="3.Redis消息队列"></a>3.Redis消息队列</h2><p>在 Redis 5.0 之后新增了 Stream 类型，它提供了丰富的消息队列操作命令：</p>
+<h2 id="3-Redis消息队列"><a href="#3-Redis消息队列" class="headerlink" title="3.Redis消息队列"></a>3.Redis消息队列</h2><p>“消息队列”是在消息的传输过程中保存消息的容器。“消息”是在两台计算机间传送的数据单位。消息队列管理器在将消息从它的源中继到它的目标时充当中间人。队列的主要目的是提供路由并保证消息的传递；如果发送消息时接收者不可用，消息队列会保留消息，直到可以成功地传递它。<br>当我们在使用一个消息队列时，希望它的功能如下：</p>
+<blockquote>
+<ol>
+<li>支持阻塞等待拉取消息</li>
+<li>支持发布/订阅模式</li>
+<li>消费失败，可以重新消费，消息不丢失</li>
+<li>实例宕机，消息不丢失，数据可持久化</li>
+<li>消息可堆积</li>
+</ol>
+</blockquote>
+<p>Redis中的list类型也可以作为一种简单的消息队列，但是它具备一种致命的缺陷：<strong>没有消息确认机制，容易导致消息丢失</strong>。此外，也<strong>没有消息回溯和广播功能</strong>。</p>
+<h3 id="Redis-Stream"><a href="#Redis-Stream" class="headerlink" title="Redis Stream"></a>Redis Stream</h3><p>Redis Stream 是 Redis 5.0 版本新增加的数据结构。</p>
+<p>Redis Stream 主要用于消息队列（MQ，Message Queue），Redis 本身是有一个 Redis 发布订阅 (pub/sub) 来实现消息队列的功能，但它有个缺点就是消息无法持久化，如果出现网络断开、Redis 宕机等，消息就会被丢弃。</p>
+<p>简单来说发布订阅 (pub/sub) 可以分发消息，但无法记录历史消息。</p>
+<p>而 Redis Stream 提供了消息的持久化和主备复制功能，可以让任何客户端访问任何时刻的数据，并且能记住每一个客户端的访问位置，还能保证消息不丢失。</p>
+<p>Redis Stream 的结构如下所示，它有一个消息链表，将所有加入的消息都串起来，每个消息都有一个唯一的 ID 和对应的内容：</p>
+<img src="/2022/07/18/c-cao-zuo-redis-shi-xian-xiao-xi-dui-lie/en-us_image_0167982791.png" class="" title="en-us_image_0167982791">
+
+<p>每个 Stream 都有唯一的名称，它就是 Redis 的 key，在我们首次使用 xadd 指令追加消息时自动创建。</p>
+<p>上图解析：</p>
+<ul>
+<li><strong>Consumer Group</strong> ：消费组，使用 XGROUP CREATE 命令创建，一个消费组有多个消费者(Consumer)。</li>
+<li><strong>last_delivered_id</strong> ：游标，每个消费组会有个游标 last_delivered_id，任意一个消费者读取了消息都会使游标 last_delivered_id 往前移动。</li>
+<li><strong>pending_ids</strong> ：消费者(Consumer)的状态变量，作用是维护消费者的未确认的 id。 pending_ids 记录了当前已经被客户端读取的消息，但是还没有 ack (Acknowledge character：确认字符）。</li>
+</ul>
+<p>Stream提供了丰富的消息队列操作命令：</p>
 <ul>
 <li><p><strong>XADD</strong>：插入消息，<strong>保证 MQ 有序</strong>，可以自动生成全局唯一 ID</p>
 <pre class="line-numbers language-sh" data-language="sh"><code class="language-sh"># mqstream 为消息队列，消息的键是 repo 值为5
@@ -545,19 +570,151 @@ XREAD BLOCK 100 STREAMS mqstream 1599203861727-0<span aria-hidden="true" class="
 
 <p><code>XREAD</code> 后的block 配置项，类似于 <code>brpop</code> 命令的阻塞读取操作，后面的 100 的单位是毫秒，表示如果没有消息到来，<code>XREAD</code> 将阻塞 100 毫秒。</p>
 </li>
+</ul>
+<h3 id="STREAM类型消息队列的XREAD的命令特点"><a href="#STREAM类型消息队列的XREAD的命令特点" class="headerlink" title="STREAM类型消息队列的XREAD的命令特点"></a>STREAM类型消息队列的XREAD的命令特点</h3><ul>
+<li><p>消息可回溯</p>
+</li>
+<li><p>一个消息可以被多个消费者读取</p>
+</li>
+<li><p>可以阻塞读取</p>
+</li>
+<li><p>有消息漏读的风险。</p>
+</li>
 <li><p><strong>XREADGROUP</strong>：按消费组形式读取消息；</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh"># 创建名为 group1 的消费组,其消费队列是 mqstream
-XGROUP create mqstream group1 0
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh"># 创建名为 group1 的消费组,其消费队列是 mqstream， MKSTREAM 表示队列不存在时自动创建
+XGROUP create mqstream group1 0 MKSTREAM
 # 让 group1 消费组里的消费者 consumer1 从 mqstream 中读取所有消息
 # 命令最后的参数 "&gt;" 表示从第一条尚未被消费的消息开始读取
-XREADGROUP group group1 consumer1 streams mqstream &gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+XREADGROUP group group1 consumer1 streams mqstream &gt;
+# 命令最后的参数 "0-0" 表示从第一条已读取但还未被确认的信息
+XREADGROUP group group1 consumer1 streams mqstream 0-0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>使用消费组的目的是让组内的多个消费者共同分担读取消息，通常会让每个消费者读取部分消息，从而实现消息读取负载在多个消费者间是均衡分布的。</strong></p>
 </li>
 <li><p><strong>XPENDING 和 XACK</strong>：XPENDING 命令可以用来查询每个消费组内所有消费者已读取但尚未确认的消息（保证消费者在发生故障或宕机再次重启后，仍然可以读取未处理完的消息），而 XACK 命令用于向消息队列确认消息处理已完成。</p>
 </li>
 </ul>
-<h2 id="4-遇见的问题"><a href="#4-遇见的问题" class="headerlink" title="4.遇见的问题"></a>4.遇见的问题</h2><p>安装了hiredis之后，可以编译通过，但是执行的时候，却出现了下面的错误。</p>
+<h2 id="4-消息队列主要API实现"><a href="#4-消息队列主要API实现" class="headerlink" title="4.消息队列主要API实现"></a>4.消息队列主要API实现</h2><ul>
+<li>xadd请求，将消息添加到消息队列</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void Redis::addMsgQue(std::string queName, std::string field, std::string value, int maxLen)
+{
+    redisCommand(this-&gt;_connect, "XADD %s MAXLEN %d * %s %s", queName.c_str(), maxLen, field.c_str(), value.c_str());
+    std::cout &lt;&lt; "add successful" &lt;&lt; std::endl;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>xreadGroup请求，读取消息</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">std::vector&lt;std::unordered_map&lt;std::string, std::string&gt;&gt; Redis::readGroupMsgQue(std::string groupName, std::string consuer, std::string queName, int countNum)
+{
+    redisReply* streamReply;
+    redisReply* msgIDReply;
+    redisReply* resultReply;
+    std::vector&lt;std::unordered_map&lt;std::string, std::string&gt;&gt; res;
+
+    this-&gt;_reply = (redisReply*)redisCommand(this-&gt;_connect, \
+        "XREADGROUP GROUP %s %s COUNT %d BLOCK 1000 STREAMS %s &gt;", groupName.c_str(), consuer.c_str(), countNum, queName.c_str());
+    int resNum = _reply-&gt;element[0]-&gt;element[1]-&gt;elements;
+    if (this-&gt;_reply-&gt;type == REDIS_REPLY_NIL || resNum==0) 
+    {
+        std::cout &lt;&lt; "no data" &lt;&lt; std::endl;
+        return res;
+    }
+    
+    res.resize(resNum);
+    // std::cout &lt;&lt; _reply-&gt;element[0]-&gt;element[1]-&gt;elements &lt;&lt; std::endl;
+    for (int i=0; i&lt;resNum; i++) {
+        streamReply = _reply-&gt;element[0]-&gt;element[1]-&gt;element[i];
+        msgIDReply = streamReply-&gt;element[0];
+        resultReply = streamReply-&gt;element[1];
+        std::string field = resultReply-&gt;element[0]-&gt;str;
+        std::string value = resultReply-&gt;element[1]-&gt;str;
+        // std::cout &lt;&lt; field &lt;&lt; " " &lt;&lt; value &lt;&lt; std::endl;
+        
+        res[i]["msgID"] = msgIDReply-&gt;str;
+        res[i]["field"] = field;
+        res[i]["value"] = value;
+    }
+
+
+    freeReplyObject(this-&gt;_reply);
+    streamReply = nullptr;
+    msgIDReply = nullptr;
+    resultReply = nullptr;
+
+    return res;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>对指定ID的已读取消息进行确认，确认之后会将消息从Pending-list中移除</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void Redis::ackMsgQue(std::string groupName, std::string queName, std::string msgID)
+{
+    redisCommand(this-&gt;_connect, "XACK %s %s %s", queName.c_str(), groupName.c_str(), msgID.c_str());
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>从pending-list中获取已读取但未确认的消息</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">std::vector&lt;std::unordered_map&lt;std::string, std::string&gt;&gt; Redis::readGroupPendingQue(std::string groupName, std::string consuerName, std::string queName, int countNum)
+{
+    redisReply* streamReply;
+    redisReply* msgIDReply;
+    redisReply* resultReply;
+    std::vector&lt;std::unordered_map&lt;std::string, std::string&gt;&gt; res;
+
+    this-&gt;_reply = (redisReply*)redisCommand(this-&gt;_connect, \
+        "XREADGROUP GROUP %s %s COUNT %d BLOCK 1000 STREAMS %s 0-0", groupName.c_str(), consuerName.c_str(), countNum, queName.c_str());
+    int resNum = _reply-&gt;element[0]-&gt;element[1]-&gt;elements;
+    if (this-&gt;_reply-&gt;type == REDIS_REPLY_NIL || resNum==0) 
+    {
+        std::cout &lt;&lt; "no data" &lt;&lt; std::endl;
+        return res;
+    }
+
+    res.resize(resNum);
+    for (int i=0; i&lt;resNum; i++) {
+        streamReply = _reply-&gt;element[0]-&gt;element[1]-&gt;element[i];
+        msgIDReply = streamReply-&gt;element[0];
+        resultReply = streamReply-&gt;element[1];
+        std::string field = resultReply-&gt;element[0]-&gt;str;
+        std::string value = resultReply-&gt;element[1]-&gt;str;
+        // std::cout &lt;&lt; field &lt;&lt; " " &lt;&lt; value &lt;&lt; std::endl;
+        
+        res[i]["msgID"] = msgIDReply-&gt;str;
+        res[i]["field"] = field;
+        res[i]["value"] = value;
+    }
+
+    freeReplyObject(this-&gt;_reply);
+    streamReply = nullptr;
+    msgIDReply = nullptr;
+    resultReply = nullptr;
+
+    return res;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>新建一个Group</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void Redis::createGroup(std::string groupName, std::string queName)
+{
+    redisCommand(this-&gt;_connect, "XGROUP CREATE %s %s 0 MKSTREAM", queName.c_str(), groupName.c_str());
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>删除消息队列</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void Redis::delMsgQue(std::string queName)
+{
+    redisCommand(this-&gt;_connect, "DEL %s", queName.c_str());
+    std::cout &lt;&lt; "del succ" &lt;&lt; std::endl;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="5-遇见的问题"><a href="#5-遇见的问题" class="headerlink" title="5.遇见的问题"></a>5.遇见的问题</h2><p>安装了hiredis之后，可以编译通过，但是执行的时候，却出现了下面的错误。</p>
 <blockquote>
 <p>./main: error while loading shared libraries: libhiredis.so.1.0.3-dev: cannot open shared object file: No such file or directory</p>
 </blockquote>

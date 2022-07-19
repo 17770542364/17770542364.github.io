@@ -487,21 +487,21 @@ vlc
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-14
+                    2022-07-19
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    227
+                    672
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -566,9 +566,70 @@ vlc
 <ul>
 <li>环境变量的变更</li>
 </ul>
-<p>~/.bashrc | ~/.bash_profile</p>
-<p>source ~/.bashrc</p>
-<h3 id="pkg-config命令"><a href="#pkg-config命令" class="headerlink" title="pkg-config命令"></a>pkg-config命令</h3><p>pkg-config –libs –cflags libavutil</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> ~/.bashrc
+
+<span class="token builtin class-name">source</span> ~/.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="pkg-config命令"><a href="#pkg-config命令" class="headerlink" title="pkg-config命令"></a>pkg-config命令</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pkg-config --libs --cflags libavutil<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="Linux下安装ffmpeg"><a href="#Linux下安装ffmpeg" class="headerlink" title="Linux下安装ffmpeg"></a>Linux下安装ffmpeg</h2><h3 id="下载ffmpeg"><a href="#下载ffmpeg" class="headerlink" title="下载ffmpeg"></a>下载ffmpeg</h3><p><a target="_blank" rel="noopener" href="http://ffmpeg.org/download.html">http://ffmpeg.org/download.html</a></p>
+<h3 id="编译ffmpeg"><a href="#编译ffmpeg" class="headerlink" title="编译ffmpeg"></a>编译ffmpeg</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># --prefix指定安装的位置 --enable-debug 打开debug选项 </span>
+<span class="token comment"># --disable-static --enable-shared 关闭生成静态库，打开生成动态库</span>
+./configure --prefix<span class="token operator">=</span>/usr/local/ffmpeg --enable-debug<span class="token operator">=</span><span class="token number">3</span> --disable-static --enable-shared
+<span class="token comment"># 指定四个核并发编译</span>
+<span class="token function">make</span> -j <span class="token number">4</span>
+<span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>./configure时出现提示</p>
+<blockquote>
+<p>nasm/yasm not found or too old. Use –disable-x86asm for a crippled build.</p>
+</blockquote>
+<p>安装yasm包</p>
+<blockquote>
+<p>WARNING: pkg-config not found, library detection may fail.</p>
+</blockquote>
+<p>安装pkg-config包</p>
+<p>编译好之后/usr/local/ffmpeg下的目录:</p>
+<img src="/2022/07/13/yin-shi-pin-ji-chu/image-20220719000109094.png" class="" title="image-20220719000109094">
+
+<h3 id="编译之后没有ffplay"><a href="#编译之后没有ffplay" class="headerlink" title="编译之后没有ffplay"></a>编译之后没有ffplay</h3><p>fplay编译主要依赖sdl2环境(针对ffmpeg 3.x版本)，未安装sdl2的情况下，不会自动生成关于ffplay的编译选项。</p>
+<p>SDL(Simple DirectMedia Layer)是一个跨平台的多媒体和游戏开发包，提供2D，音频，事件驱动，多线程和定时器等服务，它使用C语言写成，提供了多种控制图像、声音、输出的函数，让开发者只要用相同或是相似的代码就可以开发出跨多个平台（Linux、Windows、Mac OS X等）的应用软件。</p>
+<p>可以通过下面两个命令安装sdl2组件，dev后缀表示安装路径下会包含头文件及动态库等在开发环境下需要的文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libsdl2-2.0
+
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libsdl2-dev<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>重新编译</p>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><h4 id="添加PATH路径和PKG-CONFIG-PATH路径"><a href="#添加PATH路径和PKG-CONFIG-PATH路径" class="headerlink" title="添加PATH路径和PKG_CONFIG_PATH路径"></a>添加PATH路径和PKG_CONFIG_PATH路径</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> ~/.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>添加ffmpeg的bin路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token string">"/usr/local/ffmpeg/bin:<span class="token environment constant">$PATH</span>"</span>
+
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">PKG_CONFIG_PATH</span><span class="token operator">=</span><span class="token string">"/usr/local/ffmpeg/lib/pkgconfig:<span class="token variable">$PKG_CONFIG_PATH</span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>重新加载文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">source</span> ~/.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="将ffmpeg库文件地址加入到默认搜索路径"><a href="#将ffmpeg库文件地址加入到默认搜索路径" class="headerlink" title="将ffmpeg库文件地址加入到默认搜索路径"></a>将ffmpeg库文件地址加入到默认搜索路径</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/ld.so.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在文件中加入路径</p>
+<pre class="line-numbers language-none"><code class="language-none">/usr/local/ffmpeg/lib<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>更新环境变量</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> ldconfig<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="音频基础知识"><a href="#音频基础知识" class="headerlink" title="音频基础知识"></a>音频基础知识</h2><h3 id="音频处理流程"><a href="#音频处理流程" class="headerlink" title="音频处理流程"></a>音频处理流程</h3><ul>
+<li>直播客户端的处理流程</li>
+<li>音频数据的流转</li>
+</ul>
 
                 
             </div>
