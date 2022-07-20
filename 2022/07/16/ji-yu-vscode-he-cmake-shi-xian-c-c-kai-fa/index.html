@@ -474,21 +474,21 @@ dev：该目录中主要存放的是外">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-17
+                    2022-07-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6k
+                    6.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    23 分
+                    25 分
                 </div>
                 
 
@@ -702,6 +702,37 @@ cmake --version<span aria-hidden="true" class="line-numbers-rows"><span></span><
 
 <img src="/2022/07/16/ji-yu-vscode-he-cmake-shi-xian-c-c-kai-fa/image-20220717100104718.png" class="" title="image-20220717100104718"></li>
 </ul>
+<h2 id="2-3-Ubuntu下apt换源"><a href="#2-3-Ubuntu下apt换源" class="headerlink" title="2.3 Ubuntu下apt换源"></a>2.3 Ubuntu下apt换源</h2><ol>
+<li><p>备份原配置文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /etc/apt/
+<span class="token function">cp</span> sources.list sources.list.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>打开阿里云镜像站，找到Ubuntu，查看对应版本的镜像源信息。</p>
+<p>网址：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/mirror/">OPSX阿里云开源镜像站</a></p>
+<p>ubuntu 18.04(bionic) 配置如下</p>
+<pre class="line-numbers language-none"><code class="language-none">deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+
+# deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>使用vim 修改sources.list中的配置信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/apt/sources.list <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>重新打开终端，更新镜像源，更新仓库信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> upgrade<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ol>
 <h1 id="三、GCC编译器"><a href="#三、GCC编译器" class="headerlink" title="三、GCC编译器"></a>三、GCC编译器</h1><p>VSCode是通过调用GCC编译器来实现C/C++的编译工作的</p>
 <p>LInux开发C/C++一定要熟悉GCC</p>
 <h2 id="3-1编译过程"><a href="#3-1编译过程" class="headerlink" title="3.1编译过程"></a>3.1编译过程</h2><ol>
@@ -1087,7 +1118,7 @@ set follow-fork-mode child	# Makefile项目管理：选择跟踪父子进程(for
 <ul>
 <li><p>语法：aux_source_directory(dir VARIABLE)</p>
 <pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment"># 定义SRC变量，其值为当前目录下所有的源代码文件</span>
-<span class="token keyword">aux_source_directory</span><span class="token punctuation">(</span>. SRC<span class="token punctuation">)</span>]
+<span class="token keyword">aux_source_directory</span><span class="token punctuation">(</span>. SRC<span class="token punctuation">)</span>
 <span class="token comment"># 编译SRC变量所代表的源代码文件，生成main可执行文件</span>
 <span class="token keyword">add_executable</span><span class="token punctuation">(</span>main <span class="token punctuation">${</span>SRC<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>

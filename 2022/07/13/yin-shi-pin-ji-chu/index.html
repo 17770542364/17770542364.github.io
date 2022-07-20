@@ -489,14 +489,14 @@ ffplay rtmp://服务器地址">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    2.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    10 分
                 </div>
                 
 
@@ -573,12 +573,16 @@ ffplay rtmp://服务器地址">
 
 
 <h2 id="Linux下安装ffmpeg"><a href="#Linux下安装ffmpeg" class="headerlink" title="Linux下安装ffmpeg"></a>Linux下安装ffmpeg</h2><h3 id="下载ffmpeg"><a href="#下载ffmpeg" class="headerlink" title="下载ffmpeg"></a>下载ffmpeg</h3><p><a target="_blank" rel="noopener" href="http://ffmpeg.org/download.html">http://ffmpeg.org/download.html</a></p>
+<p>得到ffmpeg源代码并解压缩</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> -xjf ffmpeg-snapshot.tar.bz2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>对于以.tar.bz2格式为后缀的压缩文件需要添加 -j 参数进行解压</p>
 <h3 id="编译ffmpeg"><a href="#编译ffmpeg" class="headerlink" title="编译ffmpeg"></a>编译ffmpeg</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># --prefix指定安装的位置 --enable-debug 打开debug选项 </span>
 <span class="token comment"># --disable-static --enable-shared 关闭生成静态库，打开生成动态库</span>
 ./configure --prefix<span class="token operator">=</span>/usr/local/ffmpeg --enable-debug<span class="token operator">=</span><span class="token number">3</span> --disable-static --enable-shared
 <span class="token comment"># 指定四个核并发编译</span>
 <span class="token function">make</span> -j <span class="token number">4</span>
-<span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -620,7 +624,31 @@ ffplay rtmp://服务器地址">
 <p>更新环境变量</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> ldconfig<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<h3 id="配置了-bashrc但每次登陆后需要重新source的问题"><a href="#配置了-bashrc但每次登陆后需要重新source的问题" class="headerlink" title="配置了~/.bashrc但每次登陆后需要重新source的问题"></a>配置了<code>~/.bashrc</code>但每次登陆后需要重新source的问题</h3><p>这个问题就在于，系统没有自动的执行 .bashrc 这个文件，导致我们每次登陆时候都需要source 这个文件。</p>
+<p>如果不source 这个文件最大的影响就是文件夹和文件我们看不出来，都是白色的。source 之后呢，文件夹就会变成蓝色的，可执行文件就会变成绿色的，这样更方便我们工作。</p>
+<h4 id="Linux启动时读取配置文件的顺序"><a href="#Linux启动时读取配置文件的顺序" class="headerlink" title="Linux启动时读取配置文件的顺序"></a>Linux启动时读取配置文件的顺序</h4><p>在刚登录Linux时，首先启动/etc/profile 文件，然后再启动用户目录下的 <code>~/.bash_profile</code>、<code>~/.bash_login</code>或 <code>~/.profile</code>文件中的其中一个。<br>具体执行的顺序为：<code>~/.bash_profile</code>、<code>~/.bash_login</code>、 <code>~/.profile</code>。</p>
+<p>如果 <code>~/.bash_profile</code>文件存在的话，一般还会执行 <code>~/.bashrc</code>文件。<br>因为在<code>~/.bash_profile</code>文件中会有以下内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># .bash_profile</span>
+        
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -f ~/.bashrc <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+    <span class="token builtin class-name">.</span> ~/.bashrc       
+<span class="token keyword">fi</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p><code>~/.bashrc</code>中一般有以下内容，这是执行/etc/下总的bashrc 文件，全局环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># .bashrc</span>
+
+<span class="token comment"># Source global definitions</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -f /etc/bashrc <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+ 		<span class="token builtin class-name">.</span> /etc/bashrc
+<span class="token keyword">fi</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>综上，执行顺序可以总结为：<br><code>/etc/profile</code>→ (<code>~/.bash_profile</code> | <code>~/.bash_login</code> | <code>~/.profile</code>)→<code>~/.bashrc</code> →<code>/etc/bashrc</code></p>
+<p><strong>所以，要自动的执行<code>~/.bashrc</code> ，只需要将以下代码，放到<code>~/.bash_profile</code>文件里就好了，如果没有这个文件就新建一个。</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># .bash_profile</span>
+        
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -f ~/.bashrc <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+    <span class="token builtin class-name">.</span> ~/.bashrc                                
+<span class="token keyword">fi</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -691,16 +719,20 @@ ffplay out.wav<span aria-hidden="true" class="line-numbers-rows"><span></span><s
 </li>
 </ul>
 <h3 id="引入ffmpeg库"><a href="#引入ffmpeg库" class="headerlink" title="引入ffmpeg库"></a>引入ffmpeg库</h3><ul>
-<li>将ffmpeg库文件及头文件拷贝到目录中</li>
-<li>引入库文件和头文件</li>
-<li>关闭沙箱</li>
+<li><p>将ffmpeg库文件及头文件拷贝到目录中</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> -rf /usr/local/ffmpeg/include/* ./include/
+<span class="token function">cp</span> -rf /usr/local/ffmpeg/lib/* ./libs/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>引入库文件和头文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 使用gcc编译命令
+gcc test.c -lavutil -Llibs -Iinclude -o <span class="token builtin class-name">test</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ul>
 <h3 id="采集音频的步骤"><a href="#采集音频的步骤" class="headerlink" title="采集音频的步骤"></a>采集音频的步骤</h3><ul>
 <li>注册设备</li>
 <li>设置采集方式 avfoundation/dshow/alsa</li>
 <li>打开音频设备</li>
 </ul>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavutil/avutil.h"</span></span>
+<h4 id="打开音频设备"><a href="#打开音频设备" class="headerlink" title="打开音频设备"></a>打开音频设备</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavutil/avutil.h"</span></span>
 <span class="token comment">// 注册设备的头文件</span>
 <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavdevice/avdevice.h"</span></span>
 <span class="token comment">//打开设备的头文件</span>
@@ -708,7 +740,7 @@ ffplay out.wav<span aria-hidden="true" class="line-numbers-rows"><span></span><s
 
 <span class="token keyword">void</span> <span class="token function">test_ffmpeg</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">int</span> ret <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">char</span> errors<span class="token punctuation">[</span><span class="token number">1024</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> errors<span class="token punctuation">[</span><span class="token number">1024</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
     <span class="token comment">// format上下文</span>
     AVFormatContext <span class="token operator">*</span>fmt_ctx<span class="token punctuation">;</span>
     
@@ -734,6 +766,93 @@ ffplay out.wav<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     <span class="token function">av_log</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> AV_LOG_DEBUG<span class="token punctuation">,</span> <span class="token string">"test ffmpeg audio\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h4 id="从音频设备中读取音频数据"><a href="#从音频设备中读取音频数据" class="headerlink" title="从音频设备中读取音频数据"></a>从音频设备中读取音频数据</h4><p>av_read_frame</p>
+<ul>
+<li>AVFormatContext 上下文环境</li>
+<li>AVPacket</li>
+<li>返回值为0表示成功</li>
+</ul>
+<p>AVPacket</p>
+<ul>
+<li>data</li>
+<li>size</li>
+</ul>
+<p>与AVPacket相关的API</p>
+<ul>
+<li><code>av_init_packet</code> 资源初始化</li>
+<li><code>av_packet_unref</code> 释放资源</li>
+<li><code>av_packet_alloc</code> 分配空间并初始化</li>
+<li><code>av_packet_free</code></li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavcodec/avcodec.h"</span></span>
+。。。
+<span class="token comment">// 打开设备之后</span>
+AVPacket pkt<span class="token punctuation">;</span>
+<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token function">av_init_packet</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pkt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ret <span class="token operator">=</span> <span class="token function">av_read_frame</span><span class="token punctuation">(</span>fmt_ctx<span class="token punctuation">,</span> <span class="token operator">&amp;</span>pkt<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> count<span class="token operator">++</span> <span class="token operator">&lt;</span> <span class="token number">500</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">av_log</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> AV_LOG_INFO<span class="token punctuation">,</span> <span class="token string">"packet size is: %d(%p), count=%d\n"</span><span class="token punctuation">,</span> pkt<span class="token punctuation">.</span>size<span class="token punctuation">,</span> pkt<span class="token punctuation">.</span>data<span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">av_packet_unref</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pkt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 释放上下文资源</span>
+<span class="token function">avformat_close_input</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>fmt_ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="将音频数据录制成文件"><a href="#将音频数据录制成文件" class="headerlink" title="将音频数据录制成文件"></a>将音频数据录制成文件</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 创建文件</span>
+FILE <span class="token operator">*</span>outfile <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"/home/zeng/files/audio.pcm"</span><span class="token punctuation">,</span> <span class="token string">"wb+"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 将数据写入文件</span>
+<span class="token function">fwrite</span><span class="token punctuation">(</span>pkt<span class="token punctuation">.</span>data<span class="token punctuation">,</span> pkt<span class="token punctuation">.</span>size<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> outfile<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 关闭文件</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>outfile<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过ffplay播放PCM数据</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ffplay -ar <span class="token number">44100</span> -ac <span class="token number">2</span> -f f32le audio.pcm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="音频编码原理"><a href="#音频编码原理" class="headerlink" title="音频编码原理"></a>音频编码原理</h2><h3 id="消除冗余信息（有损压缩）"><a href="#消除冗余信息（有损压缩）" class="headerlink" title="消除冗余信息（有损压缩）"></a>消除冗余信息（有损压缩）</h3><p>音频冗余信息</p>
+<blockquote>
+<p>音频压缩技术是在保证信号在听觉方面不失真的前提下，对音频数据信号进行尽可能大的压缩</p>
+<p>压缩的主要方法是去除采集到音频冗余信息。所谓冗余信息包括人耳听觉范围外的音频信号以及被掩蔽掉的音频信号</p>
+<p>信号的遮蔽可以分为<strong>频域遮蔽</strong>和<strong>时域遮蔽</strong></p>
+</blockquote>
+<h4 id="频域遮蔽"><a href="#频域遮蔽" class="headerlink" title="频域遮蔽"></a>频域遮蔽</h4><p>人类听觉范围是20-20000Hz，但这并不意味着只要是这个频率范围内的声音都可以听到，能否听到还与声音的分贝大小有关，有个分贝临界值，高于这个临界值的声音才能听到，低于这个临界值的声音就听不到，在不同的频率下这个临界值是不一样的。如下图所示，横坐标为频率，纵坐标为分贝值，图中的黑色曲线就是这个临界值曲线，所以位于曲线下方的声音是听不到的。</p>
+<p>还有一种情况，比如2个音调差不多的人同时说话，一个声音很大，一个声音很小，声音小的会受到声音大的影响，导致声音小的无法被听到。如下图所示，蓝色的柱子是一个很大分贝的声音，它会产生掩蔽效应将与它频率相近的小分贝的声音掩蔽掉，蓝色柱子两边的黑色曲线就是它的掩蔽范围曲线，褐色柱子都在它的掩蔽曲线覆盖的范围内，所以褐色柱子代表的声音是听不到的；而橙色柱子不在其范围内，所以是可以听到的。</p>
+<img src="/2022/07/13/yin-shi-pin-ji-chu/image-20220720212422118.png" class="" title="image-20220720212422118">
+
+<h4 id="时域遮蔽"><a href="#时域遮蔽" class="headerlink" title="时域遮蔽"></a>时域遮蔽</h4><p>除了同时发出的声音之间有掩蔽现象之外，在时间上相邻的声音之间也有掩蔽现象，称为时域掩蔽。时域掩蔽又分为超前掩蔽和滞后掩蔽，如下图所示。产生时域掩蔽的主要原因是人的大脑处理信息需要花费一定的时间。一般来说，超前掩蔽很短，只有大约5～20ms，而滞后掩蔽可以持续50～200ms。</p>
+<img src="/2022/07/13/yin-shi-pin-ji-chu/image-20220720212608290.png" class="" title="image-20220720212608290">
+
+<h3 id="无损压缩（熵编码）"><a href="#无损压缩（熵编码）" class="headerlink" title="无损压缩（熵编码）"></a>无损压缩（熵编码）</h3><ul>
+<li>哈夫曼编码</li>
+<li>算术编码</li>
+<li>香农编码</li>
+</ul>
+<h3 id="音频编码过程"><a href="#音频编码过程" class="headerlink" title="音频编码过程"></a>音频编码过程</h3><img src="音视频基础/image-20220720213231744.png" alt="image-20220720213231744" style="zoom:80%;">
+
+<h3 id="常见音频编码器的比较"><a href="#常见音频编码器的比较" class="headerlink" title="常见音频编码器的比较"></a>常见音频编码器的比较</h3><p>常见的音频编码器包括<strong>OPUS</strong>、<strong>AAC</strong>、Ogg、Speex、iLBC、AMR、G.711等</p>
+<p>其中，AAC在直播系统中应用的比较广泛；OPUS是较新的音频编码器，webRTC默认使用OPUS；固化一般用的G.711系列。实测效果： OPUS &gt; AAC &gt; Ogg</p>
+<h3 id="AAC编码器"><a href="#AAC编码器" class="headerlink" title="AAC编码器"></a>AAC编码器</h3><p>常用规格：AAC LC \ AAC HE V1 \ AAC HE V2</p>
+<h4 id="AAC规格"><a href="#AAC规格" class="headerlink" title="AAC规格"></a>AAC规格</h4><img src="音视频基础/image-20220720214452096.png" alt="image-20220720214452096" style="zoom: 80%;">
+
+<h4 id="AAC规格描述"><a href="#AAC规格描述" class="headerlink" title="AAC规格描述"></a>AAC规格描述</h4><ul>
+<li>AAC LC：(Low Complexity) 低复杂度规格，码流是128k，音质好</li>
+<li>AAC HE：等于AAC LC + SBR(Spectral Band Replication)。其核心思想是按频谱保存。低频编码保存主要成分，高频单独放大编码保存音质。码流在64k左右</li>
+<li>AAC HE V2：等于AAC LC+ SBR+ PS(Parametric Stereo)。其核心思想是双声道中的声音存在某种相似性，只需存储一个声道的全部信息，然后花很少的字节用参数描述另一个声道与它不同的地方</li>
+</ul>
+<h4 id="AAC格式"><a href="#AAC格式" class="headerlink" title="AAC格式"></a>AAC格式</h4><ul>
+<li><p>ADIF(Audio Data Interchange Format)</p>
+<p>这种格式的特征是可以确定的找到这个音频数据的开始，只能从头开始解码，不能再音频数据流的中间开始。这种格式常用在磁盘文件中</p>
+</li>
+<li><p>ADTS(Audio Data Transport Stream)</p>
+<p>这种格式的特征是每一帧都有一个同步字，所以可以在音频流的任何位置开始解码。类似于数据流格式</p>
+</li>
+</ul>
 
                 
             </div>
