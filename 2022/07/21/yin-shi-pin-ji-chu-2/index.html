@@ -4,8 +4,16 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Effective C++笔记, 泡影">
-    <meta name="description" content="">
+    <meta name="keywords" content="音视频基础(2) 音频基础知识, 泡影">
+    <meta name="description" content="音频基础知识音频处理流程
+直播客户端的处理流程
+音频数据的流转
+
+直播客户端处理流程采集到的原始数据较大，需要进行编码
+
+
+音频数据流采集到的数据为PCM数据(数字信号)，经过编码得到相应的编码格式(acc/mp3)。
+套上需要的格式得到对">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -30,7 +38,7 @@
 
     
 
-    <title>Effective C++笔记 | 泡影</title>
+    <title>音视频基础(2) 音频基础知识 | 泡影</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -314,12 +322,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Effective C++笔记</h1>
+                    <h1 class="description center-align post-title">音视频基础(2) 音频基础知识</h1>
                 </div>
             </div>
         </div>
@@ -433,25 +441,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/C/">
-                                <span class="chip bg-color">C++</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
-                                笔记
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -460,28 +455,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-12
+                    2022-07-21
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-12
+                    2022-07-23
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    2.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    8 分
                 </div>
                 
 
@@ -509,7 +504,264 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="音频基础知识"><a href="#音频基础知识" class="headerlink" title="音频基础知识"></a>音频基础知识</h2><h3 id="音频处理流程"><a href="#音频处理流程" class="headerlink" title="音频处理流程"></a>音频处理流程</h3><ul>
+<li>直播客户端的处理流程</li>
+<li>音频数据的流转</li>
+</ul>
+<h4 id="直播客户端处理流程"><a href="#直播客户端处理流程" class="headerlink" title="直播客户端处理流程"></a>直播客户端处理流程</h4><p>采集到的原始数据较大，需要进行编码</p>
+<img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220719222558334.png" class="" title="image-20220719222558334">
+
+<h4 id="音频数据流"><a href="#音频数据流" class="headerlink" title="音频数据流"></a>音频数据流</h4><p>采集到的数据为PCM数据(数字信号)，经过编码得到相应的编码格式(acc/mp3)。</p>
+<p>套上需要的格式得到对应的多媒体文件(mp4/flv)。</p>
+<img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220719222950486.png" class="" title="image-20220719222950486">
+
+<h3 id="声音是如何产生的"><a href="#声音是如何产生的" class="headerlink" title="声音是如何产生的"></a>声音是如何产生的</h3><h4 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h4><ul>
+<li>声音是由物体振动产生的</li>
+<li>它可以通过空气、固体、液体等进行传输</li>
+<li>振动耳膜</li>
+</ul>
+<h4 id="人耳"><a href="#人耳" class="headerlink" title="人耳"></a>人耳</h4><img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220719223312175.png" class="" title="image-20220719223312175">
+
+<h4 id="人类听觉范围"><a href="#人类听觉范围" class="headerlink" title="人类听觉范围"></a>人类听觉范围</h4><img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220719223420400.png" class="" title="image-20220719223420400">
+
+<h3 id="声音的三要素"><a href="#声音的三要素" class="headerlink" title="声音的三要素"></a>声音的三要素</h3><ul>
+<li><p>音调</p>
+<p>音频的快慢  男生 &lt; 女生 &lt; 儿童</p>
+</li>
+<li><p>音量</p>
+<p>振动的幅度</p>
+</li>
+<li><p>音色</p>
+<p>谐波</p>
+</li>
+</ul>
+<h3 id="PCM与WAV"><a href="#PCM与WAV" class="headerlink" title="PCM与WAV"></a>PCM与WAV</h3><h4 id="音频原始数据格式"><a href="#音频原始数据格式" class="headerlink" title="音频原始数据格式"></a>音频原始数据格式</h4><ul>
+<li>PCM 纯音频数据</li>
+<li>WAV 在PCM数据之上套了一个头，包含一些基本信息</li>
+</ul>
+<h4 id="量化的基本概念"><a href="#量化的基本概念" class="headerlink" title="量化的基本概念"></a>量化的基本概念</h4><ul>
+<li>采样大小：一个采样用多少bit存放。常用的是16bit</li>
+<li>采样率：采样频率 8k\16k\32k\44.1k\48k</li>
+<li>声道数：单声道、双声道、多声道（立体声）</li>
+</ul>
+<h4 id="码率计算"><a href="#码率计算" class="headerlink" title="码率计算"></a>码率计算</h4><p>一个PCM音频流的码率可以计算为：</p>
+<p><strong>采样率 X 采样大小 X 声道数</strong></p>
+<p>例如：采样率为44.1KHz，采样大小为16bit，双声道PCM编码的WAV文件，码率为44.1K x 16 x 2 = 1411.2Kb/s</p>
+<p>这么大的码流难以在网络上直接传输，因此需要进行编码压缩。</p>
+<h3 id="WAV-Header"><a href="#WAV-Header" class="headerlink" title="WAV Header"></a>WAV Header</h3><img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220719225932245.png" class="" title="image-20220719225932245">
+
+<img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220719230402077.png" class="" title="image-20220719230402077">
+
+<h2 id="音频采集"><a href="#音频采集" class="headerlink" title="音频采集"></a>音频采集</h2><h3 id="采集音频的方式"><a href="#采集音频的方式" class="headerlink" title="采集音频的方式"></a>采集音频的方式</h3><ul>
+<li>Android端音频采集 audioRecord mediaRecord</li>
+<li>ios端音频采集 audioUnit</li>
+<li>Windows端音频采集</li>
+<li>…</li>
+</ul>
+<h3 id="FFmpeg采集音频"><a href="#FFmpeg采集音频" class="headerlink" title="FFmpeg采集音频"></a>FFmpeg采集音频</h3><p>步骤</p>
+<p>打开输入设备=&gt;数据包=&gt;输出文件</p>
+<ul>
+<li><p>通过命令方式</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ffmpeg -f alsa -i hw:0 out.wav
+ffplay out.wav<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+</li>
+<li><p>通过API方式</p>
+</li>
+</ul>
+<h3 id="引入ffmpeg库"><a href="#引入ffmpeg库" class="headerlink" title="引入ffmpeg库"></a>引入ffmpeg库</h3><ul>
+<li><p>将ffmpeg库文件及头文件拷贝到目录中</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> -rf /usr/local/ffmpeg/include/* ./include/
+<span class="token function">cp</span> -rf /usr/local/ffmpeg/lib/* ./libs/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>引入库文件和头文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 使用gcc编译命令
+gcc test.c -lavutil -Llibs -Iinclude -o <span class="token builtin class-name">test</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+<h3 id="采集音频的步骤"><a href="#采集音频的步骤" class="headerlink" title="采集音频的步骤"></a>采集音频的步骤</h3><ul>
+<li>注册设备</li>
+<li>设置采集方式 avfoundation/dshow/alsa</li>
+<li>打开音频设备</li>
+</ul>
+<h4 id="打开音频设备"><a href="#打开音频设备" class="headerlink" title="打开音频设备"></a>打开音频设备</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavutil/avutil.h"</span></span>
+<span class="token comment">// 注册设备的头文件</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavdevice/avdevice.h"</span></span>
+<span class="token comment">//打开设备的头文件</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavformat/avformat.h"</span></span>
+
+<span class="token keyword">void</span> <span class="token function">test_ffmpeg</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> ret <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> errors<span class="token punctuation">[</span><span class="token number">1024</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">// format上下文</span>
+    AVFormatContext <span class="token operator">*</span>fmt_ctx<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 设备名称</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>devicename <span class="token operator">=</span> <span class="token string">"hw:0"</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// register audio device</span>
+    <span class="token function">avdevice_register_all</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// get format</span>
+    AVInputFormat <span class="token operator">*</span>iformat <span class="token operator">=</span> <span class="token function">av_find_input_format</span><span class="token punctuation">(</span><span class="token string">"alsa"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// open device</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ret <span class="token operator">=</span> <span class="token function">avformat_open_input</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>fmt_ctx<span class="token punctuation">,</span> devicename<span class="token punctuation">,</span> iformat<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">av_strerror</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> errors<span class="token punctuation">,</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"Failed to open audio device, [%d]%s\n"</span><span class="token punctuation">,</span> ret<span class="token punctuation">,</span> errors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 设置日志格式</span>
+    <span class="token function">av_log_set_level</span><span class="token punctuation">(</span>AV_LOG_DEBUG<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">av_log</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> AV_LOG_DEBUG<span class="token punctuation">,</span> <span class="token string">"test ffmpeg audio\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="从音频设备中读取音频数据"><a href="#从音频设备中读取音频数据" class="headerlink" title="从音频设备中读取音频数据"></a>从音频设备中读取音频数据</h4><p>av_read_frame</p>
+<ul>
+<li>AVFormatContext 上下文环境</li>
+<li>AVPacket</li>
+<li>返回值为0表示成功</li>
+</ul>
+<p>AVPacket</p>
+<ul>
+<li>data</li>
+<li>size</li>
+</ul>
+<p>与AVPacket相关的API</p>
+<ul>
+<li><code>av_init_packet</code> 资源初始化</li>
+<li><code>av_packet_unref</code> 释放资源</li>
+<li><code>av_packet_alloc</code> 分配空间并初始化</li>
+<li><code>av_packet_free</code></li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"libavcodec/avcodec.h"</span></span>
+。。。
+<span class="token comment">// 打开设备之后</span>
+AVPacket pkt<span class="token punctuation">;</span>
+<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token function">av_init_packet</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pkt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ret <span class="token operator">=</span> <span class="token function">av_read_frame</span><span class="token punctuation">(</span>fmt_ctx<span class="token punctuation">,</span> <span class="token operator">&amp;</span>pkt<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> count<span class="token operator">++</span> <span class="token operator">&lt;</span> <span class="token number">500</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">av_log</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> AV_LOG_INFO<span class="token punctuation">,</span> <span class="token string">"packet size is: %d(%p), count=%d\n"</span><span class="token punctuation">,</span> pkt<span class="token punctuation">.</span>size<span class="token punctuation">,</span> pkt<span class="token punctuation">.</span>data<span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">av_packet_unref</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pkt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 释放上下文资源</span>
+<span class="token function">avformat_close_input</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>fmt_ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="将音频数据录制成文件"><a href="#将音频数据录制成文件" class="headerlink" title="将音频数据录制成文件"></a>将音频数据录制成文件</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 创建文件</span>
+FILE <span class="token operator">*</span>outfile <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"/home/zeng/files/audio.pcm"</span><span class="token punctuation">,</span> <span class="token string">"wb+"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 将数据写入文件</span>
+<span class="token function">fwrite</span><span class="token punctuation">(</span>pkt<span class="token punctuation">.</span>data<span class="token punctuation">,</span> pkt<span class="token punctuation">.</span>size<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> outfile<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 关闭文件</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>outfile<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过ffplay播放PCM数据</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ffplay -ar <span class="token number">44100</span> -ac <span class="token number">2</span> -f f32le audio.pcm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="音频编码原理"><a href="#音频编码原理" class="headerlink" title="音频编码原理"></a>音频编码原理</h2><h3 id="消除冗余信息（有损压缩）"><a href="#消除冗余信息（有损压缩）" class="headerlink" title="消除冗余信息（有损压缩）"></a>消除冗余信息（有损压缩）</h3><p>音频冗余信息</p>
+<blockquote>
+<p>音频压缩技术是在保证信号在听觉方面不失真的前提下，对音频数据信号进行尽可能大的压缩</p>
+<p>压缩的主要方法是去除采集到音频冗余信息。所谓冗余信息包括人耳听觉范围外的音频信号以及被掩蔽掉的音频信号</p>
+<p>信号的遮蔽可以分为<strong>频域遮蔽</strong>和<strong>时域遮蔽</strong></p>
+</blockquote>
+<h4 id="频域遮蔽"><a href="#频域遮蔽" class="headerlink" title="频域遮蔽"></a>频域遮蔽</h4><p>人类听觉范围是20-20000Hz，但这并不意味着只要是这个频率范围内的声音都可以听到，能否听到还与声音的分贝大小有关，有个分贝临界值，高于这个临界值的声音才能听到，低于这个临界值的声音就听不到，在不同的频率下这个临界值是不一样的。如下图所示，横坐标为频率，纵坐标为分贝值，图中的黑色曲线就是这个临界值曲线，所以位于曲线下方的声音是听不到的。</p>
+<p>还有一种情况，比如2个音调差不多的人同时说话，一个声音很大，一个声音很小，声音小的会受到声音大的影响，导致声音小的无法被听到。如下图所示，蓝色的柱子是一个很大分贝的声音，它会产生掩蔽效应将与它频率相近的小分贝的声音掩蔽掉，蓝色柱子两边的黑色曲线就是它的掩蔽范围曲线，褐色柱子都在它的掩蔽曲线覆盖的范围内，所以褐色柱子代表的声音是听不到的；而橙色柱子不在其范围内，所以是可以听到的。</p>
+<img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220720212422118.png" class="" title="image-20220720212422118">
+
+<h4 id="时域遮蔽"><a href="#时域遮蔽" class="headerlink" title="时域遮蔽"></a>时域遮蔽</h4><p>除了同时发出的声音之间有掩蔽现象之外，在时间上相邻的声音之间也有掩蔽现象，称为时域掩蔽。时域掩蔽又分为超前掩蔽和滞后掩蔽，如下图所示。产生时域掩蔽的主要原因是人的大脑处理信息需要花费一定的时间。一般来说，超前掩蔽很短，只有大约5～20ms，而滞后掩蔽可以持续50～200ms。</p>
+<img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220720212608290.png" class="" title="image-20220720212608290">
+
+<h3 id="无损压缩（熵编码）"><a href="#无损压缩（熵编码）" class="headerlink" title="无损压缩（熵编码）"></a>无损压缩（熵编码）</h3><ul>
+<li>哈夫曼编码</li>
+<li>算术编码</li>
+<li>香农编码</li>
+</ul>
+<h3 id="音频编码过程"><a href="#音频编码过程" class="headerlink" title="音频编码过程"></a>音频编码过程</h3><img src="音视频基础-2/image-20220720213231744.png" alt="image-20220720213231744" style="zoom:80%;">
+
+<h3 id="常见音频编码器的比较"><a href="#常见音频编码器的比较" class="headerlink" title="常见音频编码器的比较"></a>常见音频编码器的比较</h3><p>常见的音频编码器包括<strong>OPUS</strong>、<strong>AAC</strong>、Ogg、Speex、iLBC、AMR、G.711等</p>
+<p>其中，AAC在直播系统中应用的比较广泛；OPUS是较新的音频编码器，webRTC默认使用OPUS；固化一般用的G.711系列。实测效果： OPUS &gt; AAC &gt; Ogg</p>
+<h3 id="AAC编码器"><a href="#AAC编码器" class="headerlink" title="AAC编码器"></a>AAC编码器</h3><p>常用规格：AAC LC \ AAC HE V1 \ AAC HE V2</p>
+<h4 id="AAC规格"><a href="#AAC规格" class="headerlink" title="AAC规格"></a>AAC规格</h4><img src="音视频基础-2/image-20220720214452096.png" alt="image-20220720214452096" style="zoom: 80%;">
+
+<h4 id="AAC规格描述"><a href="#AAC规格描述" class="headerlink" title="AAC规格描述"></a>AAC规格描述</h4><ul>
+<li>AAC LC：(Low Complexity) 低复杂度规格，码流是128k，音质好</li>
+<li>AAC HE：等于AAC LC + SBR(Spectral Band Replication)。其核心思想是按频谱保存。低频编码保存主要成分，高频单独放大编码保存音质。码流在64k左右</li>
+<li>AAC HE V2：等于AAC LC+ SBR+ PS(Parametric Stereo)。其核心思想是双声道中的声音存在某种相似性，只需存储一个声道的全部信息，然后花很少的字节用参数描述另一个声道与它不同的地方</li>
+</ul>
+<h4 id="AAC格式"><a href="#AAC格式" class="headerlink" title="AAC格式"></a>AAC格式</h4><ul>
+<li><p>ADIF(Audio Data Interchange Format)</p>
+<p>这种格式的特征是可以确定的找到这个音频数据的开始，只能从头开始解码，不能再音频数据流的中间开始。这种格式常用在磁盘文件中</p>
+</li>
+<li><p>ADTS(Audio Data Transport Stream)</p>
+<p>这种格式的特征是每一帧都有一个同步字，所以可以在音频流的任何位置开始解码。类似于数据流格式</p>
+</li>
+</ul>
+<h4 id="ADTS格式"><a href="#ADTS格式" class="headerlink" title="ADTS格式"></a>ADTS格式</h4><p>ADTS由7/9个字节组成</p>
+<img src="/2022/07/21/yin-shi-pin-ji-chu-2/image-20220721211940640.png" class="" title="image-20220721211940640">
+
+<h3 id="通过ffmpeg命令生成AAC文件"><a href="#通过ffmpeg命令生成AAC文件" class="headerlink" title="通过ffmpeg命令生成AAC文件"></a>通过ffmpeg命令生成AAC文件</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ffmpeg -i xxx.mp4 -vn -c:a libfdk_aac -ar <span class="token number">44100</span> -channels <span class="token number">2</span> -profile:a aac_he_v2 <span class="token number">3</span>.aac<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>常用选项</p>
+<pre class="line-numbers language-none"><code class="language-none">-c:v或-vcodec：视频编码器
+-c:a或-acodec：音频编码器
+-b:v：视频码率，单位为bit
+-b:a：音频码率，单位为bit
+-s：画面尺寸，即分辨率，如“1920x1080”
+-r：帧率，即每秒有多少帧，单位为fps
+-g：GOP大小，即关键帧（I帧）间隔
+-vn：不处理视频
+-an：不处理音频<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="音频编码实战"><a href="#音频编码实战" class="headerlink" title="音频编码实战"></a>音频编码实战</h2><h3 id="音频重采样"><a href="#音频重采样" class="headerlink" title="音频重采样"></a>音频重采样</h3><p>将音频三元组（采样率、采样大小和通道数）的值转换成另一组值</p>
+<h4 id="为什么要重采样"><a href="#为什么要重采样" class="headerlink" title="为什么要重采样"></a>为什么要重采样</h4><ul>
+<li>从设备采集的音频数据与编码器要求的数据不一致</li>
+<li>扬声器要求的音频数据与要播放的音频数据不一致</li>
+<li>便于运算</li>
+</ul>
+<h4 id="如何知道是否需要进行重采样"><a href="#如何知道是否需要进行重采样" class="headerlink" title="如何知道是否需要进行重采样"></a>如何知道是否需要进行重采样</h4><ul>
+<li>要了解音频设备的参数</li>
+<li>查看ffmpeg源码</li>
+</ul>
+<h4 id="重采样的步骤"><a href="#重采样的步骤" class="headerlink" title="重采样的步骤"></a>重采样的步骤</h4><ul>
+<li>创建重采样上下文</li>
+<li>设置参数</li>
+<li>初始化重采样</li>
+<li>进行重采样</li>
+</ul>
+<h4 id="重要的API"><a href="#重要的API" class="headerlink" title="重要的API"></a>重要的API</h4><ul>
+<li>swr_alloc_set_opts </li>
+<li>swt_init</li>
+<li>swt_convert</li>
+<li>swr_free</li>
+</ul>
+<h3 id="ffmpeg音频编码"><a href="#ffmpeg音频编码" class="headerlink" title="ffmpeg音频编码"></a>ffmpeg音频编码</h3><h4 id="ffmpeg编码过程"><a href="#ffmpeg编码过程" class="headerlink" title="ffmpeg编码过程"></a>ffmpeg编码过程</h4><ul>
+<li>创建编码器</li>
+<li>创建上下文</li>
+<li>打开编码器</li>
+<li>将数据输送给编码器</li>
+<li>进行编码</li>
+<li>释放资源</li>
+</ul>
+<h4 id="创建并打开编码器-API"><a href="#创建并打开编码器-API" class="headerlink" title="创建并打开编码器 API"></a>创建并打开编码器 API</h4><ul>
+<li>创建编码器 avcodec_find_encoder</li>
+<li>创建上下文 avcodec_alloc_context3</li>
+<li>打开编码器 avcodec_open2</li>
+</ul>
+<h4 id="进行编码的API"><a href="#进行编码的API" class="headerlink" title="进行编码的API"></a>进行编码的API</h4><ul>
+<li>输送数据 avcodec_send_frame </li>
+<li>获取编码后的数据 avcodec_receive_packet</li>
+<li>输入 AVFrame -&gt; 输出 AVPacket</li>
+</ul>
+
                 
             </div>
             <hr/>
@@ -535,7 +787,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://17770542364.github.io/2022/07/12/effective-c-bi-ji/">https://17770542364.github.io/2022/07/12/effective-c-bi-ji/</a>
+                    <a href="https://17770542364.github.io/2022/07/21/yin-shi-pin-ji-chu-2/">https://17770542364.github.io/2022/07/21/yin-shi-pin-ji-chu-2/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -572,11 +824,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/C/">
-                                    <span class="chip bg-color">C++</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -619,7 +867,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2022-07-12T22-59-31',
+        id: '2022-07-21T21-14-06',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -649,70 +897,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/07/12/leetcode-shua-ti-bi-ji/">
+                <a href="/2022/07/21/yin-shi-pin-ji-chu-2/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="LeetCode刷题笔记">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="音视频基础(2) 音频基础知识">
                         
-                        <span class="card-title">LeetCode刷题笔记</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-12
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/C/">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
-                    <a href="/tags/LeetCode/">
-                        <span class="chip bg-color">LeetCode</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/07/12/c-fu-wu-qi-kai-fa-bi-ji/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++服务器开发笔记">
-                        
-                        <span class="card-title">C++服务器开发笔记</span>
+                        <span class="card-title">音视频基础(2) 音频基础知识</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -723,16 +919,50 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-21
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            <i class="fas fa-user fa-fw"></i>
+                            Jitong Zeng
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
-                                </a>
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/18/c-cao-zuo-redis-shi-xian-xiao-xi-dui-lie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++操作Redis实现消息队列">
+                        
+                        <span class="card-title">C++操作Redis实现消息队列</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
                             
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Jitong Zeng
                             
                         </span>
                     </div>
@@ -740,16 +970,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
-                        <span class="chip bg-color">服务器</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
-                        <span class="chip bg-color">网络编程</span>
-                    </a>
-                    
                     <a href="/tags/C/">
                         <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                    <a href="/tags/Redis/">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
                 </div>
